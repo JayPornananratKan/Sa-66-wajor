@@ -1,0 +1,18 @@
+package entity
+
+import (
+
+"gorm.io/gorm"
+
+)
+
+
+type Theatre struct {
+
+gorm.Model
+
+Showtime []Showtime `gorm:"foreignKey:TheatreID"`
+
+}
+
+/////////////////////////////////////////////---SUCCESS---//////////////////////////////////////////////////////////////////

@@ -1,0 +1,21 @@
+package entity
+
+import (
+
+"gorm.io/gorm"
+
+)
+
+
+type Checkin struct {
+
+gorm.Model
+
+Ticketnumber string
+
+PaymentID *uint
+Payment Payment
+
+}
+
+/////////////////////////////////////////////---SUCCESS---//////////////////////////////////////////////////////////////////

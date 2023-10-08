@@ -1,0 +1,89 @@
+
+.check {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.con{
+    background-color: rgba(5, 31, 50, 0.7);
+    margin-top: 30px;
+    border-radius: 20px;;
+    padding-bottom: 3rem;
+    padding-left: 5rem;
+    padding-right: 40rem;
+}
+
+.title{
+    display: flex;
+    padding-top: 3rem;
+    font-size: 2rem;
+    font-family: 'Noto Sans Thai';
+    font-weight: 300;
+    color: #fff;
+}
+
+.check-con{
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    padding-top: 2rem;
+    width :40%;
+    height: 300px;
+}
+
+.check-item{
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Noto Sans Thai';
+    font-size: 12px;
+}
+
+.check-item h1{
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Noto Sans Thai';
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.check-item h2 {
+    padding-top: 1rem;
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Noto Sans Thai';
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+
+.personalID {
+
+    width: 300px;
+    height: 30px;
+    padding: 7px;
+    margin-left: 0px;
+    margin-top: 0px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 16px;
+}
+
+.ticket {
+
+    width: 300px;
+    height: 30px;
+    padding: 7px;
+    margin-left: 0px;
+    margin-top: 0px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 16px;
+  
+}
+
+.InputField::placeholder {
+    color: #ccc;
+}

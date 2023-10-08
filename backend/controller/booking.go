@@ -8,7 +8,7 @@ import (
 	"github.com/mumu3007/tsxcss/entity"
 )
 
-func GetAllBooking(c *gin.Context) {
+func ListBookings(c *gin.Context) {
 	var booking []entity.Booking
 	err := entity.DB().Find(&booking).Error
 	if !isError(err, c) {
@@ -16,7 +16,7 @@ func GetAllBooking(c *gin.Context) {
 	}
 }
 
-func GetBookingByID(c *gin.Context) {
+func GetBooking(c *gin.Context) {
 	var booking entity.Booking
 	memberID := c.Param("member_id")
 	movieID := c.Param("movie_id")
@@ -26,4 +26,15 @@ func GetBookingByID(c *gin.Context) {
 	if !isError(err, c) {
 		c.JSON(http.StatusOK, gin.H{"data": booking})
 	}
+}
+
+func ListMyVideos(c *gin.Context) {
+	owner_id := c.Param("owner_id")
+	var videos []entity.Video
+	if err := entity.DB().Preload("Owner").Raw("SELECT * FROM videos WHERE owner_id=?", owner_id).Find(&videos).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": videos})
 }

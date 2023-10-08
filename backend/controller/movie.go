@@ -1,18 +1,20 @@
 package controller
 
 import (
-    "net/http"
+	"net/http"
 
-    "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 
-    "github.com/mumu3007/tsxcss/entity"
+	"github.com/mumu3007/tsxcss/entity"
 )
+
+// POST  movies
 
 func CreateMovie(c *gin.Context) {
 
 	var movie entity.Movie
 	var typee entity.TypeMovie
-
+	var rate entity.Rate
 	if err := c.ShouldBindJSON(&movie); err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -24,14 +26,19 @@ func CreateMovie(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Type not found"})
 		return
 	}
+	if tx := entity.DB().Where("id =?", movie.RateID).First(&rate); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Type not found"})
+		return
+	}
 	mv := entity.Movie{
 		Name:        movie.Name,
 		Length:      movie.Length,
 		Release:     movie.Release,
 		Director:    movie.Director,
-		Actor:       movie.Actor,
+		Actor:      movie.Actor,
 		Short_Story: movie.Short_Story,
 		TypeMovie:   typee,
+		Rate:        rate,
 	}
 
 	if err := entity.DB().Create(&mv).Error; err != nil {
@@ -46,25 +53,39 @@ func CreateMovie(c *gin.Context) {
 
 }
 
-func Getmovie(c *gin.Context) {
+// GET  movie/:id
+
+func GetMovie(c *gin.Context) {
 
 	var movie entity.Movie
 
 	id := c.Param("id")
 
-	if err := entity.DB().Preload("Typemovie").Raw("SELECT * FROM movies WHERE id = ?", id).Scan(&movie).Error; err != nil {
+	if err := entity.DB().Preload("TypeMovie").Raw("SELECT * FROM movies WHERE id = ?", id).Scan(&movie).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := entity.DB().Preload("Rate").Raw("SELECT * FROM movies WHERE id = ?", id).Scan(&movie).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": movie})
 }
 
+// GET  movies
 
-func Listmovies(c *gin.Context) {
+func ListMovies(c *gin.Context) {
 
 	var movie []entity.Movie
 
-	if err := entity.DB().Preload("Typemovie").Raw("SELECT * FROM movies ").Find(&movie).Error; err != nil {
+	if err := entity.DB().Preload("TypeMovie").Find(&movie).Error; err != nil {
+
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+
+	}
+	if err := entity.DB().Preload("Rate").Find(&movie).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -76,7 +97,9 @@ func Listmovies(c *gin.Context) {
 
 }
 
-func Deletemovie(c *gin.Context) {
+// DELETE  movies/:id
+
+func DeleteMovie(c *gin.Context) {
 
 	id := c.Param("id")
 	var movie entity.Movie
@@ -94,13 +117,17 @@ func Deletemovie(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": id})
+
 }
 
-func Updatemovie(c *gin.Context) {
+// PATCH  movies
+
+func UpdateMovie(c *gin.Context) {
 
 	var movie entity.Movie
 	var typee entity.TypeMovie
 	var newmovie entity.Movie
+	var rate entity.Rate
 
 	if err := c.ShouldBindJSON(&movie); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -115,6 +142,11 @@ func Updatemovie(c *gin.Context) {
 	}
 
 	if tx := entity.DB().Where("id = ?", &movie.TypeMovie).First(&typee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": " movie not found"})
+		return
+
+	}
+	if tx := entity.DB().Where("id = ?", &movie.Rate).First(&rate); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": " movie not found"})
 		return
 

@@ -16,3 +16,4 @@ func isError(err error, c *gin.Context) bool {
     }
     return false
 }
+

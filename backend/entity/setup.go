@@ -20,23 +20,13 @@ func SetupDatabase() {
 	}
 
 	database.AutoMigrate(
-		&TypeSeat{},
 		&TypeMovie{},
-		&Theatre{},
-		&Member{},
-
+		&Rate{},
 		&Movie{},
-		&Seat{},
-		
-		&Showtime{},
-		&Booking{},
-
-		&Payment{},
-		&TicketNumber{},
 	)
 	db = database
 
-	//-----------------------START TYPE MOVIE------------------------------//
+	//-----------------Type-----------------------
 	Horror := TypeMovie{
 		TypeName: "Horror",
 	}
@@ -52,35 +42,58 @@ func SetupDatabase() {
 	}
 	db.Model(&TypeMovie{}).Create(&Romantic)
 
-	Scifi := TypeMovie{
-		TypeName: "Sci-fi",
+	comedy := TypeMovie{
+		TypeName: "comedy",
 	}
-	db.Model(&TypeMovie{}).Create(&Scifi)
+	db.Model(&TypeMovie{}).Create(&comedy)
 
-	Thriller := TypeMovie{
-		TypeName: "Thriller",
+	fantasy := TypeMovie{
+		TypeName: "fantasy",
 	}
-	db.Model(&TypeMovie{}).Create(&Thriller)
+	db.Model(&TypeMovie{}).Create(&fantasy)
 
-	Fantasy := TypeMovie{
-		TypeName: "Fantasy",
+	drama := TypeMovie{
+		TypeName: "drama",
 	}
-	db.Model(&TypeMovie{}).Create(&Fantasy)
+	db.Model(&TypeMovie{}).Create(&drama)
 
-	Comedy := TypeMovie{
-		TypeName: "Comedy",
+	animation := TypeMovie{
+		TypeName: "animation",
 	}
-	db.Model(&TypeMovie{}).Create(&Comedy)
+	db.Model(&TypeMovie{}).Create(&animation)
 
-	Animation := TypeMovie{
-		TypeName: "Animation",
+	documentary := TypeMovie{
+		TypeName: "documentary",
 	}
-	db.Model(&TypeMovie{}).Create(&Animation)
+	db.Model(&TypeMovie{}).Create(&documentary)
 
+	//-----------RATE---------------
+	G := Rate{
+		RateName: "G",
+	}
+	db.Model(&Rate{}).Create(&G)
 
-	//**********************END TYPE MOVIE****************************//
-	
-	//-----------------------START MOVIE------------------------------//
+	PG := Rate{
+		RateName: "PG",
+	}
+	db.Model(&Rate{}).Create(&PG)
+
+	PG13 := Rate{
+		RateName: "PG13",
+	}
+	db.Model(&Rate{}).Create(&PG13)
+
+	R := Rate{
+		RateName: "R",
+	}
+	db.Model(&Rate{}).Create(&R)
+
+	NC17 := Rate{
+		RateName: "NC17",
+	}
+	db.Model(&Rate{}).Create(&NC17)
+
+	//------------------movie---------------------
 	db.Model(&Movie{}).Create(&Movie{
 
 		Name:        "Johnwick",
@@ -90,6 +103,7 @@ func SetupDatabase() {
 		Actor:      "jay",
 		Short_Story: "eiei",
 		TypeMovie:   Horror,
+		Rate:        R,
 	})
 
 	db.Model(&Movie{}).Create(&Movie{
@@ -101,17 +115,7 @@ func SetupDatabase() {
 		Actor:      "jay",
 		Short_Story: "eiei",
 		TypeMovie:   Horror,
+		Rate:        G,
 	})
 
-	db.Model(&Movie{}).Create(&Movie{
-
-		Name:        "บ้านไกด์",
-		Length:      69,
-		Release:     time.Date(2023, 12,31 , 23, 59, 59, 0, time.Now().Location()),
-		Director:    "bee",
-		Actor:      "guide",
-		Short_Story: "Guide's House",
-		TypeMovie:   Thriller,
-	})
-	//**********************END TYPE MOVIE****************************//
 }

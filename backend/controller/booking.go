@@ -30,7 +30,7 @@ func GetBooking(c *gin.Context) {
 
 func ListMyVideos(c *gin.Context) {
 	owner_id := c.Param("owner_id")
-	var videos []entity.Video
+	var videos []entity.Booking
 	if err := entity.DB().Preload("Owner").Raw("SELECT * FROM videos WHERE owner_id=?", owner_id).Find(&videos).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

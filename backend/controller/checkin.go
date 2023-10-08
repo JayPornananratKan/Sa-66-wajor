@@ -37,7 +37,7 @@ func GetCheckin(c *gin.Context) {
 
 // GET /videos
 func ListVideos(c *gin.Context) {
-	var videos []entity.Video
+	var videos []entity.Checkin
 	if err := entity.DB().Preload("Owner").Raw("SELECT * FROM videos").Find(&videos).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -46,9 +46,9 @@ func ListVideos(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": videos})
 }
 
-func ListMyVideos(c *gin.Context) {
+func ListCheckin(c *gin.Context) {
 	owner_id := c.Param("owner_id")
-	var videos []entity.Video
+	var videos []entity.Checkin
 	if err := entity.DB().Preload("Owner").Raw("SELECT * FROM videos WHERE owner_id=?", owner_id).Find(&videos).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -70,7 +70,7 @@ func DeleteVideo(c *gin.Context) {
 
 // PATCH /videos
 func UpdateVideo(c *gin.Context) {
-	var video entity.Video
+	var video entity.Checkin
 	if err := c.ShouldBindJSON(&video); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

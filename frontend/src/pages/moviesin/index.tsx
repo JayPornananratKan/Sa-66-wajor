@@ -99,6 +99,8 @@ function MovieIn() {
     getRatemovie();
   }, []);
 
+  console.log(typemovies);
+  console.log(rates);
   async function submit() {
     let data = {
       Name: movie.Name ?? "",
@@ -204,7 +206,6 @@ function MovieIn() {
             <div className="grid-item grid5">ประเภทภาพยนตร์</div>
             <div className="grid-item grid6">
               <Select
-                id="TypemovieID"
                 className="Movielist"
                 native
                 value={movie.TypemovieID}
@@ -259,7 +260,6 @@ function MovieIn() {
             <div className="grid-item grid15">เรทหนัง</div>
             <div className="grid-item grid16">
               <Select
-                id="RateID"
                 className="comboboxbar"
                 native
                 value={movie.RateID}

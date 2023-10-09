@@ -1,66 +1,71 @@
-import React from 'react';
-import '../../App.css';
-import logo from "../../assets/logo.png"
-import กู from "../../assets/กู.png"
-import Modify from '../modify';
-import { useNavigate } from 'react-router-dom';
-import ก็กู from "../../assets/ก็กู.jpg"
-import background from "../../assets/cin3.jpg"
+// import { Link } from "react-router-dom";
+import '../../css/main.css';
+
+
+import { ShowtimeInterface } from "../interface/Ishowtime";
+// import { GetAllShowtime } from "../service";
+// import { GetShowtimeByID } from "../service";
+
+
+
 
 
 const Main = () => {
-
     return (
-        <div className="App">
-        {/* Nav Start */}
-        <nav>
-            <div className="logo">
-                <img src={logo} alt="" />
+        <>
+      <div className="App">
+        <header className="App-header">
+          {/* <img src={logo} className="App-logo" alt="logo" /> */}
+          
+           
+          
+          <div className='nav'>
+          <img src="image/logo3.png"/>
+            <a className='SelectMovie'>เลือกรอบภาพยนตร์</a>
+            {/* <Link to="/seat" className='SelectMovie'>เลือกที่นั่ง</Link> */}
+            <a className='SelectMovie'> เลือกที่นั่ง</a>
+            <a className='SelectMovie'>ซื้อตั๋ว</a>
+            <div className='profile'>
+              <div>
+                <h3>Jett</h3>
+                <h3>Dualist</h3>
+              </div>
+              <img src="image/image 2.png"/>
+
             </div>
-
-            <ul className="menu">
-                <li><a href="/">หน้าหลัก</a></li>
-                <li><a href="/modify">จัดการข้อมูล</a></li>
-                <li><a href="/manageShow">จัดการรอบฉาย</a></li>
-                <li><a href="/checkIn">เช็คอิน</a></li>
-
-            </ul>
-
-            <div className="profile">
-                <div className="name">
-                    <a>Hi, mumumimi</a>
-                </div>
-
-                <div className="logo2">
-                    <a href="/login"><img src={กู} alt="" /></a>                
-                </div>
+          </div>
+          <div className='movielist'>
+            <div className='movie'> 
+              <div className='moviename'>
+                <h2 className='name'>ชื่อภาพยนตร์</h2>
+                <h3 className='name'>ความยาว</h3>
+                <h3 className='name'>วันที่ฉาย</h3> </div>
+              <div className='theatre'><h3>Theatre</h3> <h3>2D</h3>  </div>
+              <div className='time'> 
+                <a  className='t'>12:30</a>
+                <a className='t'>14:30</a>
+                <a className='t'>20:00</a>
+              </div>
             </div>
-
-        </nav>
-        {/*  nav end */}
-
-        
-
-
-        <section className="background">
-                <li><img src={background} alt="" /></li>
-        </section>
-
-        <section className="main">
-            <h1>เฮลโล่ สีเหลือง</h1>
-            <h2>I Guide Na Hee</h2>
-            <h3>How to be Guide's Girlfriend</h3>
-        </section>
-        
-
-        {/* adverse start */}
-        
-        {/* adverse end */}
-
-        
-    </div>
-        
+            <div className='movie'> 
+              <div className='moviename'>
+                <h2 className='name'>ชื่อภาพยนตร์</h2>
+                <h3 className='name'>ความยาว</h3>
+                <h3 className='name'>วันที่ฉาย</h3> </div>
+              <div className='theatre'><h3>Theatre</h3> <h3>2D</h3></div>
+              <div className='time'> 
+                <a className='t'>12:30</a>
+                <a className='t'>14:30</a>
+                <a className='t'>20:00</a>
+              </div>
+            </div>
+            
+            
+          </div>
+  
+        </header>
+      </div>
+      </>
     );
-}
-
-export default Main;
+  }
+  export default Main;

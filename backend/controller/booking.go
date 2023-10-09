@@ -1,40 +1,55 @@
 package controller
 
 import (
+	//"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
 	"github.com/mumu3007/tsxcss/entity"
 )
-
-func ListBookings(c *gin.Context) {
-	var booking []entity.Booking
-	err := entity.DB().Find(&booking).Error
-	if !isError(err, c) {
-		c.JSON(http.StatusOK, gin.H{"data": booking})
-	}
-}
-
-func GetBooking(c *gin.Context) {
+func CreateBooking(c *gin.Context) {
 	var booking entity.Booking
-	memberID := c.Param("member_id")
-	movieID := c.Param("movie_id")
-	theatreID := c.Param("theatre_id")
-	seatID := c.Param("seat_id")
-	err := entity.DB().Where("member_id = ? AND movie_id = ? AND theatre_id = ? AND seat_id = ?", memberID, movieID, theatreID, seatID).First(&booking).Error
-	if !isError(err, c) {
-		c.JSON(http.StatusOK, gin.H{"data": booking})
-	}
-}
+	var member entity.Member
+	var show entity.Showtime
+	var seat entity.Seat
 
-func ListMyVideos(c *gin.Context) {
-	owner_id := c.Param("owner_id")
-	var videos []entity.Booking
-	if err := entity.DB().Preload("Owner").Raw("SELECT * FROM videos WHERE owner_id=?", owner_id).Find(&videos).Error; err != nil {
+	if err := c.ShouldBindJSON(&booking); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": videos})
+	// 9: ค้นหา member ด้วย id
+	if tx := entity.DB().Where("id = ?", booking.MemberID).First(&member); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "member not found"})
+		return
+	}
+
+	// 10: ค้นหา resolution ด้วย id
+	if tx := entity.DB().Where("id = ?", booking.ShowtimeID).First(&show); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Showtime not found"})
+		return
+	}
+
+	// 11: ค้นหา playlist ด้วย id
+	if tx := entity.DB().Where("id = ?", booking.SeatID).First(&seat); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "seat not found"})
+		return
+	}
+	bk := entity.Booking{
+		Member:      member,
+		Showtime:      show,
+		Seat:          seat,
+		
+	}
+
+	if err := entity.DB().Create(&bk).Error; err != nil {
+
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": bk})
 }

@@ -145,4 +145,26 @@ func SetupDatabase() {
 	}
 	db.Model(&Theatre{}).Create(&C1)
 
+	Ticket1 := TicketNumber{
+		TicketNum: "55555",
+	}
+	db.Model(&TicketNumber{}).Create(&Ticket1)
+
+	Ticket2 := TicketNumber{
+		TicketNum: "12345",
+	}
+	db.Model(&TicketNumber{}).Create(&Ticket2)
+
+	Admin1 := Admin{
+		Firstname: "Mr.Guide",
+		Lastname: "Kondee",
+	}
+	db.Model(&Admin{}).Create(&Admin1)
+
+	Admin2 := Admin{
+		Firstname: "Buc.Jay",
+		Lastname: "Konsua",
+	}
+	db.Model(&Admin{}).Create(&Admin2)
+
 }

@@ -12,7 +12,7 @@ import 	(
 //Get All TicketNumber
 func ListTicketNumbers(c *gin.Context) {
 	var tickets []entity.TicketNumber
-	if err := entity.DB().Raw("SELECT * FROM tickets").Scan(&tickets).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM ticket_numbers").Scan(&tickets).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -25,7 +25,7 @@ func GetTicketNumber(c *gin.Context) {
 	var ticket entity.TicketNumber
 	id := c.Param("id")
 	if tx := entity.DB().Where("id = ?", id).First(&ticket); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ticketnum not found"})
 		return
 	}
 
@@ -35,10 +35,10 @@ func GetTicketNumber(c *gin.Context) {
 //Get TicketNumberID By TicketNumber
 func GetTicketIDByTicketNum(c *gin.Context) {
     var ticket entity.TicketNumber // Assuming there is an entity structure for users
-    ticketnumber := c.Param("ticketnumber")
+    ticketnum := c.Param("ticketnum")
 
-    if tx := entity.DB().Where("ticketnumber = ?", ticketnumber).First(&ticket); tx.RowsAffected == 0 {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "ticketnumber not found"})
+    if tx := entity.DB().Where("ticket_num = ?", ticketnum).First(&ticket); tx.RowsAffected == 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "ticketnum not found"})
         return
     }
 
@@ -48,7 +48,7 @@ func GetTicketIDByTicketNum(c *gin.Context) {
 // DELETE /members/:id
 func DeleteTicketNumber(c *gin.Context) {
 	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM checkins WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM ticket_numbers WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "checkin not found"})
 		return
 	}

@@ -13,6 +13,7 @@ import {  TypeSeatInterface} from "../interface/Itypeseat";
 import {  ShowtimeInterface } from "../interface/Ishowtime";
 
 import {  TheatreInterface} from "../interface/Itheatre";
+import { CheckinInterface } from "../interface/Icheckin";
 
 
 
@@ -270,4 +271,113 @@ async function GetShowtimeByID() {
 
   return res;
 }
-export {  CreateBooking, GetMemberByID, GetAllSeat, GetAllShowtime, GetSeatByID, GetShowtimeByID, GetTypemovie, UpdateMovie, GetMovie, CreateMovie ,GetRate};
+//////////////////////////////////////////////////Guide////////////////////////////////////////////////////////
+async function GetAdmin() {
+  const requestOptions = {
+    method: "GET",
+
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/admin/:id`, requestOptions)
+    .then((response) => response.json())
+
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetCheckin() {
+  const requestOptions = {
+    method: "GET",
+
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/checkin/:id`, requestOptions)
+    .then((response) => response.json())
+
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetTicketNumber() {
+  const requestOptions = {
+    method: "GET",
+
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/ticketnumber/:id`, requestOptions)
+    .then((response) => response.json())
+
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function CreateCheckin(data: CheckinInterface) {
+  const requestOptions = {
+    method: "POST",
+
+    headers: { "Content-Type": "application/json" },
+
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/checkedin`, requestOptions)
+    .then((response) => response.json())
+
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+}
+
+
+export {  CreateBooking,
+          GetMemberByID, 
+          GetAllSeat, 
+          GetAllShowtime, 
+          GetSeatByID, 
+          GetShowtimeByID, 
+          GetTypemovie, 
+          UpdateMovie, 
+          GetMovie, 
+          CreateMovie,
+          GetRate,
+          GetAdmin,
+          GetTicketNumber,
+          GetCheckin,
+          CreateCheckin,
+};

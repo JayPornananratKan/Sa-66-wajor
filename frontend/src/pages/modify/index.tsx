@@ -29,10 +29,6 @@ import { DatePicker, Space } from "antd";
 
 import { RateInterface } from "../interface/Irate";
 
-
-
-
-
 const onChange: DatePickerProps["onChange"] = (date, dateString) => {
   console.log(date, dateString);
 };
@@ -84,7 +80,7 @@ function Modify() {
   });
 
   const [Release, setRelease] = useState<Date | null>(null);
-const [rates ,setRates] = React.useState<RateInterface[]>([]);
+  const [rates, setRates] = React.useState<RateInterface[]>([]);
   const [typemovies, setTypemovies] = React.useState<TypeInterface[]>([]);
   const [message, setAlertMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
@@ -105,7 +101,7 @@ const [rates ,setRates] = React.useState<RateInterface[]>([]);
   const getRatemovie = async () => {
     let res = await GetRate();
     if (res) {
-      setTypemovies(res);
+      setRates(res);
     }
   };
   useEffect(() => {
@@ -128,6 +124,7 @@ const [rates ,setRates] = React.useState<RateInterface[]>([]);
         typeof newmovie.TypemovieID === "string"
           ? parseInt(newmovie.TypemovieID)
           : 0,
+      RateID: typeof movie.RateID === "string" ? parseInt(movie.RateID) : 0,
     };
 
     let res = await UpdateMovie(data);
@@ -149,12 +146,15 @@ const [rates ,setRates] = React.useState<RateInterface[]>([]);
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(movie.ID),
     };
-  
-    let res = await fetch(`${apiUrl}/movies/${JSON.stringify(newmovie.ID)}`, requestOptions)
+
+    let res = await fetch(
+      `${apiUrl}/movies/${JSON.stringify(newmovie.ID)}`,
+      requestOptions
+    )
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -164,11 +164,9 @@ const [rates ,setRates] = React.useState<RateInterface[]>([]);
           return { status: false, message: res.error };
         }
       });
-  
+
     return res;
   }
-
-
 
   //-----------------------handler-------------------------------
   const handleDateChange: DatePickerProps["onChange"] = (date) => {
@@ -233,9 +231,7 @@ const [rates ,setRates] = React.useState<RateInterface[]>([]);
           <Button type="primary" onClick={submit}>
             submit
           </Button>
-          <Button onClick={DeleteMovie} >
-            delete
-          </Button>
+          <Button onClick={DeleteMovie}>delete</Button>
         </div>
         <div className="grid-contrainer">
           <div className="grid  ">
@@ -285,7 +281,7 @@ const [rates ,setRates] = React.useState<RateInterface[]>([]);
                   ประเภทภาพยนตร์
                 </option>
                 {typemovies.map((item: TypeInterface) => (
-                  <option value={item.ID}>{item.Typename}</option>
+                  <option value={item.ID}>{item.TypeName}</option>
                 ))}
               </Select>
             </div>
@@ -327,7 +323,7 @@ const [rates ,setRates] = React.useState<RateInterface[]>([]);
 
             <div className="grid-item grid15">เรทหนัง</div>
             <div className="grid-item grid16">
-            <Select
+              <Select
                 id="RateID"
                 className="Movielist"
                 native
@@ -341,13 +337,14 @@ const [rates ,setRates] = React.useState<RateInterface[]>([]);
                   เรทหนัง
                 </option>
                 {rates.map((item: RateInterface) => (
-                  <option value={item.ID}>{item.Rate}</option>
+                  <option value={item.ID}>{item.RateName}</option>
                 ))}
-            </Select>
+              </Select>
             </div>
-            
+
             <div className="grid-item grid17">เรื่องย่อ</div>
-            <div className="grid-item grid18"><>
+            <div className="grid-item grid18">
+              <>
                 <TextArea
                   id="Short_story"
                   className="inputbar"
@@ -357,7 +354,8 @@ const [rates ,setRates] = React.useState<RateInterface[]>([]);
                 />
                 <br />
                 <br />
-              </></div>
+              </>
+            </div>
           </div>
         </div>
       </div>

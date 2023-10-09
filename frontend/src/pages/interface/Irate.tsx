@@ -1,4 +1,4 @@
 export interface RateInterface {
     ID?: number;
-    Rate?:  string;
+    RateName?:  string;
 }

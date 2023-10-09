@@ -25,9 +25,11 @@ import {
 } from "../service/httpClientService";
 import type { DatePickerProps } from "antd";
 import { DatePicker, Space } from "antd";
-
-import dayjs from "dayjs";
 import { RateInterface } from "../interface/Irate";
+
+
+
+
 
 const onChange: DatePickerProps["onChange"] = (date, dateString) => {
   console.log(date, dateString);
@@ -84,7 +86,7 @@ function MovieIn() {
   const getRatemovie = async () => {
     let res = await GetRate();
     if (res) {
-      setTypemovies(res);
+      setRates(res);
     }
   };
   const getmovie = async () => {
@@ -112,7 +114,7 @@ function MovieIn() {
       TypemovieID:
         typeof movie.TypemovieID === "string" ? parseInt(movie.TypemovieID) : 0,
       RateID:
-        typeof movie.TypemovieID === "string" ? parseInt(movie.TypemovieID) : 0,
+        typeof movie.RateID === "string" ? parseInt(movie.RateID) : 0,
     };
 
     let res = await CreateMovie(data);
@@ -218,7 +220,7 @@ function MovieIn() {
                   ประเภทภาพยนตร์
                 </option>
                 {typemovies.map((item: TypeInterface) => (
-                  <option value={item.ID}>{item.Typename}</option>
+                  <option value={item.ID}>{item.TypeName}</option>
                 ))}
               </Select>
             </div>
@@ -272,7 +274,7 @@ function MovieIn() {
                   เรทหนัง
                 </option>
                 {rates.map((item: RateInterface) => (
-                  <option value={item.ID}>{item.Rate}</option>
+                  <option value={item.ID}>{item.RateName}</option>
                 ))}
               </Select>
             </div>

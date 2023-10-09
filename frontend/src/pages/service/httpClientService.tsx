@@ -128,6 +128,23 @@ async function GetRate() {
   return res;
 }
 
+async function DeleteUserByID(id: Number | undefined) {
+  const requestOptions = {
+    method: "DELETE"
+  };
+
+  let res = await fetch(`${apiUrl}/users/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
 ///////////////////////////////////////////////POND//////////////////////////////////////////////
 async function CreateBooking(data: BookingInterface) {
   const requestOptions = {
@@ -270,4 +287,4 @@ async function GetShowtimeByID() {
 
   return res;
 }
-export {  CreateBooking, GetMemberByID, GetAllSeat, GetAllShowtime, GetSeatByID, GetShowtimeByID, GetTypemovie, UpdateMovie, GetMovie, CreateMovie ,GetRate};
+export {   DeleteUserByID,CreateBooking, GetMemberByID, GetAllSeat, GetAllShowtime, GetSeatByID, GetShowtimeByID, GetTypemovie, UpdateMovie, GetMovie, CreateMovie ,GetRate};

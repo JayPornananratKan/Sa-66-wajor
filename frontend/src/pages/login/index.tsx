@@ -29,7 +29,8 @@ const Login = () => {
                 </div>
 
                 <div className="logo2">
-                    <a href="/login"><img src={กู} alt="" /></a>                </div>
+                    <a href="/login"><img src={กู} alt="" /></a>               
+                </div>
             </div>
 
         </nav>

@@ -1,7 +1,7 @@
 export interface ShowtimeInterface{
     ID?: number;
-    Timestamp: Date
+    Timestamp?: Date
 	
-	MovieID: number;
-	TheatreID: number; 
+	MovieID?: number;
+	TheatreID?: number; 
   }

@@ -12,7 +12,7 @@ import MoviesIn from './pages/moviesin';
 const App = () => (
   <Router>
     <Routes>
-      <Route path="/" element={<Main />} />
+      <Route path="/" element={<Checkin />} />
       <Route path="/login" element={<Login />} />
       <Route path="/moviesin" element={<MoviesIn />} />
       <Route path="/modify" element={<Modify />} />

@@ -1,7 +1,7 @@
 export interface SeatInterface{
     ID?: number;
-    Seatnum: string
-	Status: "available" | "unavailable";
+    Seatnum?: string
+	Status?: "available" | "unavailable";
 	
-	Types_ID: number; 
+	Types_ID?: number; 
   }

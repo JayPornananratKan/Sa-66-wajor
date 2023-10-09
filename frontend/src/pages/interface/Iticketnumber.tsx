@@ -1,5 +1,5 @@
-export interface TicketNumbersInterface {
-    ID: number;
-    TicketNumber: string;
-    PaymentID: number;
+export interface TicketNumberInterface {
+    ID?: number;
+    TicketNum ?: string;
+    PaymentID?: number;
   }

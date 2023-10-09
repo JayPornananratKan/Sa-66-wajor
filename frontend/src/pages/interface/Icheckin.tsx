@@ -1,12 +1,13 @@
 import { AdminsInterface } from "./Iadmin";
-import { TicketNumbersInterface } from "./Iticketnumber";
+import { TicketNumberInterface } from "./Iticketnumber";
 
 export interface CheckinInterface {
   ID?: number;
-  Datie: Date | null;
+  Datie?: Date | null;
   AdminID?: number;
   Admin?: AdminsInterface;
   TicketNumberID?: number;
-  TicketNumber?: TicketNumbersInterface;
+  TicketNum?: string;
+  TicketNumber?: TicketNumberInterface;
 
 }

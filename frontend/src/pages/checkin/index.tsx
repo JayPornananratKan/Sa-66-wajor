@@ -1,39 +1,73 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../../App.css';
 import './checkin.css';
 import logo from "../../assets/logo.png"
 import กู from "../../assets/กู.png"
 import ก็กู from "../../assets/ก็กู.jpg"
 import background from "../../assets/cin3.jpg"
+import Navbar from '../../Navbar/navbar';
+import { CheckinInterface } from '../interface/Icheckin';
+import { CreateCheckin, GetTicketNumber } from '../service/httpClientService';
+import { TicketNumberInterface } from '../interface/Iticketnumber';
+import { Input } from 'antd';
+
 
 function CheckIn() {
+    const [checkin, setCheckin] = React.useState<Partial<CheckinInterface>>({
+        TicketNumberID: 0,
+        AdminID: 0,
+    });
+    const [ticketnumber, setTicketNumbers] = React.useState<TicketNumberInterface[]>([]);
+    const [message, setAlertMessage] = React.useState("");
+    const [success, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const getTicketNumber = async () => {
+        let res = await GetTicketNumber();
+        if (res) {
+          setTicketNumbers(res);
+        }
+    };
+
+    const handleInputChange = (
+        event: React.ChangeEvent<{ id?: string; value: any }>
+      ) => {
+        const id = event.target.id as keyof typeof checkin;
+    
+        const { value } = event.target;
+    
+        setCheckin({ ...checkin, [id]: value });
+      };
+    useEffect(() => {
+
+    },[]);
+
+    async function submit() {
+
+        const data: CheckinInterface = {
+            TicketNumberID:
+              typeof checkin.TicketNumberID === "string" ? parseInt(checkin.TicketNumberID): 0,
+            AdminID:
+              typeof checkin.AdminID === "string"? parseInt(checkin.AdminID): 0,
+            Datie:
+              typeof checkin.Datie === "string"? new Date(checkin.Datie): checkin.Datie ?? null,
+          };
+    
+        let res = await CreateCheckin(data);
+    
+        if (res.status) {
+          setAlertMessage("บันทึกข้อมูลสำเร็จ");
+          setSuccess(true);
+        } else {
+          setAlertMessage(res.message);
+          setError(true);
+        }
+      }
+
     return (
         <div className="App">
             {/* Nav Start */}
             <nav>
-                <div className="logo">
-                <a href="/"><img src={logo} alt="" /></a>
-                    
-                </div>
-
-                <ul className="menu">
-                    <li><a href="/">หน้าหลัก</a></li>
-                    <li><a href="/modify">จัดการข้อมูล</a></li>
-                    <li><a href="/manageShow">จัดการรอบฉาย</a></li>
-                    <li><a href="/checkIn">เช็คอิน</a></li>
-
-                </ul>
-
-                <div className="profile">
-                    <div className="name">
-                        <a>Hi, mumumimi</a>
-                    </div>
-
-                    <div className="logo2">
-                        <a href="/login"><img src={กู} alt="" /></a>
-                    </div>
-                </div>
-
+                <Navbar />
             </nav>
             {/*  nav end */}
 
@@ -50,13 +84,17 @@ function CheckIn() {
                         
                     <div className="check-con">
                          <div className="check-item">
-                            <h1 >หมายเลขบัตรประชาชน</h1>
-                            <input type="text" className="personalID" placeholder="กรอกหมายเลขบัตรประชาชน" />
+                            <h1 >รหัสตั๋ว</h1>
+                            <Input id="Length" className="inputbar" placeholder="Basic usage" value={checkin.TicketNum} onChange={handleInputChange}/>
                                 
-                            <h2 >รหัสการจอง</h2>
-                            <input type="text" className="ticket" placeholder="กรอกรหัสการจอง" />
+                            <h2 >รหัสประจำตัวแอดมิน</h2>
+                            <input type="text" className="ticket" placeholder="กรอกรหัสประจำตัวแอดมิน" />
                         </div>    
                     </div>  
+                </div>
+
+                <div className="checkin-butt">
+                    <li ><a className= "confirm_butt" onClick={submit} href="">เช็คอิน</a></li>
                 </div>
             </section>
 

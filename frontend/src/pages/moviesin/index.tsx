@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../css/movie.css";
+import "../css/movie.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
@@ -25,8 +25,7 @@ import {
 } from "../service/httpClientService";
 import type { DatePickerProps } from "antd";
 import { DatePicker, Space } from "antd";
-import "react-datepicker/dist/react-datepicker.css";
-import dayjs from "dayjs";
+
 import { RateInterface } from "../interface/Irate";
 
 const onChange: DatePickerProps["onChange"] = (date, dateString) => {
@@ -66,7 +65,7 @@ function MovieIn() {
   const [movie, setMovie] = React.useState<Partial<movieInterface>>({
     Length: 1,
     TypemovieID: 0,
-    Rate: 0,
+    RateID: 0,
   });
   const [typemovies, setTypemovies] = React.useState<TypeInterface[]>([]);
   const [rates, setRates] = React.useState<RateInterface[]>([]);

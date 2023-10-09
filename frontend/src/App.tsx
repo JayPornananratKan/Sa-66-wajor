@@ -5,7 +5,7 @@ import Checkin from './pages/checkin';
 import Main from './pages/main';
 import Login from './pages/login';
 import ManageShow from './pages/manageShow';
-import ManageInfo from './pages/manageInfo';
+import ManageInfo from './pages/moviesin';
 
 
 const App = () => (

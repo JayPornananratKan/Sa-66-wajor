@@ -23,6 +23,16 @@ func SetupDatabase() {
 		&TypeMovie{},
 		&Rate{},
 		&Movie{},
+		&TypeSeat{},
+		&Seat{},
+		&Member{},
+		&Showtime{},
+		&Booking{},
+		&Admin{},
+		&Checkin{},
+		&TicketNumber{},
+		&Payment{},
+
 	)
 	db = database
 
@@ -117,5 +127,22 @@ func SetupDatabase() {
 		TypeMovie:   Horror,
 		Rate:        G,
 	})
+
+	Normal := TypeSeat{
+		TypeName: "Normal",
+		Price: 140,
+	}
+	db.Model(&TypeSeat{}).Create(&Normal)
+
+	VIP := TypeSeat{
+		TypeName: "VIP",
+		Price: 200,
+	}
+	db.Model(&TypeSeat{}).Create(&VIP)
+
+	C1 := Theatre{
+		TheatreName: "Cinema1",
+	}
+	db.Model(&Theatre{}).Create(&C1)
 
 }

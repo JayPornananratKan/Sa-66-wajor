@@ -2,7 +2,7 @@ import React from 'react';
 import '../../App.css';
 import logo from "../../assets/logo.png"
 import กู from "../../assets/กู.png"
-import ManageInfo from '../manageInfo';
+import Modify from '../modify';
 import { useNavigate } from 'react-router-dom';
 import ก็กู from "../../assets/ก็กู.jpg"
 import background from "../../assets/cin3.jpg"

@@ -15,19 +15,19 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { movieInterface } from "../../../interface/Imovie";
-import { TypeInterface } from "../../../interface/Itype";
+import { movieInterface } from "../interface/Imovie";
+import { TypeInterface } from "../interface/Itype";
 import {
   CreateMovie,
   GetMovie,
   GetRate,
   GetTypemovie,
-} from "../../../service/httpClientService";
+} from "../service/httpClientService";
 import type { DatePickerProps } from "antd";
 import { DatePicker, Space } from "antd";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
-import { RateInterface } from "../../../interface/Irate";
+import { RateInterface } from "../interface/Irate";
 
 const onChange: DatePickerProps["onChange"] = (date, dateString) => {
   console.log(date, dateString);

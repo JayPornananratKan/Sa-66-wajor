@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../css/movie.css";
+import "./movie.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
@@ -15,19 +15,19 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { movieInterface } from "../../../interface/Imovie";
-import { TypeInterface } from "../../../interface/Itype";
+import { movieInterface } from "../interface/Imovie";
+import { TypeInterface } from "../interface/Itype";
 import {
   CreateMovie,
   GetMovie,
   GetRate,
   GetTypemovie,
   UpdateMovie,
-} from "../../../service/httpClientService";
+} from "../service/httpClientService";
 import type { DatePickerProps } from "antd";
 import { DatePicker, Space } from "antd";
 import "react-datepicker/dist/react-datepicker.css";
-import { RateInterface } from "../../../interface/Irate";
+import { RateInterface } from "../interface/Irate";
 
 
 

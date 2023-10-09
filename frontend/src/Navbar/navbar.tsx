@@ -12,9 +12,9 @@ function Navbar() {
 
       <ul className="menu">
         <li><a href="/">หน้าหลัก</a></li>
-        <li><a href="/ManageInfo">จัดการข้อมูล</a></li>
-        <li><a href="/ManageShow">จัดการรอบฉาย</a></li>
-        <li><a href="/CheckIn">เช็คอิน</a></li>
+        <li><a href="/modify">จัดการข้อมูล</a></li>
+        <li><a href="/manageshow">จัดการรอบฉาย</a></li>
+        <li><a href="/checkin">เช็คอิน</a></li>
       </ul>
 
       <div className="profile">

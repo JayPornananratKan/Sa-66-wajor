@@ -18,7 +18,7 @@ function CheckIn() {
 
                 <ul className="menu">
                     <li><a href="/">หน้าหลัก</a></li>
-                    <li><a href="/manageInfo">จัดการข้อมูล</a></li>
+                    <li><a href="/modify">จัดการข้อมูล</a></li>
                     <li><a href="/manageShow">จัดการรอบฉาย</a></li>
                     <li><a href="/checkIn">เช็คอิน</a></li>
 

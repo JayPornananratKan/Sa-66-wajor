@@ -37,8 +37,22 @@ func main() {
 	r.Use(CORSMiddleware())
 
 	//-------guide------
+	r.GET("/admins", controller.ListAdmins)
+	r.GET("/admin/:id", controller.GetAdmin)
+	r.PATCH("/admins", controller.UpdateAdmin)
+	r.DELETE("/admins:id", controller.DeleteMovie)
 
-	//-------jay--------
+	r.GET("/checkins", controller.ListCheckins)
+	r.GET("/checkin/:id", controller.GetCheckin)
+	r.POST("/checkins", controller.CreateCheckin)
+	r.PATCH("/checkins", controller.UpdateCheckin)
+	r.DELETE("/checkins:id", controller.DeleteCheckin)
+
+	r.GET("/ticketnumbers", controller.ListTicketNumbers)
+	r.GET("/ticketnumber/:id", controller.GetTicketNumber)
+	r.PATCH("/:id/ticketnumber", controller.GetTicketIDByTicketNum)
+	r.DELETE("/ticketnumbers:id", controller.DeleteTicketNumber)
+	
 	//-------jay--------
     r.POST("/movies", controller.CreateMovie)
     r.GET("/movies", controller.ListMovies)

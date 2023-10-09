@@ -9,7 +9,7 @@ import (
 	"github.com/mumu3007/tsxcss/entity"
 )
 
-// Get All Admin
+// Get All Admin /admins
 func ListAdmins(c *gin.Context) {
 	var admins []entity.Admin
 	if err := entity.DB().Raw("SELECT * FROM admins").Scan(&admins).Error; err != nil {
@@ -20,7 +20,7 @@ func ListAdmins(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": admins})
 }
 
-// Get Admin By ID
+// Get Admin By ID /admin/:id
 func GetAdmin(c *gin.Context) {
 	var admin entity.Admin
 	id := c.Param("id")
@@ -32,7 +32,7 @@ func GetAdmin(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": admin})
 }
 
-// PATCH /users
+// PATCH /admins
 func UpdateAdmin(c *gin.Context) {
 	var admin entity.Admin
 	if err := c.ShouldBindJSON(&admin); err != nil {
@@ -53,7 +53,7 @@ func UpdateAdmin(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": admin})
 }
 
-// DELETE /users/:id
+// DELETE /admins/:id
 func DeleteAdmin(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM admins WHERE id = ?", id); tx.RowsAffected == 0 {

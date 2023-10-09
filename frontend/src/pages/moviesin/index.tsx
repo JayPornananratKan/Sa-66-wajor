@@ -27,7 +27,7 @@ import type { DatePickerProps } from "antd";
 import { DatePicker, Space } from "antd";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
-import { RateInterface } from "../../../interface/Irate";
+import { RateInterface } from "../interface/Irate";
 
 const onChange: DatePickerProps["onChange"] = (date, dateString) => {
   console.log(date, dateString);

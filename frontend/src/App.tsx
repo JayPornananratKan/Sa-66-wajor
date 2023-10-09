@@ -5,7 +5,8 @@ import Checkin from './pages/checkin';
 import Main from './pages/main';
 import Login from './pages/login';
 import ManageShow from './pages/manageShow';
-import Modify from './pages/manageInfo';
+import Modify from './pages/modify';
+import MoviesIn from './pages/moviesin';
 
 
 const App = () => (
@@ -14,9 +15,9 @@ const App = () => (
       <Route path="/" element={<Main />} />
       <Route path="/login" element={<Login />} />
       <Route path="/modify" element={<Modify />} />
-      <Route path="/movieinsert" element={<MovieIns />} />
+      <Route path="/moviesin" element={<MoviesIn />} />
       <Route path="/manageShow" element={<ManageShow />} />
-      <Route path="/checkIn" element={<Checkin />} />
+      <Route path="/checkin" element={<Checkin />} />
       
     </Routes>
   </Router>  

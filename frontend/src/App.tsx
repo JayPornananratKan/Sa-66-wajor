@@ -5,8 +5,7 @@ import Checkin from './pages/checkin';
 import Main from './pages/main';
 import Login from './pages/login';
 import ManageShow from './pages/manageShow';
-import Modify from './pages/modify';
-import MovieIns from './pages/moviesin';
+import Modify from './pages/manageInfo';
 
 
 const App = () => (

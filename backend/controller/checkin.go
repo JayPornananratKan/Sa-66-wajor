@@ -58,6 +58,17 @@ func CreateCheckin(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"data": ch})
 }
 
+
+// GET /checkins
+func ListCheckins(c *gin.Context) {
+	var checkins []entity.Checkin
+	if err := entity.DB().Preload("Admin").Preload("TicketNumber").Raw("SELECT * FROM checkins").Find(&checkins).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": checkins})
+}
 // GET /checkin/:id
 func GetCheckin(c *gin.Context) {
 	var checkin entity.Checkin
@@ -71,16 +82,7 @@ func GetCheckin(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": checkin})
 }
 
-// GET /checkins
-func ListCheckins(c *gin.Context) {
-	var checkins []entity.Checkin
-	if err := entity.DB().Preload("Admin").Preload("TicketNumber").Raw("SELECT * FROM checkins").Find(&checkins).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
-	c.JSON(http.StatusOK, gin.H{"data": checkins})
-}
 
 // DELETE /checkins/:id
 func DeleteCheckin(c *gin.Context) {

@@ -48,8 +48,6 @@ func main() {
 	//-------guide------
 	r.GET("/admins", controller.ListAdmins)
 	r.GET("/admin/:id", controller.GetAdmin)
-	r.PATCH("/admins", controller.UpdateAdmin)
-	r.DELETE("/admins:id", controller.DeleteMovie)
 
 	r.GET("/checkins", controller.ListCheckins)
 	r.GET("/checkin/:id", controller.GetCheckin)
@@ -61,7 +59,7 @@ func main() {
 
 	r.GET("/ticketnumbers", controller.ListTicketNumbers)
 	r.GET("/ticketnumber/:id", controller.GetTicketNumber)
-	r.PATCH("/:id/ticketnumber", controller.GetTicketIDByTicketNum)
+	r.GET("/ticketid/:ticket_num", controller.GetTicketIDByTicketNum)
 	r.DELETE("/ticketnumbers:id", controller.DeleteTicketNumber)
 	
 	

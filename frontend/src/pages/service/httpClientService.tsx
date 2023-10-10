@@ -368,7 +368,7 @@ async function GetTicketIDByTicketNum() {
     },
   };
 
-  let res = await fetch(`${apiUrl}/:id/ticketnumber`, requestOptions)
+  let res = await fetch(`${apiUrl}/ticketid/:ticket_num`, requestOptions)
     .then((response) => response.json())
 
     .then((res) => {
@@ -414,7 +414,7 @@ async function Checkin(data: CheckinInterface) {
     body: JSON.stringify(data),
   };
 
-  let res = await fetch(`${apiUrl}/watch_videos`, requestOptions)
+  let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {

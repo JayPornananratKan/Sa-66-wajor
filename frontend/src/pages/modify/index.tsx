@@ -138,35 +138,7 @@ function Modify() {
     }
   }
 
-  async function DeleteMovie() {
-    localStorage.clear();
-    window.location.href = "/";
-    const apiUrl = "http://localhost:8080";
-    const requestOptions = {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(movie.ID),
-    };
 
-    let res = await fetch(
-      `${apiUrl}/movies/${JSON.stringify(newmovie.ID)}`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          // DeleteUser();
-          return { status: true, message: res.data };
-        } else {
-          return { status: false, message: res.error };
-        }
-      });
-
-    return res;
-  }
 
   //-----------------------handler-------------------------------
   const handleDateChange: DatePickerProps["onChange"] = (date) => {
@@ -231,7 +203,7 @@ function Modify() {
           <Button type="primary" onClick={submit}>
             submit
           </Button>
-          <Button onClick={DeleteMovie}>delete</Button>
+          
         </div>
         <div className="grid-contrainer">
           <div className="grid  ">

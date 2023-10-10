@@ -54,15 +54,18 @@ func main() {
 	r.GET("/checkins", controller.ListCheckins)
 	r.GET("/checkin/:id", controller.GetCheckin)
 	r.POST("/checkins", controller.CreateCheckin)
+	r.POST("/checkcheck", controller.Checkin)
 	r.PATCH("/checkins", controller.UpdateCheckin)
 	r.DELETE("/checkins:id", controller.DeleteCheckin)
+
 
 	r.GET("/ticketnumbers", controller.ListTicketNumbers)
 	r.GET("/ticketnumber/:id", controller.GetTicketNumber)
 	r.PATCH("/:id/ticketnumber", controller.GetTicketIDByTicketNum)
 	r.DELETE("/ticketnumbers:id", controller.DeleteTicketNumber)
 	
-	//-------jay--------
+	
+	//-------jay--------d
     r.POST("/movies", controller.CreateMovie)
     r.GET("/movies", controller.ListMovies)
     r.GET("/movie/:id", controller.GetMovie)

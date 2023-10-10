@@ -341,6 +341,29 @@ async function GetTicketNumber() {
   return res;
 }
 
+async function GetTicketIDByTicketNum() {
+  const requestOptions = {
+    method: "GET",
+
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/:id/ticketnumber`, requestOptions)
+    .then((response) => response.json())
+
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 async function CreateCheckin(data: CheckinInterface) {
   const requestOptions = {
     method: "POST",
@@ -364,20 +387,44 @@ async function CreateCheckin(data: CheckinInterface) {
   return res;
 }
 
+async function Checkin(data: CheckinInterface) {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
 
-export {  CreateBooking,
-          GetMemberByID, 
-          GetAllSeat, 
-          GetAllShowtime, 
-          GetSeatByID, 
-          GetShowtimeByID, 
-          GetTypemovie, 
-          UpdateMovie, 
-          GetMovie, 
-          CreateMovie,
-          GetRate,
-          GetAdmin,
-          GetTicketNumber,
-          GetCheckin,
-          CreateCheckin,
+  let res = await fetch(`${apiUrl}/watch_videos`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+
+export {
+  CreateBooking,
+  GetMemberByID,
+  GetAllSeat,
+  GetAllShowtime,
+  GetSeatByID,
+  GetShowtimeByID,
+  GetTypemovie,
+  UpdateMovie,
+  GetMovie,
+  CreateMovie,
+  GetRate,
+  GetAdmin,
+  GetTicketNumber,
+  GetCheckin,
+  CreateCheckin,
+  Checkin, GetTicketIDByTicketNum,
 };

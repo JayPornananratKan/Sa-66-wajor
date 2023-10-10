@@ -35,10 +35,10 @@ func GetTicketNumber(c *gin.Context) {
 //Get TicketNumberID By TicketNumber
 func GetTicketIDByTicketNum(c *gin.Context) {
     var ticket entity.TicketNumber // Assuming there is an entity structure for users
-    ticketnum := c.Param("ticketnum")
+    ticket_num := c.Param("ticket_num")
 
-    if tx := entity.DB().Where("ticket_num = ?", ticketnum).First(&ticket); tx.RowsAffected == 0 {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "ticketnum not found"})
+    if tx := entity.DB().Raw("SELECT * FROM ticket_numbers WHERE ticket_num = ?", ticket_num).First(&ticket); tx.RowsAffected == 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "ticket_num not found"})
         return
     }
 

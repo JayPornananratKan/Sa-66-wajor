@@ -446,4 +446,3 @@ export {
   CreateCheckin,
   Checkin, GetTicketIDByTicketNum,
 };
->>>>>>> 181c3c03f4c02a678d10e929e8bd3512f9acff23

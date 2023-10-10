@@ -145,6 +145,24 @@ async function GetRate() {
   return res;
 }
 
+async function GetMovieById(id: Number | undefined) {
+  const requestOptions = {
+    method: "GET"
+  };
+
+  let res = await fetch(`${apiUrl}/movie/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 
 ///////////////////////////////////////////////POND//////////////////////////////////////////////
 async function CreateBooking(data: BookingInterface) {
@@ -449,4 +467,5 @@ export {  CreateBooking,
           GetCheckin,
           CreateCheckin,
           DeleteMovie,
+          GetMovieById,
 };

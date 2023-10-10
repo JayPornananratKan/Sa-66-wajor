@@ -443,4 +443,5 @@ export {  CreateBooking,
           GetTicketNumber,
           GetCheckin,
           CreateCheckin,
+          DeleteMovie,
 };

@@ -15,9 +15,57 @@ type CheckinPayload struct {
 }
 
 type CheckinResponse struct {
+	TicketNum	string `json:"ticketnum"`
 	Token string `json:"token"`
 	ID    uint   `json:"id"`
 }
+
+func Checkin(c *gin.Context) {
+	var payload CheckinPayload
+	var ticket entity.TicketNumber
+
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// ค้นหา user ด้วย email ที่ผู้ใช้กรอกเข้ามา
+	if err := entity.DB().Raw("SELECT * FROM ticket_numbers WHERE ticket_num = ?", payload.TicketNum).Scan(&ticket).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// ตรวจสอบรหัสผ่าน
+	err := bcrypt.CompareHashAndPassword([]byte(ticket.TicketNum), []byte(payload.TicketNum))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ticketnumber is incorrect"})
+		return
+	}
+
+	// กำหนดค่า SecretKey, Issuer และระยะเวลาหมดอายุของ Token สามารถกำหนดเองได้
+	// SecretKey ใช้สำหรับการ sign ข้อความเพื่อบอกว่าข้อความมาจากตัวเราแน่นอน
+	// Issuer เป็น unique id ที่เอาไว้ระบุตัว client
+	// ExpirationHours เป็นเวลาหมดอายุของ token
+
+	jwtWrapper := service.JwtWrapper{
+		SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
+		Issuer:          "AuthService",
+		ExpirationHours: 24,
+	}
+
+	signedToken, err := jwtWrapper.GenerateToken(ticket.TicketNum)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
+		return
+	}
+
+	tokenResponse := CheckinResponse{
+		Token: signedToken,
+		ID:    ticket.ID,
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
+}
+
 // POST /videos
 func CreateCheckin(c *gin.Context) {
 
@@ -116,48 +164,3 @@ func UpdateCheckin(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": checkin})
 }
 
-func Checkin(c *gin.Context) {
-	var payload CheckinPayload
-	var ticket entity.TicketNumber
-
-	if err := c.ShouldBindJSON(&payload); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	// ค้นหา user ด้วย email ที่ผู้ใช้กรอกเข้ามา
-	if err := entity.DB().Raw("SELECT * FROM ticket_numbers WHERE ticketnum = ?", payload.TicketNum).Scan(&ticket).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	// ตรวจสอบรหัสผ่าน
-	err := bcrypt.CompareHashAndPassword([]byte(ticket.TicketNum), []byte(payload.TicketNum))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "password is incorrect"})
-		return
-	}
-
-	// กำหนดค่า SecretKey, Issuer และระยะเวลาหมดอายุของ Token สามารถกำหนดเองได้
-	// SecretKey ใช้สำหรับการ sign ข้อความเพื่อบอกว่าข้อความมาจากตัวเราแน่นอน
-	// Issuer เป็น unique id ที่เอาไว้ระบุตัว client
-	// ExpirationHours เป็นเวลาหมดอายุของ token
-
-	jwtWrapper := service.JwtWrapper{
-		SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
-		Issuer:          "AuthService",
-		ExpirationHours: 24,
-	}
-
-	signedToken, err := jwtWrapper.GenerateToken(ticket.TicketNum)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
-		return
-	}
-
-	tokenResponse := CheckinResponse{
-		Token: signedToken,
-		ID:    ticket.ID,
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
-}

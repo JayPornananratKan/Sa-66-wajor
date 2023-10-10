@@ -294,24 +294,25 @@ function Modify() {
             </div>
             <div className="grid-item grid9">ผู้กำกับ</div>
             <div className="grid-item grid10">
-              <Input
-                id="Director"
+            <Input
+             
                 className="inputbar"
                 placeholder="Basic usage"
-                value={newmovie?.Director || ""}
+                value={newmovie?.Director}
                 onChange={handleInputChange}
               />
             </div>
+            
             <div className="grid-item grid11">นักแสดงหลัก</div>
             <div className="grid-item grid12">
-              <Input
-                id="Actor"
+            <Input
                 className="inputbar"
-                value={newmovie.Actor || ""}
                 placeholder="Basic usage"
+                value={newmovie?.Actor}
                 onChange={handleInputChange}
               />
             </div>
+            
             <div className="grid-item grid13">โปสเตอร์</div>
             <div className="grid-item grid14">
               <Upload {...props}>

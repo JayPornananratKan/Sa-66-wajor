@@ -27,10 +27,6 @@ import type { DatePickerProps } from "antd";
 import { DatePicker, Space } from "antd";
 import { RateInterface } from "../interface/Irate";
 
-
-
-
-
 const onChange: DatePickerProps["onChange"] = (date, dateString) => {
   console.log(date, dateString);
 };
@@ -109,12 +105,11 @@ function MovieIn() {
       Release: Release,
       Length: typeof movie.Length === "string" ? parseInt(movie.Length) : 0, // Ensure Length is a number
       Director: movie.Director ?? "",
-      Castor: movie.Actor?? "",
+      Castor: movie.Actor ?? "",
       Short_story: movie.Short_Story ?? "",
       TypemovieID:
         typeof movie.TypemovieID === "string" ? parseInt(movie.TypemovieID) : 0,
-      RateID:
-        typeof movie.RateID === "string" ? parseInt(movie.RateID) : 0,
+      RateID: typeof movie.RateID === "string" ? parseInt(movie.RateID) : 0,
     };
 
     let res = await CreateMovie(data);
@@ -244,10 +239,10 @@ function MovieIn() {
             <div className="grid-item grid11">นักแสดงหลัก</div>
             <div className="grid-item grid12">
               <Input
-                id="Castor"
+                id="Actor"
                 className="inputbar"
+                placeholder="นักแสดง"
                 value={movie.Actor || ""}
-                placeholder="Basic usage"
                 onChange={handleInputChange}
               />
             </div>
@@ -283,7 +278,7 @@ function MovieIn() {
             <div className="grid-item grid18">
               <>
                 <TextArea
-                  id="Short_story"
+                  id="Short_Story"
                   className="inputbar"
                   value={movie.Short_Story || ""}
                   onChange={handleInputChange}

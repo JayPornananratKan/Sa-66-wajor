@@ -41,7 +41,23 @@ async function GetMovie() {
 
   return res;
 }
+async function DeleteMovie(id: Number | undefined) {
+  const requestOptions = {
+    method: "DELETE"
+  };
 
+  let res = await fetch(`${apiUrl}/movies/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
 async function CreateMovie(data: movieInterface) {
   const requestOptions = {
     method: "POST",
@@ -129,23 +145,7 @@ async function GetRate() {
   return res;
 }
 
-async function DeleteUserByID(id: Number | undefined) {
-  const requestOptions = {
-    method: "DELETE"
-  };
 
-  let res = await fetch(`${apiUrl}/users/${id}`, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    });
-
-  return res;
-}
 ///////////////////////////////////////////////POND//////////////////////////////////////////////
 async function CreateBooking(data: BookingInterface) {
   const requestOptions = {
@@ -428,21 +428,20 @@ async function Checkin(data: CheckinInterface) {
 }
 
 
-export {
-  CreateBooking,
-  GetMemberByID,
-  GetAllSeat,
-  GetAllShowtime,
-  GetSeatByID,
-  GetShowtimeByID,
-  GetTypemovie,
-  UpdateMovie,
-  GetMovie,
-  CreateMovie,
-  GetRate,
-  GetAdmin,
-  GetTicketNumber,
-  GetCheckin,
-  CreateCheckin,
-  Checkin, GetTicketIDByTicketNum,
+export {  CreateBooking,
+          GetMemberByID, 
+          GetAllSeat, 
+          GetAllShowtime, 
+          GetSeatByID, 
+          GetShowtimeByID, 
+          GetTypemovie, 
+          UpdateMovie, 
+          GetMovie, 
+          CreateMovie,
+          GetRate,
+          GetAdmin,
+          GetTicketNumber,
+          GetCheckin,
+          CreateCheckin,
+          DeleteMovie,
 };

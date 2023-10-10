@@ -6,9 +6,9 @@ export interface movieInterface {
     Name?:     string;
     Length  ?:    number;
     Release  ?:   Date | null;
+    Actor     ?:string;
     Director   ?: string;
-    Castor      ?:string;
-    Short_story ?:string;
+    Short_Story ?:string;
 
     TypemovieID?:   number;
     Typemovie?: TypeInterface;

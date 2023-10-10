@@ -20,7 +20,7 @@ func SetupDatabase() {
 	}
 
 	database.AutoMigrate(
-		&TypeMovie{},
+		&Typemovie{},
 		&Rate{},
 		&Movie{},
 		&TypeSeat{},
@@ -37,45 +37,45 @@ func SetupDatabase() {
 	db = database
 
 	//-----------------Type-----------------------
-	Horror := TypeMovie{
-		TypeName: "Horror",
+	Horror := Typemovie{
+		TypeNamemovie: "Horror",
 	}
-	db.Model(&TypeMovie{}).Create(&Horror)
+	db.Model(&Typemovie{}).Create(&Horror)
 
-	Action := TypeMovie{
-		TypeName: "Action",
+	Action := Typemovie{
+		TypeNamemovie: "Action",
 	}
-	db.Model(&TypeMovie{}).Create(&Action)
+	db.Model(&Typemovie{}).Create(&Action)
 
-	Romantic := TypeMovie{
-		TypeName: "Romantic",
+	Romantic := Typemovie{
+		TypeNamemovie: "Romantic",
 	}
-	db.Model(&TypeMovie{}).Create(&Romantic)
+	db.Model(&Typemovie{}).Create(&Romantic)
 
-	comedy := TypeMovie{
-		TypeName: "comedy",
+	comedy := Typemovie{
+		TypeNamemovie: "comedy",
 	}
-	db.Model(&TypeMovie{}).Create(&comedy)
+	db.Model(&Typemovie{}).Create(&comedy)
 
-	fantasy := TypeMovie{
-		TypeName: "fantasy",
+	fantasy := Typemovie{
+		TypeNamemovie: "fantasy",
 	}
-	db.Model(&TypeMovie{}).Create(&fantasy)
+	db.Model(&Typemovie{}).Create(&fantasy)
 
-	drama := TypeMovie{
-		TypeName: "drama",
+	drama := Typemovie{
+		TypeNamemovie: "drama",
 	}
-	db.Model(&TypeMovie{}).Create(&drama)
+	db.Model(&Typemovie{}).Create(&drama)
 
-	animation := TypeMovie{
-		TypeName: "animation",
+	animation := Typemovie{
+		TypeNamemovie: "animation",
 	}
-	db.Model(&TypeMovie{}).Create(&animation)
+	db.Model(&Typemovie{}).Create(&animation)
 
-	documentary := TypeMovie{
-		TypeName: "documentary",
+	documentary := Typemovie{
+		TypeNamemovie: "documentary",
 	}
-	db.Model(&TypeMovie{}).Create(&documentary)
+	db.Model(&Typemovie{}).Create(&documentary)
 
 	//-----------RATE---------------
 	G := Rate{
@@ -112,7 +112,7 @@ func SetupDatabase() {
 		Director:    "guide",
 		Actor:      "jay",
 		Short_Story: "eiei",
-		TypeMovie:   Horror,
+		Typemovie:   Horror,
 		Rate:        R,
 	})
 
@@ -124,7 +124,7 @@ func SetupDatabase() {
 		Director:    "guide",
 		Actor:      "jay",
 		Short_Story: "eiei",
-		TypeMovie:   Horror,
+		Typemovie:   Horror,
 		Rate:        G,
 	})
 

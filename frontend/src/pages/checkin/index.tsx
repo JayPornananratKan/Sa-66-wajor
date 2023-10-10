@@ -43,7 +43,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 function CheckIn() {
-    const [checkin, setCheckin] = useState<CheckinInterface>({
+    const [checkin, setCheckin] = useState<Partial<CheckinInterface>>({
       Datie: new Date(),
     }); 
     const [admins, setAdmins] = useState<AdminsInterface[]>([]);
@@ -51,6 +51,16 @@ function CheckIn() {
     const [Datie, setDatie] = useState<Date | null>(null);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
+    
+    const handleInputChange = (
+      event: React.ChangeEvent<{ id?: string; value: any }>
+    ) => {
+      const id = event.target.id as keyof typeof checkin;
+  
+      const { value } = event.target;
+  
+      setCheckin({ ...checkin, [id]: value });
+    };
 
     const handleClose = (
       event?: React.SyntheticEvent | Event,
@@ -71,15 +81,6 @@ function CheckIn() {
       });
     };
 
-    const handleInputChange = (
-        event: React.ChangeEvent<{ id?: string; value: any }>
-      ) => {
-        const id = event.target.id as keyof typeof checkin;
-    
-        const { value } = event.target;
-    
-        setCheckin({ ...checkin, [id]: value });
-    };
 
     const getAdmin = async () => {
       let res = await GetAdmin();
@@ -102,20 +103,20 @@ function CheckIn() {
       let val = typeof data === "string" ? parseInt(data) : data;
       return val;
     };
-    async function submit() {
-      let data = {
-        TicketNum: "string",
-        AdminID: convertType(checkin.AdminID),
-        Datie: checkin.Datie,
-      };
-  
-      let res = await Checkin(data);
-      if (res) {
-        setSuccess(true);
-      } else {
-        setError(true);
-      }
+    
+
+    const submit = async () => {
+    let res = await Checkin(checkin);
+    if (res) {
+      setSuccess(true);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } else {
+      setError(true);
     }
+    };
+
     return (
         <div className="App">
           <Snackbar

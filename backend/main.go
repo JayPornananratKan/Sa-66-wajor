@@ -52,7 +52,10 @@ func main() {
 	r.GET("/checkins", controller.ListCheckins)
 	r.GET("/checkin/:id", controller.GetCheckin)
 	r.POST("/checkins", controller.CreateCheckin)
+	//************************************//
 	r.POST("/checkcheck", controller.Checkin)
+	//************************************//
+
 	r.PATCH("/checkins", controller.UpdateCheckin)
 	r.DELETE("/checkins:id", controller.DeleteCheckin)
 

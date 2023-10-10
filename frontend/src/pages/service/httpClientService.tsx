@@ -418,6 +418,9 @@ async function Checkin(data: CheckinInterface) {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
+        localStorage.setItem("ticketnum", res.data.ticketnum);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("uid", res.data.id);
         return res.data;
       } else {
         return false;

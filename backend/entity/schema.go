@@ -63,8 +63,8 @@ type Movie struct {
 	Director    string
 	Short_Story string
 
-	TypeMovieID *uint
-	TypeMovie   TypeMovie
+	TypemovieID *uint
+	Typemovie   Typemovie
 	
 	RateID *uint
 	Rate       Rate
@@ -127,9 +127,9 @@ type TicketNumber struct {
 	Payment   Payment
 }
 
-type TypeMovie struct {
+type Typemovie struct {
 	gorm.Model
-	TypeName string
+	TypeNamemovie string
 
 	Movie []Movie `gorm:"foriegnKey:TypeMovieID"`
 }

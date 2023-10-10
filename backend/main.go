@@ -67,7 +67,7 @@ func main() {
     r.GET("/movies", controller.ListMovies)
     r.GET("/movie/:id", controller.GetMovie)
     r.PATCH("/movies", controller.UpdateMovie)
-    r.DELETE("/movie:id", controller.DeleteMovie)
+    r.DELETE("/movies/:id", controller.DeleteMovie)
 
     r.GET("/typemovies", controller.ListType)
     r.GET("/typemovie/:id", controller.GetType)

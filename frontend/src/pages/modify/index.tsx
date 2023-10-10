@@ -74,8 +74,8 @@ function Modify() {
     Length: newmovie.Length,
     Release: newmovie.Release,
     Director: newmovie.Director,
-    Castor: newmovie.Castor,
-    Short_story: newmovie.Short_story,
+    Actor: newmovie.Actor,
+    Short_Story: newmovie.Short_Story,
     TypemovieID: newmovie.TypemovieID,
   });
 
@@ -118,8 +118,8 @@ function Modify() {
       Length:
         typeof newmovie.Length === "string" ? parseInt(newmovie.Length) : 0, // Ensure Length is a number
       Director: newmovie.Director ?? "",
-      Castor: newmovie.Castor ?? "",
-      Short_story: newmovie.Short_story ?? "",
+      Actor: newmovie.Actor ?? "",
+      Short_Story: newmovie.Short_Story ?? "",
       TypemovieID:
         typeof newmovie.TypemovieID === "string"
           ? parseInt(newmovie.TypemovieID)
@@ -244,7 +244,7 @@ function Modify() {
                 value={newmovie?.TypemovieID}
                 onChange={handleChange}
                 inputProps={{
-                  name: "TypemovieID",
+                  name: "TypeMovieID",
                 }}
               >
                 <option aria-label="None" value="">
@@ -268,20 +268,20 @@ function Modify() {
             <div className="grid-item grid5">ประเภทภาพยนตร์</div>
             <div className="grid-item grid6">
               <Select
-                id="TypemovieID"
+                id="TypeMovieID"
                 className="comboboxbar"
                 native
                 value={newmovie?.TypemovieID}
                 onChange={handleChange}
                 inputProps={{
-                  name: "TypemovieID",
+                  name: "TypeMovieID",
                 }}
               >
                 <option aria-label="None" value="">
                   ประเภทภาพยนตร์
                 </option>
                 {typemovies.map((item: TypeInterface) => (
-                  <option value={item.ID}>{item.TypeName}</option>
+                  <option value={item.ID}>{item.TypeNamemovie}</option>
                 ))}
               </Select>
             </div>
@@ -305,9 +305,9 @@ function Modify() {
             <div className="grid-item grid11">นักแสดงหลัก</div>
             <div className="grid-item grid12">
               <Input
-                id="Castor"
+                id="Actor"
                 className="inputbar"
-                value={newmovie.Castor || ""}
+                value={newmovie.Actor || ""}
                 placeholder="Basic usage"
                 onChange={handleInputChange}
               />
@@ -346,9 +346,9 @@ function Modify() {
             <div className="grid-item grid18">
               <>
                 <TextArea
-                  id="Short_story"
+                  id="Short_Story"
                   className="inputbar"
-                  value={movie.Short_story || ""}
+                  value={movie.Short_Story || ""}
                   onChange={handleInputChange}
                   rows={4}
                 />

@@ -10,11 +10,11 @@ import (
 )
 func GetType(c *gin.Context) {
 
-	var typee entity.TypeMovie
+	var typee entity.Typemovie
 
 	id := c.Param("id")
 
-	if err := entity.DB().Raw("SELECT * FROM type_movies WHERE id = ?", id).Scan(&typee).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM typemovies WHERE id = ?", id).Scan(&typee).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -25,9 +25,9 @@ func GetType(c *gin.Context) {
 
 func ListType(c *gin.Context) {
 
-	var typee []entity.TypeMovie
+	var typee []entity.Typemovie
 
-	if err := entity.DB().Raw("SELECT * FROM type_movies ").Scan(&typee).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM typemovies ").Scan(&typee).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 

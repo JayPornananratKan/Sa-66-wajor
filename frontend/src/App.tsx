@@ -7,6 +7,7 @@ import Login from './pages/login';
 import ManageShow from './pages/manageShow';
 import Modify from './pages/modify';
 import MoviesIn from './pages/moviesin';
+import Showmovie from './pages/showmovie';
 
 
 const App = () => (
@@ -18,7 +19,7 @@ const App = () => (
       <Route path="/modify" element={<Modify />} />
       <Route path="/manageShow" element={<ManageShow />} />
       <Route path="/checkin" element={<Checkin />} />
-      
+      <Route path="/showmovie" element={<Showmovie />} />
     </Routes>
   </Router>  
 );

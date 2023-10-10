@@ -109,8 +109,8 @@ function MovieIn() {
       Release: Release,
       Length: typeof movie.Length === "string" ? parseInt(movie.Length) : 0, // Ensure Length is a number
       Director: movie.Director ?? "",
-      Castor: movie.Castor ?? "",
-      Short_story: movie.Short_story ?? "",
+      Castor: movie.Actor?? "",
+      Short_story: movie.Short_Story ?? "",
       TypemovieID:
         typeof movie.TypemovieID === "string" ? parseInt(movie.TypemovieID) : 0,
       RateID:
@@ -220,7 +220,7 @@ function MovieIn() {
                   ประเภทภาพยนตร์
                 </option>
                 {typemovies.map((item: TypeInterface) => (
-                  <option value={item.ID}>{item.TypeName}</option>
+                  <option value={item.ID}>{item.TypeNamemovie}</option>
                 ))}
               </Select>
             </div>
@@ -246,7 +246,7 @@ function MovieIn() {
               <Input
                 id="Castor"
                 className="inputbar"
-                value={movie.Castor || ""}
+                value={movie.Actor || ""}
                 placeholder="Basic usage"
                 onChange={handleInputChange}
               />
@@ -285,7 +285,7 @@ function MovieIn() {
                 <TextArea
                   id="Short_story"
                   className="inputbar"
-                  value={movie.Short_story || ""}
+                  value={movie.Short_Story || ""}
                   onChange={handleInputChange}
                   rows={4}
                 />

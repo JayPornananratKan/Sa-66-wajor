@@ -129,6 +129,23 @@ async function GetRate() {
   return res;
 }
 
+async function DeleteUserByID(id: Number | undefined) {
+  const requestOptions = {
+    method: "DELETE"
+  };
+
+  let res = await fetch(`${apiUrl}/users/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
 ///////////////////////////////////////////////POND//////////////////////////////////////////////
 async function CreateBooking(data: BookingInterface) {
   const requestOptions = {
@@ -271,6 +288,7 @@ async function GetShowtimeByID() {
 
   return res;
 }
+
 //////////////////////////////////////////////////Guide////////////////////////////////////////////////////////
 async function GetAdmin() {
   const requestOptions = {
@@ -428,3 +446,4 @@ export {
   CreateCheckin,
   Checkin, GetTicketIDByTicketNum,
 };
+>>>>>>> 181c3c03f4c02a678d10e929e8bd3512f9acff23

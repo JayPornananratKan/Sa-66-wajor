@@ -3,11 +3,10 @@ import { TicketNumberInterface } from "./Iticketnumber";
 
 export interface CheckinInterface {
   ID?: number;
-  Datie?: Date | null;
+  // Datie?: Date | null;
+  TicketNumberID?: number;
+  TicketNumber?: TicketNumberInterface;  
   AdminID?: number;
   Admin?: AdminsInterface;
-  TicketNumberID?: number;
-  TicketNum?: string;
-  TicketNumber?: TicketNumberInterface;
 
-}
+}// TicketNum?: string;

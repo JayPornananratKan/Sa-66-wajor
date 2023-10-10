@@ -47,22 +47,21 @@ func main() {
 	r.GET("/member/:id", controller.GetMemberByID)
 	//-------guide------
 	r.GET("/admins", controller.ListAdmins)
-	r.GET("/admin/:id", controller.GetAdmin)
+	r.GET("/admin:id", controller.GetAdmin)
 
 	r.GET("/checkins", controller.ListCheckins)
-	r.GET("/checkin/:id", controller.GetCheckin)
+	r.GET("/checkin:id", controller.GetCheckin)
 	r.POST("/checkins", controller.CreateCheckin)
 	//************************************//
-	r.POST("/checkcheck", controller.Checkin)
+	// r.POST("/checkcheck", controller.Checkin)
 	//************************************//
 
 	r.PATCH("/checkins", controller.UpdateCheckin)
 	r.DELETE("/checkins:id", controller.DeleteCheckin)
 
-
 	r.GET("/ticketnumbers", controller.ListTicketNumbers)
-	r.GET("/ticketnumber/:id", controller.GetTicketNumber)
-	r.GET("/ticketid/:ticket_num", controller.GetTicketIDByTicketNum)
+	r.GET("/ticketnumber:id", controller.GetTicketNumber)
+	r.GET("/ticketid:ticket_num", controller.GetTicketIDByTicketNum)
 	r.DELETE("/ticketnumbers:id", controller.DeleteTicketNumber)
 	
 	

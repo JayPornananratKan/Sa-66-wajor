@@ -5,66 +5,73 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/mumu3007/tsxcss/entity"
-	"github.com/mumu3007/tsxcss/service"
-	"golang.org/x/crypto/bcrypt"
+	// "github.com/mumu3007/tsxcss/service"
+	// "golang.org/x/crypto/bcrypt"
 )
 
 
-type CheckinPayload struct {
-	TicketNum    string `json:"ticketnum"`
-}
+// type CheckinPayload struct {
+// 	TicketNum    string `json:"ticketnum"`
+// 	AdminID		string `json:"admin_id"`
+// }
 
-type CheckinResponse struct {
-	TicketNum	string `json:"ticketnum"`
-	Token string `json:"token"`
-	ID    uint   `json:"id"`
-}
 
-func Checkin(c *gin.Context) {
-	var payload CheckinPayload
-	var ticket entity.TicketNumber
+// type CheckedinPayload struct {
+// 	TicketNumberID    string `json:"ticket_number_id"`
+// 	AdminID		string `json:"admin_id"`
+// }
 
-	if err := c.ShouldBindJSON(&payload); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	// ค้นหา user ด้วย email ที่ผู้ใช้กรอกเข้ามา
-	if err := entity.DB().Raw("SELECT * FROM ticket_numbers WHERE ticket_num = ?", payload.TicketNum).Scan(&ticket).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+// type CheckinResponse struct {
+// 	TicketNum	string `json:"ticketnum"`
+// 	Token string `json:"token"`
+// 	ID    uint   `json:"id"`
+// }
 
-	// ตรวจสอบรหัสผ่าน
-	err := bcrypt.CompareHashAndPassword([]byte(ticket.TicketNum), []byte(payload.TicketNum))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "ticketnumber is incorrect"})
-		return
-	}
+// func Checkin(c *gin.Context) {
+// 	var payload CheckinPayload
+// 	var ticket entity.TicketNumber
 
-	// กำหนดค่า SecretKey, Issuer และระยะเวลาหมดอายุของ Token สามารถกำหนดเองได้
-	// SecretKey ใช้สำหรับการ sign ข้อความเพื่อบอกว่าข้อความมาจากตัวเราแน่นอน
-	// Issuer เป็น unique id ที่เอาไว้ระบุตัว client
-	// ExpirationHours เป็นเวลาหมดอายุของ token
+// 	if err := c.ShouldBindJSON(&payload); err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	// ค้นหา user ด้วย email ที่ผู้ใช้กรอกเข้ามา
+// 	if err := entity.DB().Raw("SELECT * FROM ticket_numbers WHERE ticket_num = ?", payload.TicketNum).Scan(&ticket).Error; err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
 
-	jwtWrapper := service.JwtWrapper{
-		SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
-		Issuer:          "AuthService",
-		ExpirationHours: 24,
-	}
+// 	// ตรวจสอบรหัสผ่าน
+// 	err := bcrypt.CompareHashAndPassword([]byte(ticket.TicketNum), []byte(payload.TicketNum))
+// 	if err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "ticketnumber is incorrect"})
+// 		return
+// 	}
 
-	signedToken, err := jwtWrapper.GenerateToken(ticket.TicketNum)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
-		return
-	}
+// 	// กำหนดค่า SecretKey, Issuer และระยะเวลาหมดอายุของ Token สามารถกำหนดเองได้
+// 	// SecretKey ใช้สำหรับการ sign ข้อความเพื่อบอกว่าข้อความมาจากตัวเราแน่นอน
+// 	// Issuer เป็น unique id ที่เอาไว้ระบุตัว client
+// 	// ExpirationHours เป็นเวลาหมดอายุของ token
 
-	tokenResponse := CheckinResponse{
-		Token: signedToken,
-		ID:    ticket.ID,
-	}
+// 	jwtWrapper := service.JwtWrapper{
+// 		SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
+// 		Issuer:          "AuthService",
+// 		ExpirationHours: 24,
+// 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
-}
+// 	signedToken, err := jwtWrapper.GenerateToken(ticket.TicketNum)
+// 	if err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
+// 		return
+// 	}
+
+// 	tokenResponse := CheckinResponse{
+// 		Token: signedToken,
+// 		ID:    ticket.ID,
+// 	}
+
+// 	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
+// }
 
 // POST /videos
 func CreateCheckin(c *gin.Context) {
@@ -81,13 +88,13 @@ func CreateCheckin(c *gin.Context) {
 
     // 9: ค้นหา video ด้วย id
     if tx := entity.DB().Where("id = ?", checkin.AdminID).First(&admin); tx.RowsAffected == 0 {
-    	c.JSON(http.StatusBadRequest, gin.H{"error": "video not found"})
+    	c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
     	return
     }
 
     // 10: ค้นหา resolution ด้วย id
-    if tx := entity.DB().Where("id = ?", checkin.TicketNumber).First(&ticket); tx.RowsAffected == 0 {
-    	c.JSON(http.StatusBadRequest, gin.H{"error": "resolution not found"})
+    if tx := entity.DB().Where("id = ?", checkin.TicketNumberID).First(&ticket); tx.RowsAffected == 0 {
+    	c.JSON(http.StatusBadRequest, gin.H{"error": "ticketnumber not found"})
     	return
     }
 
@@ -95,7 +102,7 @@ func CreateCheckin(c *gin.Context) {
     ch := entity.Checkin{
     	Admin:      admin,            // โยงความสัมพันธ์กับ Entity Resolution
     	TicketNumber:    ticket,               // โยงความสัมพันธ์กับ Entity Video         // โยงความสัมพันธ์กับ Entity Playlist
-    	Datie: checkin.Datie,    // ตั้งค่าฟิลด์ watchedTime
+    	// Datie: checkin.Datie,    // ตั้งค่าฟิลด์ watchedTime
     }
 
     // 13: บันทึก
@@ -105,6 +112,7 @@ func CreateCheckin(c *gin.Context) {
     }
     c.JSON(http.StatusOK, gin.H{"data": ch})
 }
+
 
 
 // GET /checkins
@@ -118,7 +126,7 @@ func ListCheckins(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": checkins})
 }
 // GET /checkin/:id
-func GetCheckin(c *gin.Context) {
+func  GetCheckin(c *gin.Context) {
 	var checkin entity.Checkin
 
 	id := c.Param("id")

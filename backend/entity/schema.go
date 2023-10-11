@@ -11,8 +11,8 @@ type Admin struct {
 	Firstname string
 	Lastname  string
 	Username  string
-	Password  string
 	Email     string
+	Password  string
 
 	Checkin []Checkin `gorm:"foreignKey:AdminID"`
 }
@@ -34,7 +34,7 @@ type Booking struct {
 
 type Checkin struct {
 	gorm.Model
-	Datie time.Time
+	// Datie time.Time
 
 	TicketNumberID *uint
 	TicketNumber   TicketNumber
@@ -125,6 +125,8 @@ type TicketNumber struct {
 
 	PaymentID *uint
 	Payment   Payment
+
+	Checkin []Checkin `gorm:"foreignKey:TicketNumberID"`
 }
 
 type Typemovie struct {

@@ -24,7 +24,7 @@ func ListAdmins(c *gin.Context) {
 func GetAdmin(c *gin.Context) {
 	var admin entity.Admin
 	id := c.Param("id")
-	if tx := entity.DB().Where("id = ?", id).First(&admin); tx.RowsAffected == 0 {
+	if err := entity.DB().Raw("SELECT * FROM admins WHERE id = ?", id).Scan(&admin).Error; err != nil{
 		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}

@@ -31,8 +31,10 @@ import TextField from "@mui/material/TextField";
 
 import {
   GetAdmin,
-  GetTicketIDByTicketNum,
-  Checkin,
+  GetTicketNumber,
+  // Checkin,
+  CreateCheckin,
+  GetCheckin,
 } from "../service/httpClientService";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -42,144 +44,160 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function CheckIn() {
-    const [checkin, setCheckin] = useState<Partial<CheckinInterface>>({
-      Datie: new Date(),
-    }); 
-    const [admins, setAdmins] = useState<AdminsInterface[]>([]);
-    const [ticketnumbers, setTicketNumbers] = useState<TicketNumberInterface[]>([]);
-    const [Datie, setDatie] = useState<Date | null>(null);
-    const [success, setSuccess] = useState(false);
-    const [error, setError] = useState(false);
-    
-    const handleInputChange = (
-      event: React.ChangeEvent<{ id?: string; value: any }>
-    ) => {
-      const id = event.target.id as keyof typeof checkin;
-  
-      const { value } = event.target;
-  
-      setCheckin({ ...checkin, [id]: value });
-    };
+function Checkin() {
 
-    const handleClose = (
-      event?: React.SyntheticEvent | Event,
-      reason?: string
-    ) => {
-      if (reason === "clickaway") {
-        return;
-      }
-      setSuccess(false);
-      setError(false);
-    };
+  const [admins, setAdmins] = useState<AdminsInterface[]>([]);
+  const [ticketnumbers, setTicketNumbers] = useState<TicketNumberInterface[]>([]);
+  const [checkin, setCheckin] = useState<Partial<CheckinInterface>>({
+    // AdminID: 0,
+    // TicketNumberID: 0,
+  });
+  const [Datie, setDatie] = useState<Date | null>(null);
+  const [message, setAlertMessage] = React.useState("");
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(false);
 
-    const handleChange = (event: SelectChangeEvent) => {
-      const name = event.target.name as keyof typeof checkin;
-      setCheckin({
-        ...checkin,
-        [name]: event.target.value,
-      });
-    };
+  const handleInputChange = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof Checkin;
 
+    const { value } = event.target;
 
-    const getAdmin = async () => {
-      let res = await GetAdmin();
-      if (res) {
-        setAdmins(res);
-      }
-    };
-    const getTicketNumber = async () => {
-      let res = await GetTicketIDByTicketNum();
-      if (res) {
-        setTicketNumbers(res);
-      }
-    };
-    useEffect(() => {
-      getAdmin();
-      getTicketNumber();
-    },[]);
+    setCheckin({ ...checkin, [id]: value });
+  };
 
-    const convertType = (data: string | number | undefined) => {
-      let val = typeof data === "string" ? parseInt(data) : data;
-      return val;
-    };
-    
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccess(false);
+    setError(false);
+  };
 
-    const submit = async () => {
-    let res = await Checkin(checkin);
+  const getAdmin = async () => {
+    let res = await GetAdmin();
     if (res) {
+      setAdmins(res);
+    }
+  };
+  const getTicketNumber = async () => {
+    let res = await GetTicketNumber();
+    if (res) {
+      setTicketNumbers(res);
+    }
+  };
+
+  const getCheckin = async () => {
+    let res = await GetCheckin();
+    if (res) {
+      setCheckin(res);
+    }
+  };
+  useEffect(() => {
+    getAdmin();
+    getTicketNumber();
+    getCheckin();
+  }, []);
+  console.log(admins);
+  console.log(ticketnumbers);
+  const convertType = (data: string | number | undefined) => {
+    let val = typeof data === "string" ? parseInt(data) : data;
+    return val;
+  };
+
+  console.log(admins);
+  console.log(ticketnumbers);
+
+  async function submit() {
+
+    let data = {
+      TicketNumberID: 
+       typeof checkin.TicketNumberID === "string" ? parseInt(checkin.TicketNumberID) : checkin.TicketNumberID,
+      AdminID: 
+       typeof checkin.AdminID === "string" ? parseInt(checkin.AdminID) : checkin.AdminID,
+    };
+    console.log("data" + data);
+    let res = await CreateCheckin(data);
+
+    if (res.status) {
+      setAlertMessage("บันทึกข้อมูลสำเร็จ");
       setSuccess(true);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
     } else {
+      setAlertMessage(res.message);
       setError(true);
     }
-    };
+  }
 
-    return (
-        <div className="App">
-          <Snackbar
-            open={success}
-            autoHideDuration={3000}
-            onClose={handleClose}
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          >
-            <Alert onClose={handleClose} severity="success">
-              บันทึกข้อมูลสำเร็จ
-            </Alert>
-          </Snackbar>
-          <Snackbar
-            open={error}
-            autoHideDuration={6000}
-            onClose={handleClose}
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          >
-            <Alert onClose={handleClose} severity="error">
-              บันทึกข้อมูลไม่สำเร็จ
-            </Alert>
-          </Snackbar>
-            {/* Nav Start */}
-            <nav>
-                <Navbar />
-            </nav>
-            {/*  nav end */}
+  return (
+    <div className="App">
+      <Snackbar
+        id="success"
+        open={success}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="success">
+          {message}
+        </Alert>
+      </Snackbar>
 
-            <section className="background">
-                <li><img src={background} alt="" /></li>
-            </section>
+      <Snackbar
+        id="error"
+        open={error}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="error">
+          {message}
+        </Alert>
+      </Snackbar>
+      {/* Nav Start */}
+      <nav>
+        <Navbar />
+      </nav>
+      {/*  nav end */}
 
-            {/* check start */}
-            <section className="check">
-                <div className="con">
-                    <div className="title">
-                        <h1>เช็คอิน</h1>
-                    </div>
-                        
-                    <div className="check-con">
-                         <div className="check-item">
-                            <h1 >รหัสตั๋ว</h1>
-                            <Input id="Length" className="inputbar" placeholder="Basic usage" value={checkin.TicketNum} onChange={handleInputChange}/>
-                                
-                            <h2 >รหัสประจำตัวแอดมิน</h2>
-                            <input type="text" className="ticket" placeholder="กรอกรหัสประจำตัวแอดมิน" value={checkin.AdminID} onChange={handleInputChange}/>
-                        </div>    
-                    </div>  
-                </div>
+      <section className="background">
+        <li><img src={background} alt="" /></li>
+      </section>
 
-                <div className="checkin-butt">
-                    <li ><a className= "confirm_butt" onClick={submit} href="">เช็คอิน</a></li>
-                </div>
-            </section>
+      {/* check start */}
+      <section className="check">
+        <div className="con">
+          <div className="title">
+            <h1>เช็คอิน</h1>
+          </div>
 
-            <footer>
-                
-            </footer>
+          <div className="check-con">
+            <div className="check-item">
+              <h1 >รหัสตั๋ว</h1>
+              <Input id="TicketNumberID" className="inputbar" placeholder="Basic usage"  value={checkin.TicketNumberID} onChange={handleInputChange} />
 
-            {/* check end */}
+              <h2 >รหัสประจำตัวแอดมิน</h2>
+              <Input id="AdminID" className="inputbar" placeholder="Basic usage"  value={checkin.AdminID} onChange={handleInputChange} />
+              {/* <input id="AdminID" type="text" className="ticket" placeholder="กรอกรหัสประจำตัวแอดมิน"  value={checkin.AdminID} onChange={handleInputChange} /> */}
+            </div>
+          </div>
         </div>
-        
-    );
+
+        <div className="checkin-butt">
+          <li ><a className="confirm_butt" onClick={submit} href="">เช็คอิน</a></li>
+        </div>
+      </section>
+
+      <footer>
+
+      </footer>
+
+      {/* check end */}
+    </div>
+
+  );
 }
 
-export default CheckIn;
+export default Checkin;

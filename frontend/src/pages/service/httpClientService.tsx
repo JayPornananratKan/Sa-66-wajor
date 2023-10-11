@@ -316,7 +316,7 @@ async function GetAdmin() {
     },
   };
 
-  let res = await fetch(`${apiUrl}/admin/:id`, requestOptions)
+  let res = await fetch(`${apiUrl}/admins`, requestOptions)
     .then((response) => response.json())
 
     .then((res) => {
@@ -339,7 +339,7 @@ async function GetCheckin() {
     },
   };
 
-  let res = await fetch(`${apiUrl}/checkin/:id`, requestOptions)
+  let res = await fetch(`${apiUrl}/checkins`, requestOptions)
     .then((response) => response.json())
 
     .then((res) => {
@@ -362,7 +362,7 @@ async function GetTicketNumber() {
     },
   };
 
-  let res = await fetch(`${apiUrl}/ticketnumber/:id`, requestOptions)
+  let res = await fetch(`${apiUrl}/ticketnumbers`, requestOptions)
     .then((response) => response.json())
 
     .then((res) => {
@@ -408,7 +408,7 @@ async function CreateCheckin(data: CheckinInterface) {
     body: JSON.stringify(data),
   };
 
-  let res = await fetch(`${apiUrl}/checkedin`, requestOptions)
+  let res = await fetch(`${apiUrl}/checkins`, requestOptions)
     .then((response) => response.json())
 
     .then((res) => {
@@ -422,30 +422,30 @@ async function CreateCheckin(data: CheckinInterface) {
   return res;
 }
 
-async function Checkin(data: CheckinInterface) {
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
+// async function Checkin(data: CheckinInterface) {
+//   const requestOptions = {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(data),
+//   };
 
-  let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        localStorage.setItem("ticketnum", res.data.ticketnum);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("uid", res.data.id);
-        return res.data;
-      } else {
-        return false;
-      }
-    });
+//   let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
+//     .then((response) => response.json())
+//     .then((res) => {
+//       if (res.data) {
+//         localStorage.setItem("ticketnum", res.data.ticketnum);
+//         localStorage.setItem("token", res.data.token);
+//         localStorage.setItem("uid", res.data.id);
+//         return res.data;
+//       } else {
+//         return false;
+//       }
+//     });
 
-  return res;
-}
+//   return res;
+// }
 
 
 export {  CreateBooking,
@@ -462,7 +462,7 @@ export {  CreateBooking,
           GetAdmin,
           GetTicketNumber,
           GetTicketIDByTicketNum,
-          Checkin,
+          // Checkin,
           GetCheckin,
           CreateCheckin,
           DeleteMovie,

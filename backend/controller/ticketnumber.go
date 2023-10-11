@@ -24,7 +24,7 @@ func ListTicketNumbers(c *gin.Context) {
 func GetTicketNumber(c *gin.Context) {
 	var ticket entity.TicketNumber
 	id := c.Param("id")
-	if tx := entity.DB().Where("id = ?", id).First(&ticket); tx.RowsAffected == 0 {
+	if err := entity.DB().Raw("SELECT * FROM ticket_numbers WHERE id = ?", id).Scan(&ticket).Error; err != nil  {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ticketnum not found"})
 		return
 	}

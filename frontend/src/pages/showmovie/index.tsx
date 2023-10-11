@@ -6,9 +6,9 @@ import type { ColumnsType } from "antd/es/table";
 import { Link, useNavigate } from "react-router-dom";
 import { movieInterface } from "../interface/Imovie";
 import { DeleteMovie, GetMovie } from "../service/httpClientService";
+import Navbar from "../../Navbar/navbar";
 
 function Showmovie() {
-  
   const columns: ColumnsType<movieInterface> = [
     {
       title: "ลำดับ",
@@ -25,7 +25,7 @@ function Showmovie() {
       dataIndex: "Length",
       key: "length",
     },
-    
+
     {
       title: "วันที่ฉาย",
       dataIndex: "Release",
@@ -65,7 +65,12 @@ function Showmovie() {
       key: "manage",
       render: (text, record, index) => (
         <>
-          <Button  onClick={() =>  navigate(`/modify/${record.ID}`)} shape="circle" icon={<EditOutlined />} size={"large"} />
+          <Button
+            onClick={() => navigate(`/modify/${record.ID}`)}
+            shape="circle"
+            icon={<EditOutlined />}
+            size={"large"}
+          />
           <Button
             onClick={() => showModal(record)}
             style={{ marginLeft: 10 }}
@@ -82,22 +87,20 @@ function Showmovie() {
   const navigate = useNavigate();
   const [movie, setMovie] = useState<movieInterface[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
-  const [open, setOpen] = useState(false); 
+  const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState<String>();
   const [deleteId, setDeleteId] = useState<Number>();
 
   const getMovie = async () => {
-      let res = await GetMovie();
-      if (res) {
-          setMovie(res);
-        }
-    };
+    let res = await GetMovie();
+    if (res) {
+      setMovie(res);
+    }
+  };
 
-    const showModal = (val: movieInterface) => {
-    setModalText(
-      `คุณต้องการลบข้อมูลผู้ใช้ "${val.Name} หรือไม่ ?`
-    );
+  const showModal = (val: movieInterface) => {
+    setModalText(`คุณต้องการลบข้อมูลผู้ใช้ "${val.Name} หรือไม่ ?`);
     setDeleteId(val.ID);
     setOpen(true);
   };
@@ -131,36 +134,34 @@ function Showmovie() {
   }, []);
 
   return (
-    <>
-      {contextHolder}
-      <Row>
-        <Col span={12}>
-          <h2>จัดการข้อมูลสมาชิก</h2>
-        </Col>
-        <Col span={12} style={{ textAlign: "end", alignSelf: "center" }}>
-          <Space>
-            <Link to="/moviesin">
-              <Button type="primary" icon={<PlusOutlined />}>
-                สร้างข้อมูล
-              </Button>
-            </Link>
-          </Space>
-        </Col>
-      </Row>
-      <Divider />
-      <div style={{ marginTop: 20 }}>
-        <Table rowKey="ID" columns={columns} dataSource={movie} />
+    <div className="app">
+        <nav>
+          <Navbar />
+        </nav>
+      <div className="Contrainer">
+        {contextHolder}
+            
+              <Link to="/moviesin">
+                <Button type="primary" icon={<PlusOutlined />}>
+                  สร้างข้อมูล
+                </Button>
+              </Link>
+            
+        <Divider />
+        <div style={{ marginTop: 20 }}>
+          <Table rowKey="ID" columns={columns}  dataSource={movie} />
+        </div>
+        <Modal
+          title="ลบข้อมูล ?"
+          open={open}
+          onOk={handleOk}
+          confirmLoading={confirmLoading}
+          onCancel={handleCancel}
+        >
+          <p>{modalText}</p>
+        </Modal>
       </div>
-      <Modal
-        title="ลบข้อมูล ?"
-        open={open}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-      >
-        <p>{modalText}</p>
-      </Modal>
-    </>
+    </div>
   );
 }
 

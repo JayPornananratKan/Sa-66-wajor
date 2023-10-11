@@ -163,7 +163,6 @@ async function GetMovieById(id: Number | undefined) {
   return res;
 }
 
-
 ///////////////////////////////////////////////POND//////////////////////////////////////////////
 async function CreateBooking(data: BookingInterface) {
   const requestOptions = {

@@ -114,48 +114,21 @@ func DeleteMovie(c *gin.Context) {
 func UpdateMovie(c *gin.Context) {
 
 	var movie entity.Movie
-	var typee entity.Typemovie
-	var newmovie entity.Movie
-	var rate entity.Rate
+	var result entity.Movie
 
 	if err := c.ShouldBindJSON(&movie); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
-
 	}
-
-	if tx := entity.DB().Where("id = ?", &movie.ID).First(&newmovie); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": " movie not found"})
+	// ค้นหา user ด้วย id
+	if tx := entity.DB().Where("id = ?", movie.ID).First(&result); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "movie not found"})
 		return
-
 	}
 
-	if tx := entity.DB().Where("id = ?", &movie.Typemovie).First(&typee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": " movie not found"})
-		return
-
-	}
-	if tx := entity.DB().Where("id = ?", &movie.Rate).First(&rate); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": " movie not found"})
-		return
-
-	}
-	newmovie.Name = movie.Name
-	newmovie.Length = movie.Length
-	newmovie.Release = movie.Release
-	newmovie.Director = movie.Director
-	newmovie.Actor = movie.Actor
-	newmovie.Short_Story = movie.Short_Story
-	newmovie.Typemovie = typee
-
-	if err := entity.DB().Save(&newmovie).Error; err != nil {
-
+	if err := entity.DB().Save(&movie).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
 		return
-
 	}
-
-	c.JSON(http.StatusOK, gin.H{"data": newmovie})
-
-}
+	c.JSON(http.StatusOK, gin.H{"data": movie})
+	}

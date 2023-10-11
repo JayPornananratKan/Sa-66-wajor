@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../css/movie.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import { Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
@@ -20,6 +20,7 @@ import { TypeInterface } from "../interface/Itype";
 import {
   CreateMovie,
   GetMovie,
+  GetMovieById,
   GetRate,
   GetTypemovie,
   UpdateMovie,
@@ -48,11 +49,97 @@ const props: UploadProps = {
 
 function Modify() {
   const { TextArea } = Input;
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [newmovie, setnewMovie] = React.useState<Partial<movieInterface>>({});
+  const [movie, setMovie] = React.useState<Partial<movieInterface>>({
+    ID: Number(id),
+    Name: newmovie.Name,
+    Length: newmovie.Length,
+    Release: newmovie.Release,
+    Director: newmovie.Director,
+    Actor: newmovie.Actor,
+    Short_Story: newmovie.Short_Story,
+    TypemovieID: newmovie.TypemovieID,
+    RateID: newmovie.RateID,
+  });
 
+  const [Release, setRelease] = useState<Date | null>(null);
+  const [rates, setRates] = React.useState<RateInterface[]>([]);
+  const [typemovies, setTypemovies] = React.useState<TypeInterface[]>([]);
+  const [message, setAlertMessage] = React.useState("");
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [active, setActive] = useState(false);
+
+  const getTypemovie = async () => {
+    let res = await GetTypemovie();
+    if (res) {
+      setTypemovies(res);
+    }
+  };
+
+  const getRatemovie = async () => {
+    let res = await GetRate();
+    if (res) {
+      setRates(res);
+    }
+  };
+  const getmoviebyid = async () => {
+    let res = await GetMovieById(Number(id));
+    if (res) {
+      setnewMovie(res);
+
+    }
+  };
+  useEffect(() => {
+    getmoviebyid();
+    getTypemovie();
+    getRatemovie();
+  }, []);
+  console.log(movie);
+  console.log(newmovie);
+
+
+  async function submit() {
+    let data = {
+      ID: Number(id),
+      Name: newmovie.Name ?? "",
+      Release: newmovie.Release,
+      Length:
+        typeof newmovie.Length === "string"
+          ? parseInt(newmovie.Length)
+          : newmovie.Length, // Ensure Length is a number
+      Director: newmovie.Director ?? "",
+      Actor: newmovie.Actor ?? "",
+      Short_Story: newmovie.Short_Story ?? "",
+      TypemovieID:
+        typeof newmovie.TypemovieID === "string"
+          ? parseInt(newmovie.TypemovieID)
+          : newmovie.TypemovieID,
+      RateID:
+        typeof newmovie.RateID === "string"
+          ? parseInt(newmovie.RateID)
+          : newmovie.RateID,
+    };
+
+    let res = await UpdateMovie(data);
+
+    if (res.status) {
+      setAlertMessage("บันทึกข้อมูลสำเร็จ");
+      setSuccess(true);
+      setTimeout(function () {
+        navigate("/Showmovie");
+      }, 2000);
+    } else {
+      setAlertMessage(res.message);
+      setError(true);
+    }
+  }
   const handleChange = (event: SelectChangeEvent<number>) => {
-    const name = event.target.name as keyof typeof movie;
-    setMovie({
-      ...movie,
+    const name = event.target.name as keyof typeof newmovie;
+    setnewMovie({
+      ...newmovie,
       [name]: event.target.value,
     });
   };
@@ -64,82 +151,8 @@ function Modify() {
 
     const { value } = event.target;
 
-    setMovie({ ...newmovie, [id]: value });
+    setnewMovie({ ...newmovie, [id]: value });
   };
-  const [movies, setMovies] = React.useState<movieInterface[]>([]);
-  const [newmovie, setnewMovie] = React.useState<Partial<movieInterface>>({});
-  const [movie, setMovie] = React.useState<Partial<movieInterface>>({
-    ID: newmovie.ID,
-    Name: newmovie.Name,
-    Length: newmovie.Length,
-    Release: newmovie.Release,
-    Director: newmovie.Director,
-    Actor: newmovie.Actor,
-    Short_Story: newmovie.Short_Story,
-    TypemovieID: newmovie.TypemovieID,
-  });
-
-  const [Release, setRelease] = useState<Date | null>(null);
-  const [rates, setRates] = React.useState<RateInterface[]>([]);
-  const [typemovies, setTypemovies] = React.useState<TypeInterface[]>([]);
-  const [message, setAlertMessage] = React.useState("");
-  const [success, setSuccess] = React.useState(false);
-  const [error, setError] = React.useState(false);
-  const [active, setActive] = useState(false);
-  const getTypemovie = async () => {
-    let res = await GetTypemovie();
-    if (res) {
-      setTypemovies(res);
-    }
-  };
-  const getmovie = async () => {
-    let res = await GetMovie();
-    if (res) {
-      setMovies(res);
-    }
-  };
-  const getRatemovie = async () => {
-    let res = await GetRate();
-    if (res) {
-      setRates(res);
-    }
-  };
-  useEffect(() => {
-    getTypemovie();
-    getmovie();
-    getRatemovie();
-  }, []);
-
-  async function submit() {
-    let data = {
-      ID: newmovie.ID,
-      Name: newmovie.Name ?? "",
-      Release: newmovie.Release,
-      Length:
-        typeof newmovie.Length === "string" ? parseInt(newmovie.Length) : 0, // Ensure Length is a number
-      Director: newmovie.Director ?? "",
-      Actor: newmovie.Actor ?? "",
-      Short_Story: newmovie.Short_Story ?? "",
-      TypemovieID:
-        typeof newmovie.TypemovieID === "string"
-          ? parseInt(newmovie.TypemovieID)
-          : 0,
-      RateID: typeof movie.RateID === "string" ? parseInt(movie.RateID) : 0,
-    };
-
-    let res = await UpdateMovie(data);
-
-    if (res.status) {
-      setAlertMessage("บันทึกข้อมูลสำเร็จ");
-      setSuccess(true);
-    } else {
-      setAlertMessage(res.message);
-      setError(true);
-    }
-  }
-
-
-
   //-----------------------handler-------------------------------
   const handleDateChange: DatePickerProps["onChange"] = (date) => {
     if (date) {
@@ -203,29 +216,18 @@ function Modify() {
           <Button type="primary" onClick={submit}>
             submit
           </Button>
-          
         </div>
         <div className="grid-contrainer">
           <div className="grid  ">
             <div className="grid-item grid1">ชื่อภาพยนตร์</div>
             <div className="grid-item grid2">
-              <Select
-                id="TypemovieID"
-                className="comboboxbar"
-                native
-                value={newmovie?.TypemovieID}
-                onChange={handleChange}
-                inputProps={{
-                  name: "TypeMovieID",
-                }}
-              >
-                <option aria-label="None" value="">
-                  ชื่อภาพยนตร์
-                </option>
-                {movies.map((item: movieInterface) => (
-                  <option value={item.ID}>{item.Name}</option>
-                ))}
-              </Select>
+            <Input
+                id="Name"
+                className="inputbar"
+                placeholder="Basic usage"
+                value={newmovie?.Name || " "}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="grid-item grid3">ความยาวหนัง</div>
             <div className="grid-item grid4">
@@ -233,7 +235,7 @@ function Modify() {
                 id="Length"
                 className="inputbar"
                 placeholder="Basic usage"
-                value={newmovie?.Length}
+                value={newmovie?.Length || ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -260,31 +262,32 @@ function Modify() {
             <div className="grid-item grid7">วันที่ฉาย</div>
             <div className="grid-item grid8">
               <Space direction="vertical">
-                <DatePicker onChange={handleDateChange} />
+                <DatePicker id="Release" onChange={onChange}   />
                 {/* สร้าง DatePicker อื่น ๆ และกำหนด onChange ให้เป็น handleDateChange เช่นเดียวกัน */}
               </Space>
             </div>
             <div className="grid-item grid9">ผู้กำกับ</div>
             <div className="grid-item grid10">
-            <Input
-             
+              <Input
+              id="Director"
                 className="inputbar"
                 placeholder="Basic usage"
-                value={newmovie?.Director}
+                value={newmovie.Director || ""}
                 onChange={handleInputChange}
               />
             </div>
-            
+
             <div className="grid-item grid11">นักแสดงหลัก</div>
             <div className="grid-item grid12">
-            <Input
-                className="inputbar"
-                placeholder="Basic usage"
-                value={newmovie?.Actor}
-                onChange={handleInputChange}
+              <Input
+                  id="Actor"
+                  className="inputbar"
+                  value={newmovie.Actor || ""}
+                  onChange={handleInputChange}
+                  
               />
             </div>
-            
+
             <div className="grid-item grid13">โปสเตอร์</div>
             <div className="grid-item grid14">
               <Upload {...props}>
@@ -298,9 +301,9 @@ function Modify() {
             <div className="grid-item grid16">
               <Select
                 id="RateID"
-                className="Movielist"
+                className="comboboxbar"
                 native
-                value={movie.RateID}
+                value={newmovie.RateID}
                 onChange={handleChange}
                 inputProps={{
                   name: "RateID",
@@ -321,7 +324,7 @@ function Modify() {
                 <TextArea
                   id="Short_Story"
                   className="inputbar"
-                  value={movie.Short_Story || ""}
+                  value={newmovie.Short_Story || ""}
                   onChange={handleInputChange}
                   rows={4}
                 />

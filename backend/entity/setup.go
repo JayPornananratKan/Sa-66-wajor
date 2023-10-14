@@ -32,7 +32,6 @@ func SetupDatabase() {
 		&Checkin{},
 		&TicketNumber{},
 		&Payment{},
-
 	)
 	db = database
 
@@ -110,7 +109,8 @@ func SetupDatabase() {
 		Length:      120,
 		Release:     time.Date(2012, 8, 24, 0, 0, 0, 0, time.Now().Location()),
 		Director:    "guide",
-		Actor:      "jay",
+		Actor:       "jay",
+		Poster:      "",
 		Short_Story: "eiei",
 		Typemovie:   Horror,
 		Rate:        R,
@@ -122,21 +122,23 @@ func SetupDatabase() {
 		Length:      120,
 		Release:     time.Date(2012, 8, 24, 0, 0, 0, 0, time.Now().Location()),
 		Director:    "guide",
-		Actor:      "jay",
+		Actor:       "jay",
+		Poster:      "",
 		Short_Story: "eiei",
-		Typemovie:   Horror,
-		Rate:        G,
+
+		Typemovie: Horror,
+		Rate:      G,
 	})
 
 	Normal := TypeSeat{
 		TypeName: "Normal",
-		Price: 140,
+		Price:    140,
 	}
 	db.Model(&TypeSeat{}).Create(&Normal)
 
 	VIP := TypeSeat{
 		TypeName: "VIP",
-		Price: 200,
+		Price:    200,
 	}
 	db.Model(&TypeSeat{}).Create(&VIP)
 
@@ -157,13 +159,13 @@ func SetupDatabase() {
 
 	Admin1 := Admin{
 		Firstname: "Mr.Guide",
-		Lastname: "Kondee",
+		Lastname:  "Kondee",
 	}
 	db.Model(&Admin{}).Create(&Admin1)
 
 	Admin2 := Admin{
 		Firstname: "Buc.Jay",
-		Lastname: "Konsua",
+		Lastname:  "Konsua",
 	}
 	db.Model(&Admin{}).Create(&Admin2)
 

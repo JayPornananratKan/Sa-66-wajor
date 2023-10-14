@@ -62,7 +62,7 @@ type Movie struct {
 	Actor       string
 	Director    string
 	Short_Story string
-
+	Poster		string `gorm:"type:longtext"`
 	TypemovieID *uint
 	Typemovie   Typemovie
 	

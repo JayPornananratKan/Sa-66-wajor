@@ -35,8 +35,9 @@ func CreateMovie(c *gin.Context) {
 		Length:      movie.Length,
 		Release:     movie.Release,
 		Director:    movie.Director,
-		Actor:      movie.Actor,
+		Actor:       movie.Actor,
 		Short_Story: movie.Short_Story,
+		Poster:      movie.Poster,
 		Typemovie:   typee,
 		Rate:        rate,
 	}
@@ -82,12 +83,10 @@ func ListMovies(c *gin.Context) {
 		return
 	}
 
-	
 	if err := entity.DB().Preload("Rate").Raw("SELECT * FROM movies").Find(&movie).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	
 
 	c.JSON(http.StatusOK, gin.H{"data": movie})
 
@@ -131,4 +130,4 @@ func UpdateMovie(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": movie})
-	}
+}

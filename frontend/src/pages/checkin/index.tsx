@@ -48,6 +48,7 @@ function Checkin() {
 
   const [admins, setAdmins] = useState<AdminsInterface[]>([]);
   const [ticketnumbers, setTicketNumbers] = useState<TicketNumberInterface[]>([]);
+  const [ticketNum, setTicketNum] = useState("");
   const [checkin, setCheckin] = useState<Partial<CheckinInterface>>({
     // AdminID: 0,
     // TicketNumberID: 0,
@@ -102,25 +103,22 @@ function Checkin() {
     getTicketNumber();
     getCheckin();
   }, []);
-  console.log(admins);
-  console.log(ticketnumbers);
+
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
   };
 
-  console.log(admins);
-  console.log(ticketnumbers);
-
   async function submit() {
+    const selectedTicketNumber = ticketnumbers.find((ticket) => ticket.TicketNum === ticketNum);
 
     let data = {
-      TicketNumberID: 
-       typeof checkin.TicketNumberID === "string" ? parseInt(checkin.TicketNumberID) : checkin.TicketNumberID,
+      TicketNumberID: selectedTicketNumber?.ID,
+      //  typeof checkin.TicketNumberID === "string" ? parseInt(checkin.TicketNumberID) : checkin.TicketNumberID,
       AdminID: 
        typeof checkin.AdminID === "string" ? parseInt(checkin.AdminID) : checkin.AdminID,
     };
-    console.log("data" + data);
+
     let res = await CreateCheckin(data);
 
     if (res.status) {
@@ -176,10 +174,10 @@ function Checkin() {
           <div className="check-con">
             <div className="check-item">
               <h1 >รหัสตั๋ว</h1>
-              <Input id="TicketNumberID" className="inputbar" placeholder="Basic usage"  value={checkin.TicketNumberID} onChange={handleInputChange} />
+              <Input id="TicketNum" className="inputbar1" placeholder="กรอกรหัสตั๋ว"  value={ticketNum} onChange={(e) => setTicketNum(e.target.value)} />
 
               <h2 >รหัสประจำตัวแอดมิน</h2>
-              <Input id="AdminID" className="inputbar" placeholder="Basic usage"  value={checkin.AdminID} onChange={handleInputChange} />
+              <Input id="AdminID" className="inputbar1" placeholder="กรอก ID ของ Admin"  value={checkin.AdminID} onChange={handleInputChange} />
               {/* <input id="AdminID" type="text" className="ticket" placeholder="กรอกรหัสประจำตัวแอดมิน"  value={checkin.AdminID} onChange={handleInputChange} /> */}
             </div>
           </div>

@@ -146,25 +146,68 @@ func SetupDatabase() {
 	db.Model(&Theatre{}).Create(&C1)
 
 	Ticket1 := TicketNumber{
-		TicketNum: "55555",
+		TicketNum: "12345",
 	}
 	db.Model(&TicketNumber{}).Create(&Ticket1)
 
 	Ticket2 := TicketNumber{
-		TicketNum: "12345",
+		TicketNum: "67890",
 	}
 	db.Model(&TicketNumber{}).Create(&Ticket2)
+
+	Ticket3 := TicketNumber{
+		TicketNum: "55555",
+	}
+	db.Model(&TicketNumber{}).Create(&Ticket3)
+
+	Ticket4:= TicketNumber{
+		TicketNum: "66666",
+	}
+	db.Model(&TicketNumber{}).Create(&Ticket4)
 
 	Admin1 := Admin{
 		Firstname: "Mr.Guide",
 		Lastname: "Kondee",
+		Username: "mumu",
+		Email: "mumu@gmail.com",
+		Password: "Guide7003",
 	}
 	db.Model(&Admin{}).Create(&Admin1)
 
 	Admin2 := Admin{
 		Firstname: "Buc.Jay",
 		Lastname: "Konsua",
+		Username: "CpeJay",
+		Email: "Cpejay@gmail.com",
+		Password: "Jay9042",
 	}
 	db.Model(&Admin{}).Create(&Admin2)
+
+	Admin3 := Admin{
+		Firstname: "Koon.Pond",
+		Lastname: "Fanploy",
+		Username: "piwpiw007",
+		Email: "piwpiw@gmail.com",
+		Password: "Pond80",
+	}
+	db.Model(&Admin{}).Create(&Admin3)
+
+	Admin4 := Admin{
+		Firstname: "I.Ryu",
+		Lastname: "Supagruay",
+		Username: "Ryu",
+		Email: "ryu@gmail.com",
+		Password: "ryu2082",
+	}
+	db.Model(&Admin{}).Create(&Admin4)
+
+	Admin5 := Admin{
+		Firstname: "I.Susbee",
+		Lastname: "Heemaa",
+		Username: "BoE",
+		Email: "boe@gmail.com",
+		Password: "Bee50",
+	}
+	db.Model(&Admin{}).Create(&Admin5)
 
 }

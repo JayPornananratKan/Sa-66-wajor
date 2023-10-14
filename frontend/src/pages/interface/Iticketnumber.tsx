@@ -1,5 +1,5 @@
 export interface TicketNumberInterface {
     ID?: number;
-    TicketNum ?: string;
+    TicketNum?: string;
     PaymentID?: number;
   }

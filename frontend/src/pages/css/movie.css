@@ -4,19 +4,10 @@
     padding: 0;
     box-sizing: border-box;
   }
-  .app {
-    background-image: url("../../assets/cin3.jpg");
-    top: 0;
-    left: 0; /* Adjust the background size as needed */
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    
-  }
+
   .Contrainer {
     max-width: 1190px;
     margin: 0 auto;
-    height: 1000px;
   }
   
   .head {

@@ -17,7 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { movieInterface } from "../interface/Imovie";
 import { DeleteMovie, GetMovie } from "../service/httpClientService";
 import Navbar from "../../Navbar/navbar";
-
+import background from "../../assets/cin3.jpg"
 function Showmovie() {
   const columns: ColumnsType<movieInterface> = [
     {
@@ -154,10 +154,14 @@ function Showmovie() {
   }, []);
 
   return (
-    <div className="app">
+    <div className="App">
       <nav>
         <Navbar />
       </nav>
+      <section className="background">
+        <li><img src={background} alt="" /></li>
+      </section>
+
       <div className="Contrainer">
         {contextHolder}
 
@@ -173,7 +177,7 @@ function Showmovie() {
             rowKey="ID"
             columns={columns}
             dataSource={movie}
-            pagination={{ pageSize: 5 }}
+            pagination={{ pageSize: 3 }}
           />
         </div>
         <Modal
@@ -186,6 +190,9 @@ function Showmovie() {
           <p>{modalText}</p>
         </Modal>
       </div>
+      <footer>
+
+      </footer>
     </div>
   );
 }

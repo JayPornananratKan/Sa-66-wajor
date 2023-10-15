@@ -26,7 +26,7 @@ import {
 import type { DatePickerProps } from "antd";
 import { DatePicker, Space } from "antd";
 import { RateInterface } from "../interface/Irate";
-
+import background from "../../assets/cin3.jpg"
 const onChange: DatePickerProps["onChange"] = (date, dateString) => {
   console.log(date, dateString);
 };
@@ -158,7 +158,7 @@ function MovieIn() {
   };
   /* body */
   return (
-    <div className="app">
+    <div className="App">
       <Snackbar
         id="success"
         open={success}
@@ -184,6 +184,10 @@ function MovieIn() {
       <nav>
         <Navbar />
       </nav>
+      <section className="background">
+        <li><img src={background} alt="" /></li>
+      </section>
+
       <div className="Contrainer">
         <div className="head">
           <div>เพิ่มข้อมูลภาพยนตร์</div>

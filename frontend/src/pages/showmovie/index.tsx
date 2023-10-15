@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Space, Table, Button, Col, Row, Divider, Modal, message } from "antd";
+import {
+  Space,
+  Table,
+  Button,
+  Col,
+  Row,
+  Divider,
+  Modal,
+  message,
+  Image,
+} from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 
@@ -15,6 +25,23 @@ function Showmovie() {
       dataIndex: "ID",
       key: "id",
     },
+    {
+      title: "รูป",
+      dataIndex: "Poster",
+      key: "Poster",
+      render: (record) => {
+        console.log(record); // ใส่บรรทัดนี้เพื่อดูค่า record ใน console
+        return (
+          <Image
+            src={`${record}`}
+            className="w3-left w3-circle w3-margin-right"
+            width={100}
+            height={100}
+          />
+        );
+      },
+    },
+
     {
       title: "ชื่อภาพยนตร์",
       dataIndex: "Name",
@@ -46,13 +73,6 @@ function Showmovie() {
       dataIndex: "Short_Story",
       key: "Short_Story",
     },
-    // {
-    //   title: "ff",
-    //   dataIndex: "Typemovie",
-    //   key: "typemovie",
-    //   render: (item) => item.TypeNamemovie,
-    // },
-
     {
       title: "เรท",
       dataIndex: "Rate",
@@ -135,21 +155,26 @@ function Showmovie() {
 
   return (
     <div className="app">
-        <nav>
-          <Navbar />
-        </nav>
+      <nav>
+        <Navbar />
+      </nav>
       <div className="Contrainer">
         {contextHolder}
-            
-              <Link to="/moviesin">
-                <Button type="primary" icon={<PlusOutlined />}>
-                  สร้างข้อมูล
-                </Button>
-              </Link>
-            
+
+        <Link to="/moviesin">
+          <Button type="primary" icon={<PlusOutlined />}>
+            สร้างข้อมูล
+          </Button>
+        </Link>
+
         <Divider />
         <div style={{ marginTop: 20 }}>
-          <Table rowKey="ID" columns={columns}  dataSource={movie} />
+          <Table
+            rowKey="ID"
+            columns={columns}
+            dataSource={movie}
+            pagination={{ pageSize: 5 }}
+          />
         </div>
         <Modal
           title="ลบข้อมูล ?"

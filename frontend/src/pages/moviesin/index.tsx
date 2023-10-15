@@ -31,15 +31,6 @@ const onChange: DatePickerProps["onChange"] = (date, dateString) => {
   console.log(date, dateString);
 };
 
-const props: UploadProps = {
-  action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
-  onChange({ file, fileList }) {
-    if (file.status !== "uploading") {
-      console.log(file, fileList);
-    }
-  },
-};
-
 function MovieIn() {
   const { TextArea } = Input;
 
@@ -72,7 +63,7 @@ function MovieIn() {
   const [message, setAlertMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
-
+  const [Poster, setPoster] = useState("")
   const getTypemovie = async () => {
     let res = await GetTypemovie();
     if (res) {
@@ -107,6 +98,7 @@ function MovieIn() {
       Director: movie.Director ?? "",
       Castor: movie.Actor ?? "",
       Short_story: movie.Short_Story ?? "",
+      Poster: Poster,
       TypemovieID:
         typeof movie.TypemovieID === "string" ? parseInt(movie.TypemovieID) : 0,
       RateID: typeof movie.RateID === "string" ? parseInt(movie.RateID) : 0,
@@ -122,6 +114,27 @@ function MovieIn() {
       setError(true);
     }
   }
+  
+  const props: UploadProps = {
+    beforeUpload: (file) => {
+      const reader = new FileReader();
+  
+      reader.onload = (e) => {
+        if (e.target) {
+          const base64Image = e.target.result as string; // Ensure it's a string
+          setPoster(base64Image);
+        }
+      };
+  
+      reader.readAsDataURL(file);
+      return false; // Prevent automatic upload
+    },
+    onChange: (info) => {
+      console.log(info.fileList);
+    },
+  };
+  
+  
 
   // -------------------headler------------------------------------
   const handleDateChange: DatePickerProps["onChange"] = (date, dateString) => {
@@ -249,9 +262,7 @@ function MovieIn() {
             <div className="grid-item grid13">โปสเตอร์</div>
             <div className="grid-item grid14">
               <Upload {...props}>
-                <Button className="uploadbar" icon={<UploadOutlined />}>
-                  Upload
-                </Button>
+                <Button icon={<UploadOutlined />}>Upload png only</Button>
               </Upload>
             </div>
             <div className="grid-item grid15">เรทหนัง</div>

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../App.css';
 import './checkin.css';
-import logo from "../../assets/logo.png"
-import กู from "../../assets/กู.png"
-import ก็กู from "../../assets/ก็กู.jpg"
 import background from "../../assets/cin3.jpg"
 import Navbar from '../../Navbar/navbar';
 import { CheckinInterface } from '../interface/Icheckin';
@@ -12,18 +9,9 @@ import { Input } from 'antd';
 import { AdminsInterface } from '../interface/Iadmin';
 
 //--------------------------------------------------------//
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import TextField from "@mui/material/TextField";
+
 // import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 // import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -111,12 +99,21 @@ function Checkin() {
 
   async function submit() {
     const selectedTicketNumber = ticketnumbers.find((ticket) => ticket.TicketNum === ticketNum);
+    const currentTimestamp = Date.now();
+    const currentDate = new Date(currentTimestamp);
+  
+    if (!selectedTicketNumber) {
+      setAlertMessage("ไม่พบข้อมูลตั๋วที่ระบุ");
+      setError(true);
+      return;
+    }
 
     let data = {
       TicketNumberID: selectedTicketNumber?.ID,
       //  typeof checkin.TicketNumberID === "string" ? parseInt(checkin.TicketNumberID) : checkin.TicketNumberID,
       AdminID: 
        typeof checkin.AdminID === "string" ? parseInt(checkin.AdminID) : checkin.AdminID,
+      Datie: currentDate,
     };
 
     let res = await CreateCheckin(data);

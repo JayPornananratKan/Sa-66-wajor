@@ -34,7 +34,7 @@ type Booking struct {
 
 type Checkin struct {
 	gorm.Model
-	// Datie time.Time
+	Datie time.Time
 
 	TicketNumberID *uint
 	TicketNumber   TicketNumber

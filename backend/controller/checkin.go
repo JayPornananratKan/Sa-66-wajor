@@ -39,7 +39,7 @@ func CreateCheckin(c *gin.Context) {
     ch := entity.Checkin{
     	Admin:      admin,            // โยงความสัมพันธ์กับ Entity Resolution
     	TicketNumber:    ticket,               // โยงความสัมพันธ์กับ Entity Video         // โยงความสัมพันธ์กับ Entity Playlist
-    	// Datie: checkin.Datie,    // ตั้งค่าฟิลด์ watchedTime
+    	Datie: checkin.Datie,    // ตั้งค่าฟิลด์ watchedTime
     }
 
     // 13: บันทึก

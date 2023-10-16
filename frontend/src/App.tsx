@@ -8,6 +8,8 @@ import ManageShow from './pages/manageShow';
 import Modify from './pages/modify';
 import MoviesIn from './pages/moviesin';
 import Showmovie from './pages/showmovie';
+import CreateShowTime from './pages/createshowtime';
+import ModifyShowTime from './pages/modifyshowtime';
 
 
 const App = () => (
@@ -18,6 +20,8 @@ const App = () => (
       <Route path="/moviesin" element={<MoviesIn />} />
       <Route path="/modify/:id" element={<Modify />} />
       <Route path="/manageShow" element={<ManageShow />} />
+      <Route path="/createshowtime" element={<CreateShowTime />} />
+      <Route path="/modifyshowtime" element={<ModifyShowTime />} />
       <Route path="/checkin" element={<Checkin />} />
       <Route path="/showmovie" element={<Showmovie />} />
     </Routes>

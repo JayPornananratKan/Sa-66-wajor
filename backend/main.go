@@ -35,11 +35,17 @@ func main() {
 	entity.SetupDatabase()
 	r := gin.Default()
 	r.Use(CORSMiddleware())
+	//-------bee--------
+	r.POST("/showtimes", controller.CreateShowtimes)
+    r.GET("/showtime", controller.GetAllShowtime)
+    r.GET("/showtime/:id", controller.GetShowtimeByID)
+    r.DELETE("/showtimes/:id", controller.DeleteShowtime)
+    r.GET("/theatre", controller.GetTheatre)
 	//-------pond-------
 	r.POST("/bookings", controller.CreateBooking)
 
-	r.GET("/showtime", controller.GetAllShowtime)
-	r.GET("/showtime/:id", controller.GetShowtimeByID)
+	// r.GET("/showtime", controller.GetAllShowtime)
+	// r.GET("/showtime/:id", controller.GetShowtimeByID)
 
 	r.GET("/seat", controller.GetAllSeat)
 	r.GET("/seat/:id", controller.GetSeatByID)

@@ -137,7 +137,7 @@ function Payment() {
 
         setTimeout(function () {
           navigate(`/ticketnumber/${paymentID}`);
-        }, 2000);
+        }, 1000);
 
         const ticketNumber = generateRandomString(13); // สร้างสตริงสุ่ม 13 ตัว
         const ticketData: TicketNumberInterface = {

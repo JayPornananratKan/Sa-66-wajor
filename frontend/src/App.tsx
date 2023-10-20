@@ -14,6 +14,7 @@ import Payment from './pages/payment';
 import { PaymentInterface } from './pages/interface/Ipayment';
 import TicketNumber from './pages/ticketnumber';
 import Showmovie from './pages/showmovie';
+import CreateShowTime from './pages/createshowtime';
 
 
 
@@ -50,10 +51,12 @@ const App = () =>{
       <Route path="/moviesin" element={<MoviesIn />} />
       <Route path="/modify/:id" element={<Modify />} />
       <Route path="/manageShow" element={<ManageShow />} />
+      <Route path="/createShowtime" element={<CreateShowTime />} />
       <Route path="/checkin" element={<Checkin />} />
       <Route path="/seat" element={<SeatComp setData={setData} Bookdata={data}/>} /> 
       <Route path="/payment" element={<Payment/>} />
       <Route path="/ticketnumber/:paymentID" element={<TicketNumber />} />
+
     </Routes>
     
   </Router>  

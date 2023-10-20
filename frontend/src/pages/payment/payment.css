@@ -141,12 +141,11 @@ section{
 }
 
 .confirm-button{
-    
     font-family: 'Noto Sans Thai';
     font-weight: 500;
     display: flex;
     z-index: 2;
-    position: absolute;
+    position: relative;
     margin-top: 60px;
     margin-left: 1245px;
     background-color: #c59c49;

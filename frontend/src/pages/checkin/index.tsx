@@ -36,6 +36,7 @@ function Checkin() {
 
   const [admins, setAdmins] = useState<AdminsInterface[]>([]);
   const [ticketnumbers, setTicketNumbers] = useState<TicketNumberInterface[]>([]);
+  const [checkins, setCheckins] = useState<CheckinInterface[]>([]);
   const [ticketNum, setTicketNum] = useState("");
   const [checkin, setCheckin] = useState<Partial<CheckinInterface>>({
     // AdminID: 0,
@@ -103,6 +104,14 @@ function Checkin() {
       return;
     }
 
+    const isAlreadyCheckedIn = checkins.some(checkin => checkin.TicketNumberID === selectedTicketNumber.ID);
+
+  if (isAlreadyCheckedIn) {
+    setAlertMessage("TicketNumber นี้เช็คอินไปแล้ว");
+    setError(true);
+    return;
+  }
+  
     let data = {
       TicketNumberID: selectedTicketNumber?.ID,
       //  typeof checkin.TicketNumberID === "string" ? parseInt(checkin.TicketNumberID) : checkin.TicketNumberID,
@@ -114,8 +123,9 @@ function Checkin() {
     let res = await CreateCheckin(data);
 
     if (res.status) {
-      setAlertMessage("บันทึกข้อมูลสำเร็จ");
-      setSuccess(true);
+
+        setAlertMessage("บันทึกข้อมูลสำเร็จ");
+        setSuccess(true);
     } else {
       setAlertMessage(res.message);
       setError(true);

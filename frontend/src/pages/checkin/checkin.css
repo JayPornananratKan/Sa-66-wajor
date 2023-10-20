@@ -20,9 +20,16 @@
 .title{
     display: flex;
     padding-top: 3rem;
-    font-size: 2rem;
+    /* font-size: 2rem;
     font-family: 'Noto Sans Thai';
-    font-weight: 300;
+    font-weight: 200;
+    color: #fff; */
+}
+
+.title h1{
+    font-size: 3rem;
+    font-family: 'Noto Sans Thai';
+    font-weight: 400;
     color: #fff;
 }
 
@@ -39,13 +46,14 @@
     text-decoration: none;
     color: #fff;
     font-family: 'Noto Sans Thai';
-    font-size: 12px;
+
 }
 
 .check-item h1{
     text-decoration: none;
     color: #fff;
     font-family: 'Noto Sans Thai';
+    font-weight: 400;
     font-size: 18px;
     letter-spacing: 1px;
 }
@@ -55,6 +63,7 @@
     text-decoration: none;
     color: #fff;
     font-family: 'Noto Sans Thai';
+    font-weight: 400;
     font-size: 18px;
     letter-spacing: 1px;
 }
@@ -86,12 +95,22 @@
 }
 
 .inputbar1 {
-    border: 2px solid #c4aa55;
-    background-color: #032842;
-    color: aliceblue;
+    /* border: 2px solid #c4aa55; */
+    background-color: #fff;
+    color: #333;
+    font-weight: 600;
+    width:190%;
+    padding-left: 12px;
+  
+}
+
+.inputbar1::placeholder  {
+    font-family: 'Noto Sans Thai';
+    color: rgba(5, 31, 50, 0.7);
+    font-weight: 500;
     width:180%;
   
-  }
+}
 
 
 .InputField::placeholder {
@@ -112,6 +131,19 @@
     list-style: none;
     
 }
+
+.checkin-butt li a{
+    font-family: 'Noto Sans Thai';
+    font-weight: 400;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    letter-spacing: 0.5px;
+    
+}
+
 .confirm_butt{
     display: flex;
     justify-content: center;

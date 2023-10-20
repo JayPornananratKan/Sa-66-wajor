@@ -45,11 +45,11 @@ type Checkin struct {
 
 type Member struct {
 	gorm.Model
-	Firstname string
+	Firstname string	
 	Lastname  string
-	Username  string
-	Password  string
-	Email     string
+	Username  string 
+	Password  string 
+	Email     string 
 
 	Booking []Booking `gorm:"foreignKey:MemberID"`
 }
@@ -76,9 +76,9 @@ type Movie struct {
 
 type Payment struct {
 	gorm.Model
-	Price  int
+	Amount  int
 	Datie  time.Time
-	Status string
+	Bill string
 
 	BookingID *uint
 	Booking   Booking
@@ -93,7 +93,7 @@ type Seat struct {
 	Status  string
 
 	TypeSeatID *uint
-	TypeSeat   TypeSeat
+	TypeSeat   TypeSeat 
 
 	Booking []Booking `gorm:"foreignKey:SeatID"`
 }
@@ -102,6 +102,7 @@ type Showtime struct {
 	gorm.Model
 
 	Datie time.Time
+    Time string
 
 	MovieID *uint
 	Movie   Movie
@@ -122,7 +123,7 @@ type Theatre struct {
 type TicketNumber struct {
 	gorm.Model
 
-	TicketNum string
+	TicketNum string `gorm:"uniqueIndex"`
 
 	PaymentID *uint
 	Payment   Payment
@@ -144,6 +145,7 @@ type TypeSeat struct {
 	Price    int
 
 	Seat []Seat `gorm:"foriegnKey:TypeSeatID"`
+
 }
 
 type Rate struct{

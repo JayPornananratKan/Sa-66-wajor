@@ -11,7 +11,7 @@ import (
 func GetMemberByID(c *gin.Context){
 	var memberID []entity.Member 
 	id := c.Param("id")
-	err := entity.DB().Preload("memberID").First(&memberID, id).Error
+	err := entity.DB().First(&memberID, id).Error
 	if !isError(err,c){
 		c.JSON(http.StatusOK, gin.H{"data": memberID})
 	}

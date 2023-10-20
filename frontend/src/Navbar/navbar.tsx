@@ -8,26 +8,25 @@ function Navbar() {
   return (
     <nav>
       <div className="logo">
-                    <a href="/"><img src={logo} alt="" /></a>
-                </div>
+          <a href="/"><img src={logo} alt="" /></a>
+      </div>
 
-                <ul className="menu">
-                    <li><a href="/">หน้าหลัก</a></li>
-                    <li><a href="/showmovie">จัดการข้อมูล</a></li>
-                    <li><a href="/manageShow">จัดการรอบฉาย</a></li>
-                    <li><a href="/checkIn">เช็คอิน</a></li>
+      <ul className="menu">
+          <li><a href="/mainAdmin">หน้าหลัก</a></li>
+          <li><a href="/modify">จัดการข้อมูล</a></li>
+          <li><a href="/manageShow">จัดการรอบฉาย</a></li>
+          <li><a href="/checkin">เช็คอิน</a></li>
+      </ul>
 
-                </ul>
+        <div className="profile">
+          <div className="name">
+            <a>Hi, Admin</a>
+          </div>
 
-                <div className="profile">
-                    <div className="name">
-                        <a>Hi, NuiGuide</a>
-                    </div>
-
-                    <div className="logo2">
-                        <a href="/login"><img src={กู} alt="" /></a>
-                    </div>
-                </div>
+          <div className="logo2">
+            <a href="/"><img src={กู} alt="" /></a>
+          </div>
+        </div>
     </nav>
   );
 }

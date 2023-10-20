@@ -19,7 +19,7 @@ func GetAllSeat(c *gin.Context) {
 func GetSeatByID(c *gin.Context) {
     var seat entity.Seat
     id := c.Param("id")
-    err := entity.DB().Preload("typeseat").First(&seat, id).Error
+    err := entity.DB().Preload("Typeseat").First(&seat, id).Error
     if !isError(err, c) {
         c.JSON(http.StatusOK, gin.H{"data": seat})
     }

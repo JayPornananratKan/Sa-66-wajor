@@ -92,11 +92,6 @@ function Checkin() {
     getCheckin();
   }, []);
 
-  const convertType = (data: string | number | undefined) => {
-    let val = typeof data === "string" ? parseInt(data) : data;
-    return val;
-  };
-
   async function submit() {
     const selectedTicketNumber = ticketnumbers.find((ticket) => ticket.TicketNum === ticketNum);
     const currentTimestamp = Date.now();

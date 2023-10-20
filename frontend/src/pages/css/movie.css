@@ -37,7 +37,7 @@
   .grid {
     display: grid;
     grid-template-columns: 150px 300px 150px 300px;
-    grid-template-rows: repeat(6, minmax(40px, 1fr));
+    grid-template-rows: repeat(5, minmax(40px, 1fr));
     grid-column-gap: 1rem;
     grid-row-gap: 1rem;
     margin-left: 5rem;
@@ -45,7 +45,7 @@
     width: 100%;
     color: #fff;
   }
-  .grid-item.grid1, .grid-item.grid3, .grid-item.grid5, .grid-item.grid7 ,.grid-item.grid9 , .grid-item.grid11,.grid-item.grid13,.grid-item.grid15{
+  .grid-item.grid1, .grid-item.grid3, .grid-item.grid5, .grid-item.grid7 ,.grid-item.grid9 , .grid-item.grid11,.grid-item.grid13,.grid-item.grid15.grid-item.grid17{
     justify-self: center;
   
   }

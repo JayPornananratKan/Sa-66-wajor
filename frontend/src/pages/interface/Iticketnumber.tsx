@@ -5,4 +5,5 @@ export interface TicketNumberInterface{
     TicketNum?:string;
     PaymentID?:number;
     Payment?:PaymentInterface;
+    Status?: "Checked" | "Uncheck";
 }

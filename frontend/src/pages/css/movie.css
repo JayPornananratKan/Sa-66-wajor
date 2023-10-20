@@ -9,6 +9,10 @@
     max-width: 1190px;
     margin: 0 auto;
   }
+
+  .ant-pagination .ant-pagination-item a{
+    color: white;
+  }
   
   .head {
     display: flex;

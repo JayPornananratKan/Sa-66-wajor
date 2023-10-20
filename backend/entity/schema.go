@@ -124,7 +124,8 @@ type TicketNumber struct {
 
 	PaymentID *uint
 	Payment   Payment
-
+	
+	Status string
 	Checkin []Checkin `gorm:"foreignKey:TicketNumberID"`
 }
 

@@ -47,6 +47,11 @@ func CreateCheckin(c *gin.Context) {
     	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
     	return
     }
+
+	entity.DB().Where("id = ?", checkin.TicketNumberID).First(&ticket)
+	ticket.Status = "Checked"
+	entity.DB().Save(&ticket)
+
     c.JSON(http.StatusOK, gin.H{"data": ch})
 }
 
@@ -76,36 +81,4 @@ func  GetCheckin(c *gin.Context) {
 }
 
 
-
-// DELETE /checkins/:id
-func DeleteCheckin(c *gin.Context) {
-	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM checkins WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "checkin not found"})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": id})
-}
-
-// PATCH /checkins
-func UpdateCheckin(c *gin.Context) {
-	var checkin entity.Checkin
-	if err := c.ShouldBindJSON(&checkin); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if tx := entity.DB().Where("id = ?", checkin.ID).First(&checkin); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "video not found"})
-		return
-	}
-
-	if err := entity.DB().Save(&checkin).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": checkin})
-}
 

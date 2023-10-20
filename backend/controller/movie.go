@@ -76,20 +76,14 @@ func GetMovie(c *gin.Context) {
 // GET  movies
 
 func ListMovies(c *gin.Context) {
+    var movies []entity.Movie
 
-	var movie []entity.Movie
-	if err := entity.DB().Preload("Typemovie").Raw("SELECT * FROM movies").Find(&movie).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+    if err := entity.DB().Preload("Typemovie").Preload("Rate").Find(&movies).Error; err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
 
-	if err := entity.DB().Preload("Rate").Raw("SELECT * FROM movies").Find(&movie).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": movie})
-
+    c.JSON(http.StatusOK, gin.H{"data": movies})
 }
 
 // DELETE  movies/:id

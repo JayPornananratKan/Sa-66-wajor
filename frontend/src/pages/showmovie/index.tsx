@@ -1,24 +1,62 @@
 import React, { useState, useEffect } from "react";
-import {
-  Space,
-  Table,
-  Button,
-  Col,
-  Row,
-  Divider,
-  Modal,
-  message,
-  Image,
-} from "antd";
+import { Table, Button, Divider, Modal, message, Image } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-
 import { Link, useNavigate } from "react-router-dom";
 import { movieInterface } from "../interface/Imovie";
 import { DeleteMovie, GetMovie } from "../service/httpClientService";
 import Navbar from "../../Navbar/navbar";
-import background from "../../assets/cin3.jpg"
+import background from "../../assets/cin3.jpg";
 function Showmovie() {
+  const navigate = useNavigate();
+  const [movie, setMovie] = useState<movieInterface[]>([]);
+  const [messageApi, contextHolder] = message.useMessage();
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState<String>();
+  const [deleteId, setDeleteId] = useState<Number>();
+
+  const getmovie = async () => {
+    let res = await GetMovie();
+
+    if (res) {
+      setMovie(res);
+    }
+  };
+  const showModal = (val: movieInterface) => {
+    setModalText(`คุณต้องการลบข้อมูลผู้ใช้ "${val.Name} หรือไม่ ?`);
+    setDeleteId(val.ID);
+    setOpen(true);
+  };
+
+  const handleOk = async () => {
+    setConfirmLoading(true);
+    let res = await DeleteMovie(deleteId);
+    if (res) {
+      setOpen(false);
+      messageApi.open({
+        type: "success",
+        content: "ลบข้อมูลสำเร็จ",
+      });
+      getmovie();
+    } else {
+      setOpen(false);
+      messageApi.open({
+        type: "error",
+        content: "เกิดข้อผิดพลาด !",
+      });
+    }
+    setConfirmLoading(false);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    getmovie();
+  }, []);
+
   const columns: ColumnsType<movieInterface> = [
     {
       title: "ลำดับ",
@@ -30,7 +68,6 @@ function Showmovie() {
       dataIndex: "Poster",
       key: "Poster",
       render: (record) => {
-        console.log(record); // ใส่บรรทัดนี้เพื่อดูค่า record ใน console
         return (
           <Image
             src={`${record}`}
@@ -46,6 +83,12 @@ function Showmovie() {
       title: "ชื่อภาพยนตร์",
       dataIndex: "Name",
       key: "name",
+    },
+    {
+      title: "ประเภทภาพยนตร์",
+      dataIndex: "Typemovie",
+      key: "typemovie",
+      render: (record) => record.TypeName,
     },
     {
       title: "ความยาวหนัง",
@@ -71,8 +114,9 @@ function Showmovie() {
     {
       title: "เรื่องย่อ",
       dataIndex: "Short_Story",
-      key: "Short_Story",
+      key: "short_Story",
     },
+
     {
       title: "เรท",
       dataIndex: "Rate",
@@ -104,62 +148,16 @@ function Showmovie() {
     },
   ];
 
-  const navigate = useNavigate();
-  const [movie, setMovie] = useState<movieInterface[]>([]);
-  const [messageApi, contextHolder] = message.useMessage();
-  const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState<String>();
-  const [deleteId, setDeleteId] = useState<Number>();
-
-  const getMovie = async () => {
-    let res = await GetMovie();
-    if (res) {
-      setMovie(res);
-    }
-  };
-
-  const showModal = (val: movieInterface) => {
-    setModalText(`คุณต้องการลบข้อมูลผู้ใช้ "${val.Name} หรือไม่ ?`);
-    setDeleteId(val.ID);
-    setOpen(true);
-  };
-
-  const handleOk = async () => {
-    setConfirmLoading(true);
-    let res = await DeleteMovie(deleteId);
-    if (res) {
-      setOpen(false);
-      messageApi.open({
-        type: "success",
-        content: "ลบข้อมูลสำเร็จ",
-      });
-      getMovie();
-    } else {
-      setOpen(false);
-      messageApi.open({
-        type: "error",
-        content: "เกิดข้อผิดพลาด !",
-      });
-    }
-    setConfirmLoading(false);
-  };
-
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    getMovie();
-  }, []);
-
+  console.log(movie);
   return (
     <div className="App">
       <nav>
         <Navbar />
       </nav>
       <section className="background">
-        <li><img src={background} alt="" /></li>
+        <li>
+          <img src={background} alt="" />
+        </li>
       </section>
 
       <div className="Contrainer">
@@ -190,9 +188,7 @@ function Showmovie() {
           <p>{modalText}</p>
         </Modal>
       </div>
-      <footer>
-
-      </footer>
+      <footer></footer>
     </div>
   );
 }

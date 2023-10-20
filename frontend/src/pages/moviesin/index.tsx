@@ -232,7 +232,7 @@ function MovieIn() {
                   ประเภทภาพยนตร์
                 </option>
                 {typemovies.map((item: TypeInterface) => (
-                  <option value={item.ID}>{item.TypeNamemovie}</option>
+                  <option value={item.ID}>{item.TypeName}</option>
                 ))}
               </Select>
             </div>

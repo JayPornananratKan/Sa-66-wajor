@@ -38,42 +38,42 @@ func SetupDatabase() {
 
 	//-----------------Type-----------------------
 	Horror := Typemovie{
-		TypeNamemovie: "Horror",
+		TypeName: "Horror",
 	}
 	db.Model(&Typemovie{}).Create(&Horror)
 
 	Action := Typemovie{
-		TypeNamemovie: "Action",
+		TypeName: "Action",
 	}
 	db.Model(&Typemovie{}).Create(&Action)
 
 	Romantic := Typemovie{
-		TypeNamemovie: "Romantic",
+		TypeName: "Romantic",
 	}
 	db.Model(&Typemovie{}).Create(&Romantic)
 
 	comedy := Typemovie{
-		TypeNamemovie: "comedy",
+		TypeName: "comedy",
 	}
 	db.Model(&Typemovie{}).Create(&comedy)
 
 	fantasy := Typemovie{
-		TypeNamemovie: "fantasy",
+		TypeName: "fantasy",
 	}
 	db.Model(&Typemovie{}).Create(&fantasy)
 
 	drama := Typemovie{
-		TypeNamemovie: "drama",
+		TypeName: "drama",
 	}
 	db.Model(&Typemovie{}).Create(&drama)
 
 	animation := Typemovie{
-		TypeNamemovie: "animation",
+		TypeName: "animation",
 	}
 	db.Model(&Typemovie{}).Create(&animation)
 
 	documentary := Typemovie{
-		TypeNamemovie: "documentary",
+		TypeName: "documentary",
 	}
 	db.Model(&Typemovie{}).Create(&documentary)
 

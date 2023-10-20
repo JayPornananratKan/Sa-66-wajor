@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../css/movie.css";
-import {
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
@@ -19,11 +16,10 @@ import {
   UpdateMovie,
 } from "../service/httpClientService";
 import type { DatePickerProps } from "antd";
-import { DatePicker} from "antd";
-import dayjs from 'dayjs';
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 import { RateInterface } from "../interface/Irate";
 import background from "../../assets/cin3.jpg";
-
 
 function Modify() {
   const { TextArea } = Input;
@@ -68,12 +64,11 @@ function Modify() {
     let res = await GetMovieById(Number(id));
     if (res) {
       setnewMovie(res);
-      
+
       setPoster(res.Poster);
     }
   };
   useEffect(() => {
-    
     getmoviebyid();
     getTypemovie();
     getRatemovie();
@@ -82,29 +77,18 @@ function Modify() {
   console.log(movie);
   console.log(newmovie);
 
-  const handleDateChange: DatePickerProps['onChange'] = (date, dateString) => {
+  const handleDateChange: DatePickerProps["onChange"] = (date, dateString) => {
     if (date) {
       const dateAsDate = date.toDate();
-  
-      // Update the Release state
       setRelease(dateAsDate);
-  
-      // Update the movie state with the new Release value
-      setMovie({ ...movie, Release: dateAsDate });
-    } else {
-      // If the date is cleared, update both the Release and movie states to null
-      setRelease(null);
-      setMovie({ ...movie, Release: null });
     }
   };
   
-
-
   async function submit() {
     let data = {
       ID: Number(id),
       Name: newmovie.Name ?? "",
-       Release: movie.Release,
+      Release: newmovie.Release,
       Length:
         typeof newmovie.Length === "string"
           ? parseInt(newmovie.Length)
@@ -159,7 +143,7 @@ function Modify() {
   const handleChange = (event: SelectChangeEvent<number>) => {
     const name = event.target.name as keyof typeof newmovie;
     setnewMovie({
-      ...newmovie, 
+      ...newmovie,
       [name]: event.target.value,
     });
   };
@@ -261,40 +245,38 @@ function Modify() {
             </div>
             <div className="grid-item grid5">ประเภทภาพยนตร์</div>
             <div className="grid-item grid6">
-              <Select
-                id="TypeMovieID"
+            <Select
                 className="comboboxbar"
                 native
-                value={newmovie?.TypemovieID }
+                value={newmovie?.TypemovieID}
                 onChange={handleChange}
                 inputProps={{
-                  name: "TypeMovieID",
+                  name: "TypemovieID",
                 }}
               >
                 <option aria-label="None" value="">
-                  ประเภทภาพยนตร์
+                  เรทหนัง
                 </option>
                 {typemovies.map((item: TypeInterface) => (
                   <option value={item.ID}>{item.TypeNamemovie}</option>
                 ))}
               </Select>
+              
             </div>
             <div className="grid-item grid7">วันที่ฉาย</div>
             <div className="grid-item grid8">
-        <DatePicker
-          id="Release"
-          name="Release"
-          onChange={handleDateChange}
-          value={Release ? dayjs(Release) : null}
-        />
-        {/* Render the selected release date */}
-        <div>
-          Selected Release Date:{" "}
-          {Release
-            ? Release.toString()
-            : "No date selected"}
-        </div>
-      </div>
+              <DatePicker
+                id="Release"
+                name="Release"
+                onChange={handleDateChange}
+                value={Release ? dayjs(Release) : null}
+              />
+              {/* Render the selected release date */}
+              <div>
+                Selected Release Date:{" "}
+                {Release ? Release.toString() : "No date selected"}
+              </div>
+            </div>
             <div className="grid-item grid9">ผู้กำกับ</div>
             <div className="grid-item grid10">
               <Input
@@ -365,7 +347,3 @@ function Modify() {
   );
 }
 export default Modify;
-
-
-
-

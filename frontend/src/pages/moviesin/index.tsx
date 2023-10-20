@@ -220,7 +220,7 @@ function MovieIn() {
             <div className="grid-item grid5">ประเภทภาพยนตร์</div>
             <div className="grid-item grid6">
               <Select
-                className="Movielist"
+                className="comboboxbar"
                 native
                 value={movie.TypemovieID}
                 onChange={handleChange}
@@ -280,7 +280,7 @@ function MovieIn() {
                   name: "RateID",
                 }}
               >
-                <option aria-label="None" value="">
+                <option aria-label="None" value="" >
                   เรทหนัง
                 </option>
                 {rates.map((item: RateInterface) => (
@@ -297,7 +297,7 @@ function MovieIn() {
                   className="inputbar"
                   value={movie.Short_Story || ""}
                   onChange={handleInputChange}
-                  rows={4}
+                  rows={2}
                 />
                 <br />
                 <br />

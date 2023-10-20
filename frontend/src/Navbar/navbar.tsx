@@ -13,7 +13,7 @@ function Navbar() {
 
       <ul className="menu">
           <li><a href="/mainAdmin">หน้าหลัก</a></li>
-          <li><a href="/modify">จัดการข้อมูล</a></li>
+          <li><a href="/showmovie">จัดการข้อมูล</a></li>
           <li><a href="/manageShow">จัดการรอบฉาย</a></li>
           <li><a href="/checkin">เช็คอิน</a></li>
       </ul>

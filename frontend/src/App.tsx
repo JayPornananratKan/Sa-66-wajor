@@ -13,6 +13,7 @@ import MainUser from './pages/mainUser';
 import Payment from './pages/payment';
 import { PaymentInterface } from './pages/interface/Ipayment';
 import TicketNumber from './pages/ticketnumber';
+import Showmovie from './pages/showmovie';
 
 
 
@@ -45,8 +46,9 @@ const App = () =>{
       <Route path="/" element={<Login />} />
       <Route path="/mainUser" element={<MainUser setData={setData}/>} />
       <Route path="/mainAdmin" element={<MainAdmin setData={setData}/>} />
+      <Route path="/showmovie" element={<Showmovie />} />
       <Route path="/moviesin" element={<MoviesIn />} />
-      <Route path="/modify" element={<Modify />} />
+      <Route path="/modify/:id" element={<Modify />} />
       <Route path="/manageShow" element={<ManageShow />} />
       <Route path="/checkin" element={<Checkin />} />
       <Route path="/seat" element={<SeatComp setData={setData} Bookdata={data}/>} /> 

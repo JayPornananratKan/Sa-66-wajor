@@ -42,7 +42,6 @@ function Checkin() {
     // AdminID: 0,
     // TicketNumberID: 0,
   });
-  const [Datie, setDatie] = useState<Date | null>(null);
   const [message, setAlertMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -103,15 +102,8 @@ function Checkin() {
       setError(true);
       return;
     }
-
-    const isAlreadyCheckedIn = checkins.some(checkin => checkin.TicketNumberID === selectedTicketNumber.ID);
-
-  if (isAlreadyCheckedIn) {
-    setAlertMessage("TicketNumber นี้เช็คอินไปแล้ว");
-    setError(true);
-    return;
-  }
-  
+    
+    
     let data = {
       TicketNumberID: selectedTicketNumber?.ID,
       //  typeof checkin.TicketNumberID === "string" ? parseInt(checkin.TicketNumberID) : checkin.TicketNumberID,

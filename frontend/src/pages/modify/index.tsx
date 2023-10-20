@@ -1,61 +1,46 @@
 import React, { useState, useEffect } from "react";
 import "../css/movie.css";
-import { BrowserRouter, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
 import { Button, Upload } from "antd";
 import Navbar from "../../Navbar/navbar";
-import {
-  Alert,
-  Select,
-  SelectChangeEvent,
-  Snackbar,
-} from "@mui/material";
+import { Alert, Select, SelectChangeEvent, Snackbar } from "@mui/material";
 import { movieInterface } from "../interface/Imovie";
 import { TypeInterface } from "../interface/Itype";
 import {
-
   GetMovieById,
   GetRate,
   GetTypemovie,
   UpdateMovie,
 } from "../service/httpClientService";
 import type { DatePickerProps } from "antd";
-import { DatePicker, Space } from "antd";
-
+import { DatePicker} from "antd";
+import dayjs from 'dayjs';
 import { RateInterface } from "../interface/Irate";
-import background from "../../assets/cin3.jpg"
-const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-  console.log(date, dateString);
-  
-};
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
-
-
-
+import background from "../../assets/cin3.jpg";
 
 
 function Modify() {
   const { TextArea } = Input;
   const { id } = useParams();
   const navigate = useNavigate();
-  const [oldmovie, setoldMovie] = React.useState<Partial<movieInterface>>({});
+  const [newmovie, setnewMovie] = React.useState<Partial<movieInterface>>({});
   const [movie, setMovie] = React.useState<Partial<movieInterface>>({
     ID: Number(id),
-    Name: oldmovie.Name,
-    Length: oldmovie.Length,
-    Release: oldmovie.Release,
-    Director: oldmovie.Director,
-    Actor: oldmovie.Actor,
-    Short_Story: oldmovie.Short_Story,
-    Poster: oldmovie.Poster,
-    TypemovieID: oldmovie.TypemovieID,
-    RateID: oldmovie.RateID,
+    Name: newmovie.Name,
+    Length: newmovie.Length,
+    Release: newmovie.Release,
+    Director: newmovie.Director,
+    Actor: newmovie.Actor,
+    Short_Story: newmovie.Short_Story,
+    Poster: newmovie.Poster,
+    TypemovieID: newmovie.TypemovieID,
+    RateID: newmovie.RateID,
   });
 
   const [Release, setRelease] = useState<Date | null>(null);
@@ -64,8 +49,7 @@ function Modify() {
   const [message, setAlertMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
-  const [poster,setPoster] = React.useState("");
-  const [oldPoster, setOldPoster] = useState(""); 
+  const [poster, setPoster] = React.useState("");
 
   const getTypemovie = async () => {
     let res = await GetTypemovie();
@@ -83,41 +67,60 @@ function Modify() {
   const getmoviebyid = async () => {
     let res = await GetMovieById(Number(id));
     if (res) {
-      setoldMovie(res);
+      setnewMovie(res);
+      
       setPoster(res.Poster);
-
     }
   };
   useEffect(() => {
+    
     getmoviebyid();
     getTypemovie();
     getRatemovie();
-  }, []);
+    setRelease(newmovie.Release ? new Date(newmovie.Release) : null);
+  }, [newmovie.Release]);
   console.log(movie);
-  console.log(oldmovie);
+  console.log(newmovie);
+
+  const handleDateChange: DatePickerProps['onChange'] = (date, dateString) => {
+    if (date) {
+      const dateAsDate = date.toDate();
+  
+      // Update the Release state
+      setRelease(dateAsDate);
+  
+      // Update the movie state with the new Release value
+      setMovie({ ...movie, Release: dateAsDate });
+    } else {
+      // If the date is cleared, update both the Release and movie states to null
+      setRelease(null);
+      setMovie({ ...movie, Release: null });
+    }
+  };
+  
 
 
   async function submit() {
     let data = {
       ID: Number(id),
-      Name: oldmovie.Name ?? "",
-      Release: oldmovie.Release,
+      Name: newmovie.Name ?? "",
+       Release: movie.Release,
       Length:
-        typeof oldmovie.Length === "string"
-          ? parseInt(oldmovie.Length)
-          : oldmovie.Length, // Ensure Length is a number
-      Director: oldmovie.Director ?? "",
-      Actor: oldmovie.Actor ?? "",
-      Short_Story: oldmovie.Short_Story ?? "",
-      Poster: oldmovie.Poster ?? movie.Poster,
+        typeof newmovie.Length === "string"
+          ? parseInt(newmovie.Length)
+          : newmovie.Length, // Ensure Length is a number
+      Director: newmovie.Director ?? "",
+      Actor: newmovie.Actor ?? "",
+      Short_Story: newmovie.Short_Story ?? "",
+      Poster: newmovie.Poster ?? movie.Poster,
       TypemovieID:
-        typeof oldmovie.TypemovieID === "string"
-          ? parseInt(oldmovie.TypemovieID)
-          : oldmovie.TypemovieID,
+        typeof newmovie.TypemovieID === "string"
+          ? parseInt(newmovie.TypemovieID)
+          : newmovie.TypemovieID,
       RateID:
-        typeof oldmovie.RateID === "string"
-          ? parseInt(oldmovie.RateID)
-          : oldmovie.RateID,
+        typeof newmovie.RateID === "string"
+          ? parseInt(newmovie.RateID)
+          : newmovie.RateID,
     };
 
     let res = await UpdateMovie(data);
@@ -136,14 +139,16 @@ function Modify() {
   const props: UploadProps = {
     beforeUpload: (file) => {
       const reader = new FileReader();
-  
+
       reader.onload = (e) => {
         if (e.target) {
           const base64Image = e.target.result as string; // Ensure it's a string
           setPoster(base64Image);
+          // Update newmovie's Poster property
+          setnewMovie({ ...newmovie, Poster: base64Image });
         }
       };
-  
+
       reader.readAsDataURL(file);
       return false; // Prevent automatic upload
     },
@@ -151,11 +156,10 @@ function Modify() {
       console.log(info.fileList);
     },
   };
-  
   const handleChange = (event: SelectChangeEvent<number>) => {
-    const name = event.target.name as keyof typeof oldmovie;
-    setoldMovie({
-      ...oldmovie,
+    const name = event.target.name as keyof typeof newmovie;
+    setnewMovie({
+      ...newmovie, 
       [name]: event.target.value,
     });
   };
@@ -167,17 +171,17 @@ function Modify() {
 
     const { value } = event.target;
 
-    setoldMovie({ ...oldmovie, [id]: value });
+    setnewMovie({ ...newmovie, [id]: value });
   };
   //-----------------------handler-------------------------------
   const handleInputChangenumber = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof oldmovie;
+    const id = event.target.id as keyof typeof newmovie;
     const { value } = event.target;
-    setoldMovie({ ...oldmovie, [id]: value === "" ? "" : Number(value) });
+    setnewMovie({ ...newmovie, [id]: value === "" ? "" : Number(value) });
   };
-  
+
   const handleClose = (
     event?: React.SyntheticEvent | Event,
 
@@ -221,7 +225,9 @@ function Modify() {
         <Navbar />
       </nav>
       <section className="background">
-        <li><img src={background} alt="" /></li>
+        <li>
+          <img src={background} alt="" />
+        </li>
       </section>
 
       <div className="Contrainer">
@@ -235,11 +241,11 @@ function Modify() {
           <div className="grid  ">
             <div className="grid-item grid1">ชื่อภาพยนตร์</div>
             <div className="grid-item grid2">
-            <Input
+              <Input
                 id="Name"
                 className="inputbar"
                 placeholder="Basic usage"
-                value={oldmovie?.Name || " "}
+                value={newmovie?.Name || " "}
                 onChange={handleInputChange}
               />
             </div>
@@ -249,7 +255,7 @@ function Modify() {
                 id="Length"
                 className="inputbar"
                 placeholder="Basic usage"
-                value={oldmovie?.Length || ""}
+                value={newmovie?.Length || ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -259,7 +265,7 @@ function Modify() {
                 id="TypeMovieID"
                 className="comboboxbar"
                 native
-                value={oldmovie?.TypemovieID}
+                value={newmovie?.TypemovieID }
                 onChange={handleChange}
                 inputProps={{
                   name: "TypeMovieID",
@@ -275,18 +281,27 @@ function Modify() {
             </div>
             <div className="grid-item grid7">วันที่ฉาย</div>
             <div className="grid-item grid8">
-              <Space direction="vertical">
-                <DatePicker id="Release" name="Releasea" onChange={onChange} />
-                {/* สร้าง DatePicker อื่น ๆ และกำหนด onChange ให้เป็น handleDateChange เช่นเดียวกัน */}
-              </Space>
-            </div>
+        <DatePicker
+          id="Release"
+          name="Release"
+          onChange={handleDateChange}
+          value={Release ? dayjs(Release) : null}
+        />
+        {/* Render the selected release date */}
+        <div>
+          Selected Release Date:{" "}
+          {Release
+            ? Release.toString()
+            : "No date selected"}
+        </div>
+      </div>
             <div className="grid-item grid9">ผู้กำกับ</div>
             <div className="grid-item grid10">
               <Input
-              id="Director"
+                id="Director"
                 className="inputbar"
                 placeholder="Basic usage"
-                value={oldmovie.Director || ""}
+                value={newmovie.Director || ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -294,19 +309,18 @@ function Modify() {
             <div className="grid-item grid11">นักแสดงหลัก</div>
             <div className="grid-item grid12">
               <Input
-                  id="Actor"
-                  className="inputbar"
-                  value={oldmovie.Actor || ""}
-                  onChange={handleInputChange}
-                  
+                id="Actor"
+                className="inputbar"
+                value={newmovie.Actor || ""}
+                onChange={handleInputChange}
               />
             </div>
 
             <div className="grid-item grid13">โปสเตอร์</div>
             <div className="grid-item grid14">
-            <Upload {...props}>
+              <Upload {...props}>
                 <Button icon={<UploadOutlined />}>Upload png only</Button>
-            </Upload>
+              </Upload>
             </div>
 
             <div className="grid-item grid15">เรทหนัง</div>
@@ -315,7 +329,7 @@ function Modify() {
                 id="RateID"
                 className="comboboxbar"
                 native
-                value={oldmovie.RateID}
+                value={newmovie.RateID}
                 onChange={handleChange}
                 inputProps={{
                   name: "RateID",
@@ -336,9 +350,9 @@ function Modify() {
                 <TextArea
                   id="Short_Story"
                   className="inputbar"
-                  value={oldmovie.Short_Story || ""}
+                  value={newmovie.Short_Story || ""}
                   onChange={handleInputChange}
-                  rows={4}
+                  rows={2}
                 />
                 <br />
                 <br />
@@ -351,3 +365,7 @@ function Modify() {
   );
 }
 export default Modify;
+
+
+
+

@@ -1,9 +1,10 @@
 package entity
 
 import (
+	"time"
+
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"time"
 )
 
 var db *gorm.DB
@@ -147,63 +148,261 @@ func SetupDatabase() {
 	}
 	db.Model(&Theatre{}).Create(&C1)
 
-	Ticket1 := TicketNumber{
-		TicketNum: "12345",
-	}
-	db.Model(&TicketNumber{}).Create(&Ticket1)
-
-	Ticket2 := TicketNumber{
-		TicketNum: "67890",
-	}
-	db.Model(&TicketNumber{}).Create(&Ticket2)
-
-	Ticket3 := TicketNumber{
-		TicketNum: "55555",
-	}
-	db.Model(&TicketNumber{}).Create(&Ticket3)
-
-	Ticket4:= TicketNumber{
-		TicketNum: "66666",
-	}
-	db.Model(&TicketNumber{}).Create(&Ticket4)
-
 	Admin1 := Admin{
 		Firstname: "Mr.Guide",
-		Lastname: "Kondee",
+		Lastname:  "Kondee",
+		Username:  "mumu",
+		Email:     "guideee@gmail.com",
+		Password:  "Pond80",
 	}
 	db.Model(&Admin{}).Create(&Admin1)
 
 	Admin2 := Admin{
 		Firstname: "Buc.Jay",
-		Lastname: "Konsua",
+		Lastname:  "Konsua",
+		Username:  "CPEJay",
+		Email:     "jayjay@gmail.com",
+		Password:  "Pond80",
 	}
 	db.Model(&Admin{}).Create(&Admin2)
 
 	Admin3 := Admin{
 		Firstname: "Koon.Pond",
-		Lastname: "Fanploy",
-		Username: "piwpiw007",
-		Email: "piwpiw@gmail.com",
-		Password: "Pond80",
+		Lastname:  "Fanploy",
+		Username:  "piwpiw007",
+		Email:     "piwpiw@gmail.com",
+		Password:  "Pond80",
 	}
 	db.Model(&Admin{}).Create(&Admin3)
 
 	Admin4 := Admin{
 		Firstname: "I.Ryu",
-		Lastname: "Supagruay",
-		Username: "Ryu",
-		Email: "ryu@gmail.com",
-		Password: "ryu2082",
+		Lastname:  "Supagruay",
+		Username:  "Ryu",
+		Email:     "ryu@gmail.com",
+		Password:  "ryu2082",
 	}
 	db.Model(&Admin{}).Create(&Admin4)
 
 	Admin5 := Admin{
 		Firstname: "I.Susbee",
-		Lastname: "Heemaa",
-		Username: "BoE",
-		Email: "boe@gmail.com",
-		Password: "Bee50",
+		Lastname:  "Heemaa",
+		Username:  "BoE",
+		Email:     "boe@gmail.com",
+		Password:  "Bee50",
 	}
 	db.Model(&Admin{}).Create(&Admin5)
 
+	Seat1a := Seat{
+		Seatnum:  "1A",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat1a)
+	Seat1b := Seat{
+		Seatnum:  "1B",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat1b)
+	Seat1c := Seat{
+		Seatnum:  "1C",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat1c)
+	Seat1d := Seat{
+		Seatnum:  "1D",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat1d)
+	Seat1e := Seat{
+		Seatnum:  "1E",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat1e)
+	Seat1f := Seat{
+		Seatnum:  "1F",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat1f)
+	Seat2a := Seat{
+		Seatnum:  "2A",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat2a)
+	Seat2b := Seat{
+		Seatnum:  "2B",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat2b)
+	Seat2c := Seat{
+		Seatnum:  "2C",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat2c)
+	Seat2d := Seat{
+		Seatnum:  "2D",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat2d)
+	Seat2e := Seat{
+		Seatnum:  "2E",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat2e)
+	Seat2f := Seat{
+		Seatnum:  "2F",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat2f)
+
+	Seat3a := Seat{
+		Seatnum:  "3A",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat3a)
+	Seat3b := Seat{
+		Seatnum:  "3B",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat3b)
+	Seat3c := Seat{
+		Seatnum:  "3C",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat3c)
+	Seat3d := Seat{
+		Seatnum:  "3D",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat3d)
+	Seat3e := Seat{
+		Seatnum:  "3E",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat3e)
+	Seat3f := Seat{
+		Seatnum:  "3F",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat3f)
+	Seat4a := Seat{
+		Seatnum:  "4A",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat4a)
+	Seat4b := Seat{
+		Seatnum:  "4B",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat4b)
+	Seat4c := Seat{
+		Seatnum:  "4C",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat4c)
+	Seat4d := Seat{
+		Seatnum:  "4D",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat4d)
+	Seat4e := Seat{
+		Seatnum:  "4E",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat4e)
+	Seat4f := Seat{
+		Seatnum:  "4F",
+		Status:   "Available",
+		TypeSeat: Normal,
+	}
+	db.Model(&Seat{}).Create(&Seat4f)
+	Seat5a := Seat{
+		Seatnum:  "5A",
+		Status:   "Available",
+		TypeSeat: VIP,
+	}
+	db.Model(&Seat{}).Create(&Seat5a)
+	Seat5b := Seat{
+		Seatnum:  "5B",
+		Status:   "Available",
+		TypeSeat: VIP,
+	}
+	db.Model(&Seat{}).Create(&Seat5b)
+	Seat5c := Seat{
+		Seatnum:  "5C",
+		Status:   "Available",
+		TypeSeat: VIP,
+	}
+	db.Model(&Seat{}).Create(&Seat5c)
+	Seat5d := Seat{
+		Seatnum:  "5D",
+		Status:   "Available",
+		TypeSeat: VIP,
+	}
+	db.Model(&Seat{}).Create(&Seat5d)
+	Seat5e := Seat{
+		Seatnum:  "5E",
+		Status:   "Available",
+		TypeSeat: VIP,
+	}
+	db.Model(&Seat{}).Create(&Seat5e)
+
+	Seat5f := Seat{
+		Seatnum:  "5F",
+		Status:   "Available",
+		TypeSeat: VIP,
+	}
+	db.Model(&Seat{}).Create(&Seat5f)
+	mem := Member{
+		Firstname: "Piwpiw",
+		Lastname:  "007",
+		Username:  "Popo",
+		Password:  "123456",
+		Email:     "pimpakan2545@gmail.com",
+	}
+	db.Model(&Member{}).Create(&mem)
+// 	show1 := Showtime{
+
+// 		Datie:   time.Date(2012, 8, 24, 0, 0, 0, 0, time.Now().Location()),
+// 		Model:   gorm.Model{ID: 1},
+// 		Theatre: C1,
+// 	}
+// 	db.Model(&Showtime{}).Create(&show1)
+// 	show2 := Showtime{
+
+// 		Datie:   time.Date(2012, 8, 24, 0, 0, 0, 0, time.Now().Location()),
+// 		Model:   gorm.Model{ID: 2},
+// 		Theatre: C1,
+// 	}
+// 	db.Model(&Showtime{}).Create(&show2)
+// 	show3 := Showtime{
+
+// 		Datie:   time.Date(2012, 8, 24, 0, 0, 0, 0, time.Now().Location()),
+// 		Model:   gorm.Model{ID: 3},
+// 		Theatre: C1,
+// 	}
+// 	db.Model(&Showtime{}).Create(&show3)
+// 
 }

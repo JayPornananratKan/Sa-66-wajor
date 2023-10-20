@@ -1,12 +1,4 @@
-.log-background img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    bottom: 230px; /* รูปภาพ Login จะถูกวางที่ด้านบนของ Navbar */
-    left: 0; /* รูปภาพ Login จะถูกวางที่ด้านซ้ายของ Navbar */
-    z-index: 0; /* กำหนดค่า z-index เป็น -1 เพื่อให้รูปภาพ Login อยู่หลัง Navbar */
-    opacity: 1
-}
+
 
 .blog {
     top: 224px;
@@ -119,10 +111,11 @@
     justify-content: center;
     align-items: center;
     list-style: none;
-    
+    font-size: 20px;
+    font-weight:400;
 }
 
-.login_butt{
+.admin_butt{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -130,36 +123,36 @@
     color: black;
     margin-left: 10px;
     margin-right: 10px;
-    width: 120px;
+    width: 400px;
     height: 40px;
     border-radius: 10px;
-    padding: 1rem;
+    padding: 4rem;
     transition: 0.3s;
     cursor: pointer;
     background-color: #c59c49;
     
 }
 
-.register_butt{
+.member_butt{
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    color: #fff;
-    background-color: #0F283B;
+    color: #000000;
+    background-color: #c59c49;
     margin-left: 10px;
     margin-right: 10px;
-    width: 120px;
+    width: 400px;
     height: 40px;
     border-radius: 10px;
-    padding: 1rem;
+    padding: 4rem;
     transition: 0.3s;
     cursor: pointer;
 
 }
 
-.login_butt:hover{
-    font-size: 20px;;
+.admin_butt:hover{
+    font-size: 25px;;
     /* background-color: #c59c49; */
     color: black;
     transition: 0.5s;
@@ -167,10 +160,10 @@
     
 }
 
-.register_butt:hover{
-    font-size: 20px;;
+.member_butt:hover{
+    font-size: 25px;;
     /* background-color: #c59c49; */
-    color: white;
+    color: black;
     transition: 0.5s;
 }
 

@@ -35,33 +35,27 @@ func main() {
 	entity.SetupDatabase()
 	r := gin.Default()
 	r.Use(CORSMiddleware())
+
+
 	//-------bee--------
 	r.POST("/showtimes", controller.CreateShowtimes)
     r.GET("/showtime", controller.GetAllShowtime)
     r.GET("/showtime/:id", controller.GetShowtimeByID)
     r.DELETE("/showtimes/:id", controller.DeleteShowtime)
     r.GET("/theatre", controller.GetTheatre)
+
 	//-------pond-------
 	r.POST("/bookings", controller.CreateBooking)
-
-	// r.GET("/showtime", controller.GetAllShowtime)
-	// r.GET("/showtime/:id", controller.GetShowtimeByID)
-
 	r.GET("/seat", controller.GetAllSeat)
 	r.GET("/seat/:id", controller.GetSeatByID)
-
 	r.GET("/member/:id", controller.GetMemberByID)
+
 	//-------guide------
 	r.GET("/admins", controller.ListAdmins)
 	r.GET("/admin:id", controller.GetAdmin)
-
 	r.GET("/checkins", controller.ListCheckins)
 	r.GET("/checkin:id", controller.GetCheckin)
 	r.POST("/checkins", controller.CreateCheckin)
-	//************************************//
-	// r.POST("/checkcheck", controller.Checkin)
-	//************************************//
-
 	r.PATCH("/checkins", controller.UpdateCheckin)
 	r.DELETE("/checkins:id", controller.DeleteCheckin)
 
@@ -83,6 +77,12 @@ func main() {
 
     r.GET("/rates", controller.ListRate)
     r.GET("/rate/:id", controller.GetRate)
+
+	//-------------Ryu------------
+	r.POST("/post_payment", controller.CreatePayment)
+	r.GET("/get_lastBooking",controller.GetLastBooking)
+    r.POST("/post_ticketNumber",controller.CreateTicketNumber)
+	r.GET("/ticketnumber/:paymentID",controller.ShowTicketNum)
 
 	//r.Run("localhost:" + PORT)
 	r.Run()

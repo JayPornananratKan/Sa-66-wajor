@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
-import "./navbar.css";
+import "./navbarLogin.css";
 import กู from "../assets/กู.png"
 
-function Navbar() {
+function NavbarLogin() {
   return (
     <nav>
       <div className="logo">
@@ -12,15 +12,13 @@ function Navbar() {
       </div>
 
       <ul className="menu">
-          <li><a href="/mainAdmin">หน้าหลัก</a></li>
-          <li><a href="/modify">จัดการข้อมูล</a></li>
-          <li><a href="/manageShow">จัดการรอบฉาย</a></li>
-          <li><a href="/checkin">เช็คอิน</a></li>
+      <a>Welcome To Wajor Cineplex</a>
+
       </ul>
 
         <div className="profile">
           <div className="name">
-            <a>Hi, Admin</a>
+            <a>Hi, User</a>
           </div>
 
           <div className="logo2">
@@ -31,4 +29,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default NavbarLogin;

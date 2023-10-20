@@ -1,14 +1,12 @@
 import {  BookingInterface } from "../interface/Ibooking";
 
-import {  MembersInterface } from "../interface/Imember";
+import {  PaymentInterface } from "../interface/Ipayment";
 
 import {  movieInterface } from "../interface/Imovie";
 
-import {  SeatInterface } from "../interface/Iseat";
+import {  TicketNumberInterface } from "../interface/Iticketnumber";
 
-import {  TypeInterface } from "../interface/Itype";
-
-import {  TypeSeatInterface} from "../interface/Itypeseat";
+import { MembersInterface } from "../interface/Imember";
 
 import {  ShowtimeInterface } from "../interface/Ishowtime";
 
@@ -173,7 +171,7 @@ async function CreateBooking(data: BookingInterface) {
     body: JSON.stringify(data),
   };
 
-  let res = await fetch(`${apiUrl}/booking`, requestOptions)
+  let res = await fetch(`${apiUrl}/bookings`, requestOptions)
     .then((response) => response.json())
 
     .then((res) => {
@@ -199,7 +197,7 @@ async function GetMemberByID() {
   };
 
   let res = await fetch(
-    `${apiUrl}/member${MemberID}`,
+    `${apiUrl}/member/${MemberID}`,
     requestOptions
   )
     .then((response) => response.json())
@@ -485,204 +483,100 @@ async function CreateShowtimes(data: ShowtimeInterface) {
   return res;
 }
 
-// async function Checkin(data: CheckinInterface) {
-//   const requestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   };
+async function getLastBooking() {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 
-//   let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
-//     .then((response) => response.json())
-//     .then((res) => {
-//       if (res.data) {
-//         localStorage.setItem("ticketnum", res.data.ticketnum);
-//         localStorage.setItem("token", res.data.token);
-//         localStorage.setItem("uid", res.data.id);
-//         return res.data;
-//       } else {
-//         return false;
-//       }
-//     });
+  let res = await fetch(`${apiUrl}/get_lastBooking`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
 
-//   return res;
-// }
+  return res;
+}
+
+async function createPayment(data: PaymentInterface) {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/post_payment`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+}
+
+async function createTicketNumber(data: TicketNumberInterface) {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/post_ticketNumber`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+}
+
+async function getTicketNumberByID(id: number | undefined): Promise<TicketNumberInterface | null> {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const response = await fetch(`${apiUrl}/ticketnumber/${id}`, requestOptions);
+    if (response.status === 200) {
+      const data = await response.json();
+      return data.data; // ส่งข้อมูลการจองกลับ
+    } else {
+      // กระบวนการล้มเหลว
+      console.error("เกิดข้อผิดพลาดในการดึงข้อมูลการจอง:", response.statusText);
+      return null;
+    }
+  } catch (error) {
+    console.error("เกิดข้อผิดพลาดในการส่งคำขอ:", error);
+    return null;
+  }
+}
 
 
-// async function Checkin(data: CheckinInterface) {
-//   const requestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   };
-//   let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
-//     .then((response) => response.json())
-//     .then((res) => {
-//       if (res.data) {
-//         localStorage.setItem("ticketnum", res.data.ticketnum);
-//         localStorage.setItem("token", res.data.token);
-//         localStorage.setItem("uid", res.data.id);
-//         return res.data;
-//       } else {
-//         return false;
-//       }
-//     });
-//   return res;
-// }
-// async function Checkin(data: CheckinInterface) {
-//   const requestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   };
-//   let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
-//     .then((response) => response.json())
-//     .then((res) => {
-//       if (res.data) {
-//         localStorage.setItem("ticketnum", res.data.ticketnum);
-//         localStorage.setItem("token", res.data.token);
-//         localStorage.setItem("uid", res.data.id);
-//         return res.data;
-//       } else {
-//         return false;
-//       }
-//     });
-//   return res;
-// }
-// async function Checkin(data: CheckinInterface) {
-//   const requestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   };
-//   let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
-//     .then((response) => response.json())
-//     .then((res) => {
-//       if (res.data) {
-//         localStorage.setItem("ticketnum", res.data.ticketnum);
-//         localStorage.setItem("token", res.data.token);
-//         localStorage.setItem("uid", res.data.id);
-//         return res.data;
-//       } else {
-//         return false;
-//       }
-//     });
-//   return res;
-// }
-// async function Checkin(data: CheckinInterface) {
-//   const requestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   };
-//   let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
-//     .then((response) => response.json())
-//     .then((res) => {
-//       if (res.data) {
-//         localStorage.setItem("ticketnum", res.data.ticketnum);
-//         localStorage.setItem("token", res.data.token);
-//         localStorage.setItem("uid", res.data.id);
-//         return res.data;
-//       } else {
-//         return false;
-//       }
-//     });
-//   return res;
-// }
-// async function Checkin(data: CheckinInterface) {
-//   const requestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   };
-//   let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
-//     .then((response) => response.json())
-//     .then((res) => {
-//       if (res.data) {
-//         localStorage.setItem("ticketnum", res.data.ticketnum);
-//         localStorage.setItem("token", res.data.token);
-//         localStorage.setItem("uid", res.data.id);
-//         return res.data;
-//       } else {
-//         return false;
-//       }
-//     });
-//   return res;
-// }
-// async function Checkin(data: CheckinInterface) {
-//   const requestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   };
-//   let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
-//     .then((response) => response.json())
-//     .then((res) => {
-//       if (res.data) {
-//         localStorage.setItem("ticketnum", res.data.ticketnum);
-//         localStorage.setItem("token", res.data.token);
-//         localStorage.setItem("uid", res.data.id);
-//         return res.data;
-//       } else {
-//         return false;
-//       }
-//     });
-//   return res;
-// }
-// async function Checkin(data: CheckinInterface) {
-//   const requestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   };
-//   let res = await fetch(`${apiUrl}/checkcheck`, requestOptions)
-//     .then((response) => response.json())
-//     .then((res) => {
-//       if (res.data) {
-//         localStorage.setItem("ticketnum", res.data.ticketnum);
-//         localStorage.setItem("token", res.data.token);
-//         localStorage.setItem("uid", res.data.id);
-//         return res.data;
-//       } else {
-//         return false;
-//       }
-//     });
-//   return res;
-// }
 export {
-    CreateBooking,
-    GetMemberByID,
-    GetAllSeat,
-    GetAllShowtime,
-    GetSeatByID,
-    GetShowtimeByID,
-    GetTypemovie,
-    UpdateMovie,
-    GetMovie,
-    CreateMovie,
-    GetRate,
-    GetAdmin,
-    GetTicketNumber,
-    GetTicketIDByTicketNum,
-    // Checkin,
-    GetCheckin,
-    CreateCheckin,
-    DeleteMovie,
-    GetMovieById, CreateShowtimes, GetTheatre, DeleteShowtime,
+    CreateBooking, GetMemberByID, GetAllSeat,
+    GetAllShowtime, GetSeatByID, GetShowtimeByID,
+    GetTypemovie, UpdateMovie, GetMovie,
+    CreateMovie, GetRate, GetAdmin,
+    GetTicketNumber, GetTicketIDByTicketNum, GetCheckin,
+    CreateCheckin, DeleteMovie, GetMovieById, 
+    CreateShowtimes, GetTheatre, DeleteShowtime,
+    getLastBooking, createPayment, createTicketNumber,
+    getTicketNumberByID
 };

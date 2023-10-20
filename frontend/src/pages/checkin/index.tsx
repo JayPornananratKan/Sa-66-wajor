@@ -98,12 +98,17 @@ function Checkin() {
     const currentDate = new Date(currentTimestamp);
   
     if (!selectedTicketNumber) {
-      setAlertMessage("ไม่พบข้อมูลตั๋วที่ระบุ");
+      setAlertMessage("ไม่พบหมายเลขตั๋ว");
       setError(true);
       return;
     }
-    
-    
+
+    if (selectedTicketNumber.Status === "Checked") {
+      setAlertMessage("หมายเลขตั๋วนี้เช็คอินไปแล้ว");
+      setError(true);
+      return;
+    }
+
     let data = {
       TicketNumberID: selectedTicketNumber?.ID,
       //  typeof checkin.TicketNumberID === "string" ? parseInt(checkin.TicketNumberID) : checkin.TicketNumberID,

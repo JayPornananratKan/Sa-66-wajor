@@ -66,15 +66,15 @@
   color: #ffff;
   border-radius: 4px;
   font-size: 18px;
-  padding: 5px;
+  padding: 6px;
   cursor: pointer;
+  transition: 0.2s;
   
 }
 .t:hover{
-  background: rgba(255, 255, 255, .8);
-  color: black;
-  box-shadow: 0 0 10px rgba(255,255,255,.5);
-  mix-blend-mode: screen;
+  background-color: #363734;
+  color: white;
+  text-decoration: underline;
 }
 
 .t:active {

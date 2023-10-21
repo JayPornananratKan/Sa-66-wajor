@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import './mainUser.css';
 import background from "../../assets/cin3.jpg"
 import { ShowtimeInterface } from "../interface/Ishowtime";
-import { GetAllShowtime } from "../service/httpClientService";
+import { GetAllShowtime, GetTheatre } from "../service/httpClientService";
 import { GetShowtimeByID2 } from "../service/httpClientService";
 import { MembersInterface } from '../interface/Imember';
 import { useEffect, useState } from 'react';
@@ -146,20 +146,14 @@ const MainUser = ({setData}:MainProps) => {
       dataIndex: "Showtime",
       key: "showtime",
       render: (text, record, index) => (
-        <>
-          {show.map((showtime) => (
-                    <a
-                      key={showtime.ID}
-                      className={`t ${selectedShowtime === showtime.ID ? 'selected' : ''}`}
-                      onClick={() => handleShowtimeSelection(showtime.ID!)}
-                    >
-                    {`${showtime.Time}`}
-                    </a>))
-                    }
-        </>
-          
-
-      ),
+        <a
+          key={record.ID}
+          className={`t ${selectedShowtime === record.ID ? 'selected' : ''}`}
+          onClick={() => handleShowtimeSelection(record.ID!)}
+        >
+          {record.Time}
+        </a>
+      )
     },
     
   ];
@@ -175,6 +169,7 @@ const MainUser = ({setData}:MainProps) => {
   const [selectedShowtime, setSelectedShowtime] = useState<number | null>(null); // กำหนด selectedShowtime ให้รองรับค่าเป็นตัวเลขหรือ null
   const [seat, setSeat] = useState<SeatInterface[]>([]);
   const navigate = useNavigate()
+  
   const getAllShowtime = async () => {
     let res = await GetAllShowtime();
     if (res) {
@@ -201,7 +196,14 @@ const MainUser = ({setData}:MainProps) => {
       setShowtime(res[0]);
     }
   };
+  const getTheatre = async () => {
+    const res = await GetTheatre(); // เรียกใช้ getShowtime แทน GetShowtime
+    if (res) {
+        setTheatre(res);
+    }
+}
   useEffect(() => {
+    getTheatre();
     getMovie();
     getAllShowtime();
     getMemberByID();

@@ -72,7 +72,6 @@ const SeatComp = ({setData,Bookdata}:MainProps) => {
   }
     const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
 
-
     const handleSeatSelection = (seatID: string) => {
       // โค้ดในฟังก์ชัน handleSeatSelection
       if (selectedSeats.includes(seatID)) {

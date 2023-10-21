@@ -110,7 +110,7 @@ function Checkin() {
 
     if (res.status) {
 
-        setAlertMessage("บันทึกข้อมูลสำเร็จ");
+        setAlertMessage("เช็คอินสำเร็จ");
         setSuccess(true);
     } else {
       setAlertMessage(res.message);

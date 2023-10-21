@@ -242,8 +242,7 @@ function MovieIn() {
             <div className="grid-item grid7">วันที่ฉาย</div>
             <div className="grid-item grid8">
               <Space direction="vertical">
-                <DatePicker onChange={handleDateChange} />
-                {/* สร้าง DatePicker อื่น ๆ และกำหนด onChange ให้เป็น handleDateChange เช่นเดียวกัน */}
+                <DatePicker format='YYYY-MM-DD' onChange={handleDateChange} />
               </Space>
             </div>
             <div className="grid-item grid9">ผู้กำกับ</div>

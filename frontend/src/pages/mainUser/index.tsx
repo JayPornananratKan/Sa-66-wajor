@@ -1,256 +1,223 @@
-// import './manageshow.css';
-import React, { useState, useEffect } from "react";
-import { Space, Table, Button, Col, Row, Divider, Modal, message } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined,ArrowRightOutlined,InfoOutlined } from "@ant-design/icons";
-import type { ColumnsType } from "antd/es/table";
-
 import { Link, useNavigate } from "react-router-dom";
-import { DeleteShowtime, GetAllShowtime, GetMovie, GetTheatre} from "../service/httpClientService";
-import Navbar from "../../Navbar/navbar";
-import { ShowtimeInterface } from '../interface/Ishowtime';
-import { movieInterface } from '../interface/Imovie';
-import background from "../../assets/cin3.jpg"
-import { TheatreInterface } from "../interface/Itheatre";
+import '../css/main.css';
+import { ShowtimeInterface } from "../interface/Ishowtime";
+import { GetAllShowtime } from "../service/httpClientService";
+import { GetShowtimeByID } from "../service/httpClientService";
+import { MembersInterface } from '../interface/Imember';
+import { useEffect, useState } from 'react';
+import { GetMemberByID } from '../service/httpClientService';
+import { Alert, Snackbar } from '@mui/material';
+import React from 'react';
+import { CreateBooking } from "../service/httpClientService";
 import { BookingInterface } from "../interface/Ibooking";
-import { MembersInterface } from "../interface/Imember";
-import NavbarUser from "../../Navbar/navbarUser";
-// interface MainProps{
-//   setData: React.Dispatch<React.SetStateAction<BookingInterface | undefined>>
-// }
+import { SeatInterface } from "../interface/Iseat";
+import Navbar from "../../Navbar/navbar";
+import {GetMovie} from "../service/httpClientService";
+import { movieInterface } from "../interface/Imovie";
+interface MainProps{
+  setData: React.Dispatch<React.SetStateAction<BookingInterface | undefined>>
+}
 
-
-function MainUser () {
+const MainUser = ({setData}:MainProps) => {
+  const [message, setAlertMessage] = React.useState("");
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [booking, setBooking] = React.useState<BookingInterface>({} as BookingInterface);
+  const [show, setShowtime] = useState<ShowtimeInterface[]>([]);
+  const [member, setMember] = useState<MembersInterface>();
+  const [showtimes, setShowtimes] = useState([]); // State เก็บข้อมูลเวลาที่ฉาย
+  const [movies, setMovie] = useState<movieInterface[]>([]);
+  const [selectedShowtime, setSelectedShowtime] = useState<number | null>(null); // กำหนด selectedShowtime ให้รองรับค่าเป็นตัวเลขหรือ null
+  const [seat, setSeat] = useState<SeatInterface[]>([]);
+  const navigate = useNavigate()
+  const getAllShowtime = async () => {
+    let res = await GetAllShowtime();
+    if (res) {
+      setShowtime(res);
+    }
+  };
+  const getMovie = async () => {
+    let res = await GetMovie();
+    if (res) {
+      setMovie(res);
+      console.log(movies)
+    }
+  };
+  const getMemberByID = async () => {
+    let res = await GetMemberByID();  
+    if (res) {
+      setMember(res[0]);
+      console.log("เวลาที่ฉาย:", res);
+    }
+  };
+  const getShowtimeByID = async () => {
+    let res = await GetShowtimeByID();  
+    if (res) {
+      setShowtime(res[0]);
+    }
+  };
+  useEffect(() => {
+    getMovie();
+    getAllShowtime();
+    getMemberByID();
+  }, []);
+  // async function submit() {
     
-    const columns: ColumnsType<ShowtimeInterface> = [
-      {
-        title: "ลำดับ",
-        dataIndex: "ID",
-        key: "id",
-      },
-      // {
-      //   title: "รูปภาพยนตร์",
-      //   dataIndex: "Poster",
-      //   key: "Poster",
-      //   render: (movieID: number) => {
-      //     // const posters = movie.find(posters => posters.ID === movieID);
-      //     // return posters ? posters.Poster : 'ไม่พบรูปภาพยนตร์';
-      //     const movies = movie.find(movies => movies.ID === movieID);
-      //     return movies ? movies.Poster : 'ไม่พบรูปภาพยนตร์';
-      //   }
-      // },
-      {
-        title: "รูปภาพยนตร์",
-        dataIndex: "MovieID",
-        key: "Poster",
-        render: (movieID: number) => {
-          const movies = movie.find(movies => movies.ID === movieID);
-          return (
-            <img  src={movies?.Poster} alt="ไม่พบรูปภาพยนตร์" style={{ maxWidth: "100px" }} />
-          );
-        }
-      },
+  //   let res = await CreateBooking(booking);
+  //   console.log(res)
+
+    
+  // }
+
+  const [selectedSeats, selectedShowtimes] = useState<string[]>([]);
+  // const handleShowtimeSelection = (showtimeID: string) => {
+  //   // โค้ดในฟังก์ชัน handleSeatSelection
+  //   if (selectedShowtimes.includes(showtimeID)) {
+  //     setselectedShowtimes(selectedShowtimes.filter((show) => show !== showtimeID));
+  //   } else {
+  //     setselectedShowtimes([...selectedSeats, showtimeID]);
+  //   }
+  // };
+  const handleShowtimeSelection = (showtimeID:number) => {
+    const data:BookingInterface={
+      MemberID:member?.ID!,
+      ShowtimeID:showtimeID!,
+      SeatID:0
+    }
+    setData(data)
+    navigate("/seat")
+    //setSelectedShowtime(showtimeID);
+  };
+  const handleSeatSelection = () => {
+    if (selectedShowtime) {
+      // history.push(`/Seat?showtime=${selectedShowtime.id}`);
+      // ทำการนำข้อมูลเวลาที่ฉายและส่งไปยังหน้าถัดไป
       
-      {
-        title: "ชื่อภาพยนตร์",
-        dataIndex: "MovieID",
-        key: "movie",
-        render: (movieID: number) => {
-          const movies = movie.find(movies => movies.ID === movieID);
-          return movies ? movies.Name : 'ไม่พบภาพยนตร์';
-        }
-      },
-      {
-        title: "ความยาวภาพยนตร์(นาที)",
-        dataIndex: "MovieID",
-        key: "movie",
-        render: (movieID: number) => {
-          const movies = movie.find(movies => movies.ID === movieID);
+    } else {
+      // แจ้งเตือนให้เลือกเวลาที่ฉาย
+      alert("โปรดเลือกเวลาที่ฉาย");
+    }
+  };
+
+  function OnSelectShowtime(showtimeID:number | undefined,e:React.ChangeEvent<HTMLInputElement>) {
+    if(e.currentTarget.checked){
+      const data:BookingInterface={
+        MemberID:member?.ID!,
+        ShowtimeID:showtimeID!,
+        SeatID:30
+      }
+      setBooking(data)
+      console.log(data)
+    }else{
+      const data:BookingInterface={
+        MemberID:0,
+        ShowtimeID:0,
+        SeatID:0
+      }
+      setBooking(data)
+      console.log(data)
+    }
+    
+  }
+    return (
+        <>
+      <div className="App">
+      <Snackbar
+            id="success"
+            open={success}
+            autoHideDuration={6000}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          >
+            <Alert  severity="success">
+              {message}
+            </Alert>
+          </Snackbar>
+
+          <Snackbar
+            id="error"
+            open={error}
+            autoHideDuration={6000}
+          >
+            <Alert  severity="error">
+              {message}
+            </Alert>
+          </Snackbar>
+        <header className="App-header">
+          {/* <img src={logo} className="App-logo" alt="logo" /> */}
           
-          return movies ? movies.Length : 'ไม่พบภาพยนตร์';
+           
           
-        }
-      },
-      {
-        title: "เรท",
-        dataIndex: "MovieID",
-        key: "movie",
-        render: (movieID: number) => {
-          const movies = movie.find(movies => movies.ID === movieID);
-          
-          return movies ? movies.Rate?.RateName : 'ไม่พบภาพยนตร์';
-          
-        }
-      },
-      
-      {
-        title: "เวลาฉาย",
-        dataIndex: "Time",
-        key: "time",
-      },
-  
-      {
-        title: "วันที่ฉาย",
-        dataIndex: "Datie",
-        key: "datie",
-      },
-      {
-        title: "โรงที่ฉาย",
-        dataIndex: "TheatreID",
-        key: "theatre",
-        render: (theatreID: number) => {
-          const theatres = theatre.find(theatres => theatres.ID === theatreID);
-          
-          return theatres ? theatres.TheatreName : 'ไม่พบโรงภาพยนตร์';
-          
-        }
-      },
-      {
-        title: "ข้อมูลหนัง",
-        dataIndex: "Movieinfo",
-        key: "movieinfo",
-        render: (text, record, index) => (
-          <>
-          <Button
-              onClick={() => navigate(`/movieinfo/${record.ID}`)}
-              style={{ marginLeft: 10 }}
-              shape="circle"
-              icon={<InfoOutlined />}
-              size={"large"}
-            />
-          </>
-        ),
-      },
-      {
-        title: "เลือกรอบฉาย",
-        dataIndex: "Manage",
-        key: "manage",
-        render: (text, record, index) => (
-          <>
-          {/* {showtime.map((showtime) => (
+         <nav>
+            <Navbar />
+         </nav>
+          <div className='movielist'>
+            <div className='movie'> 
+              <div className="moviepic">
+              
+              </div>
+              <div className='moviename'>
+               
+                  {movies.map((movie) => (<h2 key={movie.ID} className="name">ชื่อภาพยนตร์ {`${movie.Name}`}</h2>))} 
+                  {movies.map((movie) =>(<h3 className='name'>ความยาว{`${movie.Length}`}นาที</h3>))}
+                  {movies.map((movie) =>(<h3 className='name'>วันที่ฉาย{`${movie.Release}`}</h3>))}
+                 </div>
+              <div className='theatre'><h3>Theatre1</h3> <h3>2D</h3>  </div>
+              <div className='time'> 
+                {/* <a  className='t'>12:30</a>
+                <a className='t'>14:30</a>
+                <a className='t'>20:00</a> */}
+                {show.map((showtime) => (
               <a
               key={showtime.ID}
-              className={`t ${selectedShowtime.includes(showtime.ID.toString()) ? 'selected' : ''}`}
+              className={`t ${selectedShowtime === showtime.ID ? 'selected' : ''}`}
+              onClick={() => handleShowtimeSelection(showtime.ID!)}
+              >
+               {`${showtime.Datie}`}
+              </a>))}
+            {/* //   showtime.ID === 1 ? (// เช็คว่า ID ของรอบเท่ากับ 1 หรือรอบที่คุณต้องการ
+            //   <a
+            //     key={showtime.ID}
+            //     className={`t ${selectedShowtime === showtime.ID ? 'selected' : ''}`}
+            //     onClick={() => handleShowtimeSelection(showtime.ID!)}
+            //   >
+            //     12:30 ${getShowtimeByID}
+            //   </a>): null)
+            //  // หากไม่ใช่รอบที่คุณต้องการจะไม่แสดงอะไรเลย */}
+          
+            </div>
+            </div>
+            {/* <div className='movie'> 
+              <div className='moviename'>
+                <h2 className='name'>ชื่อภาพยนตร์ </h2>
+                <h3 className='name'>ความยาว</h3>
+                <h3 className='name'>วันที่ฉาย</h3> </div>
+              <div className='theatre'><h3>Theatre</h3> <h3>2D</h3></div>
+              <div className='time'> 
+              {show.map((showtime) => (
+              <a
+              key={showtime.ID}
+              className={`p ${selectedShowtime === showtime.ID ? 'selected' : ''}`}
               onClick={() => handleShowtimeSelection(showtime.ID!)}
               >
                {`${showtime.Datie}`}
               </a>))} */}
+                {/* <a className='t'>12:30</a>
+                <a className='t'>14:30</a>
+                <a className='t'>20:00</a>
+                 */}
+             
+              {/* </div>
+            </div> */}
             
             
-          </>
-        ),
-      },
-    ];
-    // const [selectedShowtime, SetselectedShowtime] = useState<string[]>([]);
-    //   const [member, setMember] = useState<MembersInterface>();
-    const [theatre, setTheatre] = React.useState<TheatreInterface[]>([]);
-    const [movie, setMovie] = React.useState<movieInterface[]>([]);
-    const navigate = useNavigate();
-    const [messageApi, contextHolder] = message.useMessage();
-    const [open, setOpen] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalText, setModalText] = useState<String>();
-    const [deleteId, setDeleteId] = useState<Number>();
-    const [showtime, setShowtime] = useState<ShowtimeInterface[]>([]);
-    // const handleShowtimeSelection = (showtimeID:number) => {
-    //   const data:BookingInterface={
-    //     MemberID:member?.ID!,
-    //     ShowtimeID:showtimeID!,
-    //     SeatID:0
-    //   }}
-    const getShowtime = async () => {
-        const res = await GetAllShowtime(); // เรียกใช้ getShowtime แทน GetShowtime
-        if (res) {
-            setShowtime(res);
-        }
-    }
-    const getmovie = async () => {
-      let res = await GetMovie();
-      if (res) {
-        setMovie(res);
-      }
-    };
-    const getTheatre = async () => {
-      const res = await GetTheatre(); // เรียกใช้ getShowtime แทน GetShowtime
-      if (res) {
-          setTheatre(res);
-      }
-  }
-    useEffect(() => {
-      getmovie();
-    }, []);
-    useEffect(() => {
-      getShowtime();
-      getTheatre();
-    }, []);
-    
-  
-    const showModal = (val: ShowtimeInterface) => {
-      setModalText(`คุณต้องการลบข้อมูลรอบฉาย "${val.ID} หรือไม่ ?`);
-      setDeleteId(val.ID);
-      setOpen(true);
-    };
-  
-    const handleOk = async () => {
-      setConfirmLoading(true);
-      let res = await DeleteShowtime(deleteId);
-      if (res) {
-        setOpen(false);
-        messageApi.open({
-          type: "success",
-          content: "ลบข้อมูลสำเร็จ",
-        });
-        getShowtime();
-      } else {
-        setOpen(false);
-        messageApi.open({
-          type: "error",
-          content: "เกิดข้อผิดพลาด !",
-        });
-      }
-      setConfirmLoading(false);
-    };
-  
-    const handleCancel = () => {
-      setOpen(false);
-    };
-  
-    
-  
-    return (
-      <div className="app">
-          <nav>
-            <NavbarUser />
-          </nav>
-
-            <section className="background">
-                <li><img src={background} alt="" /></li>
-            </section>
-        <div className="Contrainer">
-          {contextHolder}
-              
-                <Link to="/createShowtime">
-                  {/* <Button type="primary" icon={<PlusOutlined />}>
-                    สร้างข้อมูล
-                  </Button> */}
-                </Link>
-              
-          <Divider />
-          <div style={{ marginTop: 20 }}>
-            <Table rowKey="ID" columns={columns}  dataSource={showtime} />
           </div>
-          <Modal
-            title="ลบข้อมูล ?"
-            open={open}
-            onOk={handleOk}
-            confirmLoading={confirmLoading}
-            onCancel={handleCancel}
-          >
-            <p>{modalText}</p>
-          </Modal>
+  
+        </header>
         </div>
-      </div>
+      
+      
+      </>
+    
     );
   }
-export default MainUser;
-
-
+  export default MainUser;

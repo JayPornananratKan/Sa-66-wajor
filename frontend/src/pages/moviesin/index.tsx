@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../css/movie.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
@@ -51,7 +51,7 @@ function MovieIn() {
 
     setMovie({ ...movie, [id]: value });
   };
-
+  const navigate = useNavigate();
   const [movie, setMovie] = React.useState<Partial<movieInterface>>({
     Length: 1,
     TypemovieID: 0,
@@ -109,6 +109,9 @@ function MovieIn() {
     if (res.status) {
       setAlertMessage("บันทึกข้อมูลสำเร็จ");
       setSuccess(true);
+      setTimeout(function () {
+        navigate("/Showmovie");
+      }, 2000);
     } else {
       setAlertMessage(res.message);
       setError(true);

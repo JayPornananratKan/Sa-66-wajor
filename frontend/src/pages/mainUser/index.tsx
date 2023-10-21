@@ -82,7 +82,6 @@ function MainUser () {
         }
       },
       
-      
       {
         title: "เวลาฉาย",
         dataIndex: "Time",

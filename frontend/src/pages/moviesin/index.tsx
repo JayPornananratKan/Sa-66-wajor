@@ -96,7 +96,7 @@ function MovieIn() {
       Release: Release,
       Length: typeof movie.Length === "string" ? parseInt(movie.Length) : 0, // Ensure Length is a number
       Director: movie.Director ?? "",
-      Castor: movie.Actor ?? "",
+      Actor : movie.Actor ?? "",
       Short_story: movie.Short_Story ?? "",
       Poster: Poster,
       TypemovieID:

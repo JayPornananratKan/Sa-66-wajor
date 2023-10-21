@@ -8,7 +8,7 @@ import (
 	"github.com/mumu3007/tsxcss/entity"
 )
 
-// POST  movies
+//HTTP POST request ไปที่ endpoint ของหนังใหม่
 
 func CreateMovie(c *gin.Context) {
 

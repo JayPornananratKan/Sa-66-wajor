@@ -278,20 +278,12 @@ async function GetSeatByID() {
 
   return res;
 }
-async function GetShowtimeByID() {
-  let ShowtimeID = localStorage.getItem("ShowtimeID");
+async function GetShowtimeByID(id: Number | undefined) {
   const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
+    method: "GET"
   };
 
-  let res = await fetch(
-    `${apiUrl}/member${ShowtimeID}`,
-    requestOptions
-  )
+  let res = await fetch(`${apiUrl}/showtimes/${id}`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -461,7 +453,7 @@ async function CreateShowtimes(data: ShowtimeInterface) {
   return res;
 }
 
- async function GetTheatre() {
+async function GetTheatre() {
   const requestOptions = {
     method: "GET",
     headers: {
@@ -568,6 +560,26 @@ async function getTicketNumberByID(id: number | undefined): Promise<TicketNumber
   }
 }
 
+async function UpdateShowtime(data: ShowtimeInterface) {
+  const requestOptions = {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/showtimes`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        localStorage.setItem("lid", JSON.stringify(res.data));
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+}
 
 export {
     CreateBooking, GetMemberByID, GetAllSeat,
@@ -578,5 +590,5 @@ export {
     CreateCheckin, DeleteMovie, GetMovieById, 
     CreateShowtimes, GetTheatre, DeleteShowtime,
     getLastBooking, createPayment, createTicketNumber,
-    getTicketNumberByID
+    getTicketNumberByID, UpdateShowtime
 };

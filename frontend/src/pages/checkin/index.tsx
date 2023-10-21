@@ -7,20 +7,12 @@ import { CheckinInterface } from '../interface/Icheckin';
 import { TicketNumberInterface } from '../interface/Iticketnumber';
 import { Input } from 'antd';
 import { AdminsInterface } from '../interface/Iadmin';
-
-//--------------------------------------------------------//
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-
-// import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-//--------------------------------------------------------//
 
 import {
   GetAdmin,
   GetTicketNumber,
-  // Checkin,
   CreateCheckin,
   GetCheckin,
 } from "../service/httpClientService";
@@ -38,10 +30,7 @@ function Checkin() {
   const [ticketnumbers, setTicketNumbers] = useState<TicketNumberInterface[]>([]);
   const [checkins, setCheckins] = useState<CheckinInterface[]>([]);
   const [ticketNum, setTicketNum] = useState("");
-  const [checkin, setCheckin] = useState<Partial<CheckinInterface>>({
-    // AdminID: 0,
-    // TicketNumberID: 0,
-  });
+  const [checkin, setCheckin] = useState<Partial<CheckinInterface>>({});
   const [message, setAlertMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -134,7 +123,7 @@ function Checkin() {
       <Snackbar
         id="success"
         open={success}
-        autoHideDuration={6000}
+        autoHideDuration={12000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -146,8 +135,9 @@ function Checkin() {
       <Snackbar
         id="error"
         open={error}
-        autoHideDuration={6000}
+        autoHideDuration={12000}
         onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
           {message}

@@ -14,8 +14,8 @@ function NavbarUser() {
       <ul className="menu">
         <li><a href="/mainUser">ภาพยนตร์</a></li>
         <li><a href="/seat">จองตั๋ว</a></li>
-        <li><a href="/payment"></a></li>
-        <li><a href=""></a></li>
+        <li></li>
+        <li></li>
       </ul>
 
       <div className="profile">

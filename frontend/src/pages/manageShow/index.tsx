@@ -5,11 +5,12 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 
 import { Link, useNavigate } from "react-router-dom";
-import { DeleteShowtime, GetAllShowtime, GetMovie} from "../service/httpClientService";
+import { DeleteShowtime, GetAllShowtime, GetMovie, GetTheatre} from "../service/httpClientService";
 import Navbar from "../../Navbar/navbar";
 import { ShowtimeInterface } from '../interface/Ishowtime';
 import { movieInterface } from '../interface/Imovie';
 import background from "../../assets/cin3.jpg"
+import { TheatreInterface } from '../interface/Itheatre';
 
 
 
@@ -50,10 +51,19 @@ function ManageShow() {
         dataIndex: "Datie",
         key: "datie",
       },
+      // {
+      //   title: "โรงที่ฉาย",
+      //   dataIndex: "TheatreID",
+      //   key: "theatre",
+      // },
       {
         title: "โรงที่ฉาย",
         dataIndex: "TheatreID",
         key: "theatre",
+        render: (theatreID: number) => {
+          const theatres = theatre.find(theatres => theatres.ID === theatreID);
+          return theatres ? theatres.TheatreName : 'ไม่พบโรงภาพยนตร์';
+        }
       },
       {
         title: "จัดการ",
@@ -62,11 +72,13 @@ function ManageShow() {
         render: (text, record, index) => (
           <>
             <Button
-              onClick={() => navigate(`/modifyShowtime`)}
+              onClick={() => navigate(`/modifyShowtime/${record.ID}`)}
               shape="circle"
               icon={<EditOutlined />}
               size={"large"}
             />
+            
+
             <Button
               onClick={() => showModal(record)}
               style={{ marginLeft: 10 }}
@@ -80,7 +92,7 @@ function ManageShow() {
       },
     ];
     
-
+    const [theatre, setTheatre] = React.useState<TheatreInterface[]>([]);
     const [movie, setMovie] = React.useState<movieInterface[]>([]);
     const navigate = useNavigate();
     const [messageApi, contextHolder] = message.useMessage();
@@ -95,15 +107,21 @@ function ManageShow() {
             setShowtime(res);
         }
     }
+    const getTheatre = async () => {
+      const res = await GetTheatre(); // เรียกใช้ getShowtime แทน GetShowtime
+      if (res) {
+          setTheatre(res);
+      }
+  }
     const getmovie = async () => {
       let res = await GetMovie();
       if (res) {
         setMovie(res);
       }
     };
-    useEffect(() => {
-      getmovie();
-    }, []);
+    // useEffect(() => {
+    //   getmovie();
+    // }, []);
     
     
   
@@ -139,6 +157,8 @@ function ManageShow() {
   
     useEffect(() => {
       getShowtime();
+      getTheatre();
+      getmovie();
     }, []);
   
     return (

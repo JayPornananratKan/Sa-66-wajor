@@ -15,22 +15,28 @@ import {
     CreateShowtimes,
     GetMovie,
     GetTheatre,
+    UpdateShowtime,
   } from "../service/httpClientService";
 import Navbar from '../../Navbar/navbar';
 import { TheatreInterface } from '../interface/Itheatre';
+import { useParams } from 'react-router-dom';
+import Showmovie from '../showmovie';
+
 function ModifyShowTime() {
+  const { id } = useParams();
     const [message, setAlertMessage] = React.useState("");
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     async function submit() {
         let data = {
+          ID: Number(id),
           MovieID: typeof showtime.MovieID === "string" ? parseInt(showtime.MovieID) : showtime.MovieID, // เพิ่ม MovieID
           Datie: showtime.Datie, // เปลี่ยนเป็น Release
           Time: showtime.Time,
           TheatreID:typeof showtime.TheatreID === "string" ? parseInt(showtime.TheatreID) : showtime.TheatreID,
         };
       
-        let res = await CreateShowtimes(data);
+        let res = await UpdateShowtime(data);
       
         if (res.status) {
           setAlertMessage("บันทึกข้อมูลสำเร็จ");
@@ -53,9 +59,9 @@ function ModifyShowTime() {
           TheatreID: value,
         });
       };
+    
     const [showtime, setShowtime] = React.useState<Partial<ShowtimeInterface>>({
-        // MovieID: 0,
-        
+
     });
     const [Release, setRelease] = useState<Date | null>(null);
 
@@ -100,6 +106,7 @@ function ModifyShowTime() {
         getmovie();
         getTheatre();
       }, []);
+      console.log(showtime);
     return (
         <div className="App">
             {/* Nav Start */}
@@ -118,7 +125,7 @@ function ModifyShowTime() {
                 <div className="title-1">
                     {/* <a className='back'href="/manageShow">กลับ</a> */}
                     <a>แก้ไขรอบฉาย</a>
-                    <li><a className= "confirm-button" onClick={submit} >ยืนยัน</a></li>
+                    <li><a className= "confirm-button" href="/manageShow" onClick={submit} >ยืนยัน</a></li>
                     <li><a className= "cancel-button"href="/manageShow">ยกเลิก</a></li>
                 </div>
 

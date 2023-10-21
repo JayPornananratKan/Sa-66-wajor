@@ -262,7 +262,7 @@ function Payment() {
       </section> */}
 
       <section>
-        <Button className="confirm-button" onClick={submit} loading={loading}>
+        <Button className="confirm-button2" onClick={submit} loading={loading}>
           ยืนยัน
         </Button>
       </section>

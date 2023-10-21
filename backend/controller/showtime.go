@@ -28,7 +28,7 @@ func GetShowtimeByID(c *gin.Context){
 }
 
 func DeleteShowtime(c *gin.Context) {
-
+	
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM showtimes WHERE id = ?", id); tx.RowsAffected == 0 {
 
@@ -37,8 +37,22 @@ func DeleteShowtime(c *gin.Context) {
 		return
 
 	}
-	c.JSON(http.StatusOK, gin.H{"data": id})
+	var seats []entity.Seat
+	if err := entity.DB().Find(&seats).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 
+	// วนลูปเพื่ออัปเดตสถานะของทุก seat เป็น "Unavailable"
+	for i := range seats {
+		seats[i].Status = "Available"
+		if err := entity.DB().Save(&seats[i]).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+	}
+	
+	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
 func CreateShowtimes(c *gin.Context) {

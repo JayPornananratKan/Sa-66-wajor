@@ -278,6 +278,32 @@ async function GetSeatByID() {
 
   return res;
 }
+
+async function GetShowtimeByID2() {
+  let ShowtimeID = localStorage.getItem("ShowtimeID");
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(
+    `${apiUrl}/member${ShowtimeID}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
 async function GetShowtimeByID(id: Number | undefined) {
   const requestOptions = {
     method: "GET"
@@ -590,5 +616,5 @@ export {
     CreateCheckin, DeleteMovie, GetMovieById, 
     CreateShowtimes, GetTheatre, DeleteShowtime,
     getLastBooking, createPayment, createTicketNumber,
-    getTicketNumberByID, UpdateShowtime
+    getTicketNumberByID, UpdateShowtime, GetShowtimeByID2
 };

@@ -47,7 +47,7 @@ const App = () =>{
   <Router>
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/mainUser" element={<MainUser/>} />
+      <Route path="/mainUser" element={<MainUser setData={setData}/>} />
       <Route path="/mainAdmin" element={<MainAdmin />} />
       <Route path="/showmovie" element={<Showmovie />} />
       <Route path="/moviesin" element={<MoviesIn />} />

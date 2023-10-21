@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import '../css/main.css';
+import './mainUser.css';
+import background from "../../assets/cin3.jpg"
 import { ShowtimeInterface } from "../interface/Ishowtime";
 import { GetAllShowtime } from "../service/httpClientService";
-import { GetShowtimeByID } from "../service/httpClientService";
+import { GetShowtimeByID2 } from "../service/httpClientService";
 import { MembersInterface } from '../interface/Imember';
 import { useEffect, useState } from 'react';
 import { GetMemberByID } from '../service/httpClientService';
@@ -14,11 +15,155 @@ import { SeatInterface } from "../interface/Iseat";
 import Navbar from "../../Navbar/navbar";
 import {GetMovie} from "../service/httpClientService";
 import { movieInterface } from "../interface/Imovie";
+import NavbarUser from "../../Navbar/navbarUser";
+import Table, { ColumnsType } from "antd/es/table";
+import { Button } from "antd";
+import { PlusOutlined, EditOutlined, DeleteOutlined,ArrowRightOutlined,InfoOutlined } from "@ant-design/icons";
+import { TheatreInterface } from "../interface/Itheatre";
 interface MainProps{
   setData: React.Dispatch<React.SetStateAction<BookingInterface | undefined>>
 }
 
 const MainUser = ({setData}:MainProps) => {
+
+
+
+  const columns: ColumnsType<ShowtimeInterface> = [
+    {
+      title: "ลำดับ",
+      dataIndex: "ID",
+      key: "id",
+    },
+    // {
+    //   title: "รูปภาพยนตร์",
+    //   dataIndex: "Poster",
+    //   key: "Poster",
+    //   render: (movieID: number) => {
+    //     // const posters = movie.find(posters => posters.ID === movieID);
+    //     // return posters ? posters.Poster : 'ไม่พบรูปภาพยนตร์';
+    //     const movies = movie.find(movies => movies.ID === movieID);
+    //     return movies ? movies.Poster : 'ไม่พบรูปภาพยนตร์';
+    //   }
+    // },
+    {
+      title: "รูปภาพยนตร์",
+      dataIndex: "MovieID",
+      key: "Poster",
+      render: (movieID: number) => {
+        const moviess = movies.find(moviess => moviess.ID === movieID);
+        return (
+          <img  src={moviess?.Poster} alt="ไม่พบรูปภาพยนตร์" style={{ maxWidth: "100px" }} />
+        );
+      }
+    },
+    
+    {
+      title: "ชื่อภาพยนตร์",
+      dataIndex: "MovieID",
+      key: "movie",
+      render: (movieID: number) => {
+        const moviess = movies.find(moviess => moviess.ID === movieID);
+        return moviess ? moviess.Name : 'ไม่พบภาพยนตร์';
+      }
+    },
+    {
+      title: "ความยาวภาพยนตร์(นาที)",
+      dataIndex: "MovieID",
+      key: "movie",
+      render: (movieID: number) => {
+        const moviess = movies.find(moviess => moviess.ID === movieID);
+        
+        return moviess ? moviess.Length : 'ไม่พบภาพยนตร์';
+        
+      }
+    },
+    {
+      title: "เรท",
+      dataIndex: "MovieID",
+      key: "movie",
+      render: (movieID: number) => {
+        const moviess = movies.find(moviess => moviess.ID === movieID);
+        
+        return moviess ? moviess.Rate?.RateName : 'ไม่พบภาพยนตร์';
+        
+      }
+    },
+    {
+      title: "ประเภท",
+      dataIndex: "MovieID",
+      key: "movie",
+      render: (movieID: number) => {
+        const moviess = movies.find(moviess => moviess.ID === movieID);
+        
+        return moviess ? moviess.Typemovie?.TypeName : 'ไม่พบภาพยนตร์';
+        
+      }
+    },
+    
+    
+    {
+      title: "เวลาฉาย",
+      dataIndex: "Time",
+      key: "time",
+    },
+
+    {
+      title: "วันที่ฉาย",
+      dataIndex: "Datie",
+      key: "datie",
+    },
+    {
+      title: "โรงที่ฉาย",
+      dataIndex: "TheatreID",
+      key: "theatre",
+      render: (theatreID: number) => {
+        const theatres = theatre.find(theatres => theatres.ID === theatreID);
+        
+        return theatres ? theatres.TheatreName : 'ไม่พบโรงภาพยนตร์';
+        
+      }
+    },
+    {
+      title: "ข้อมูลหนัง",
+      dataIndex: "Movieinfo",
+      key: "movieinfo",
+      render: (text, record, index) => (
+        <>
+        <Button
+            onClick={() => navigate(`/movieinfo/${record.ID}`)}
+            style={{ marginLeft: 10 }}
+            shape="circle"
+            icon={<InfoOutlined />}
+            size={"large"}
+          />
+        </>
+          
+
+      ),
+    },
+    {
+      title: "เลือกรอบฉาย",
+      dataIndex: "Showtime",
+      key: "showtime",
+      render: (text, record, index) => (
+        <>
+          {show.map((showtime) => (
+                    <a
+                      key={showtime.ID}
+                      className={`t ${selectedShowtime === showtime.ID ? 'selected' : ''}`}
+                      onClick={() => handleShowtimeSelection(showtime.ID!)}
+                    >
+                    {`${showtime.Time}`}
+                    </a>))
+                    }
+        </>
+          
+
+      ),
+    },
+    
+  ];
+  const [theatre, setTheatre] = React.useState<TheatreInterface[]>([]);
   const [message, setAlertMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -51,7 +196,7 @@ const MainUser = ({setData}:MainProps) => {
     }
   };
   const getShowtimeByID = async () => {
-    let res = await GetShowtimeByID();  
+    let res = await GetShowtimeByID2();  
     if (res) {
       setShowtime(res[0]);
     }
@@ -121,6 +266,7 @@ const MainUser = ({setData}:MainProps) => {
   }
     return (
         <>
+      
       <div className="App">
       <Snackbar
             id="success"
@@ -145,71 +291,15 @@ const MainUser = ({setData}:MainProps) => {
         <header className="App-header">
           {/* <img src={logo} className="App-logo" alt="logo" /> */}
           
-           
-          
          <nav>
-            <Navbar />
+            <NavbarUser />
          </nav>
-          <div className='movielist'>
-            <div className='movie'> 
-              <div className="moviepic">
-              
-              </div>
-              <div className='moviename'>
-               
-                  {movies.map((movie) => (<h2 key={movie.ID} className="name">ชื่อภาพยนตร์ {`${movie.Name}`}</h2>))} 
-                  {movies.map((movie) =>(<h3 className='name'>ความยาว{`${movie.Length}`}นาที</h3>))}
-                  {movies.map((movie) =>(<h3 className='name'>วันที่ฉาย{`${movie.Release}`}</h3>))}
-                 </div>
-              <div className='theatre'><h3>Theatre1</h3> <h3>2D</h3>  </div>
-              <div className='time'> 
-                {/* <a  className='t'>12:30</a>
-                <a className='t'>14:30</a>
-                <a className='t'>20:00</a> */}
-                {show.map((showtime) => (
-              <a
-              key={showtime.ID}
-              className={`t ${selectedShowtime === showtime.ID ? 'selected' : ''}`}
-              onClick={() => handleShowtimeSelection(showtime.ID!)}
-              >
-               {`${showtime.Datie}`}
-              </a>))}
-            {/* //   showtime.ID === 1 ? (// เช็คว่า ID ของรอบเท่ากับ 1 หรือรอบที่คุณต้องการ
-            //   <a
-            //     key={showtime.ID}
-            //     className={`t ${selectedShowtime === showtime.ID ? 'selected' : ''}`}
-            //     onClick={() => handleShowtimeSelection(showtime.ID!)}
-            //   >
-            //     12:30 ${getShowtimeByID}
-            //   </a>): null)
-            //  // หากไม่ใช่รอบที่คุณต้องการจะไม่แสดงอะไรเลย */}
-          
-            </div>
-            </div>
-            {/* <div className='movie'> 
-              <div className='moviename'>
-                <h2 className='name'>ชื่อภาพยนตร์ </h2>
-                <h3 className='name'>ความยาว</h3>
-                <h3 className='name'>วันที่ฉาย</h3> </div>
-              <div className='theatre'><h3>Theatre</h3> <h3>2D</h3></div>
-              <div className='time'> 
-              {show.map((showtime) => (
-              <a
-              key={showtime.ID}
-              className={`p ${selectedShowtime === showtime.ID ? 'selected' : ''}`}
-              onClick={() => handleShowtimeSelection(showtime.ID!)}
-              >
-               {`${showtime.Datie}`}
-              </a>))} */}
-                {/* <a className='t'>12:30</a>
-                <a className='t'>14:30</a>
-                <a className='t'>20:00</a>
-                 */}
-             
-              {/* </div>
-            </div> */}
-            
-            
+
+         <section className="background">
+          <li><img src={background} alt="" /></li>
+          </section>
+          <div style={{ marginTop: 20 }}>
+            <Table rowKey="ID" columns={columns}  dataSource={show} />
           </div>
   
         </header>

@@ -16,7 +16,8 @@ import background from "../../assets/cin3.jpg";
 import qr from "../../assets/QR.jpg";
 import krungthai from "../../assets/krungthai.png";
 import kbank from "../../assets/kbank.png";
-import NavBar from "../../Navbar/navbarUser";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import {
   createPayment,
@@ -47,7 +48,12 @@ const props: UploadProps = {
   },
 };
 
-
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function Payment() {
   const [bookingID, setBookingID] = useState(0);
@@ -71,6 +77,16 @@ function Payment() {
 
   const [price, setPrice] = useState<number | null>(null); // กำหนดค่าเริ่มต้นของ price เป็น null
   const navigate = useNavigate();
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccess(false);
+    setError(false);
+  };
 
   async function GetLastBooking() {
     const data = await getLastBooking();
@@ -117,7 +133,8 @@ function Payment() {
       typeof payment.Amount === "string" ? parseInt(payment.Amount) : 0;
 
     if (amountValue != price) {
-      setCompareResult("จำนวนเงินไม่เพียงพอ"); // ราคาไม่เพียงพอ
+      setAlertMessage("จำนวนเงินไม่ถูกต้อง");
+      setError(true);
       return; // ไม่ดำเนินการต่อ
     } else {
       let data = {
@@ -132,7 +149,7 @@ function Payment() {
 
 
       if (res.status) {
-        setAlertMessage("บันทึกข้อมูลสำเร็จ");
+        setAlertMessage("ชำระเงินสำเร็จ");
         setSuccess(true);
 
         setTimeout(function () {
@@ -148,7 +165,7 @@ function Payment() {
         // เรียกฟังก์ชันสร้าง TicketNumber
         let ticketRes = await createTicketNumber(ticketData);
         if (ticketRes.status) {
-          setAlertMessage("บันทึกข้อมูลสำเร็จ");
+          setAlertMessage("ชำระเงินสำเร็จ");
           setSuccess(true);
         } else {
           setAlertMessage(ticketRes.message);
@@ -188,6 +205,29 @@ function Payment() {
   };
   return (
     <div>
+      <Snackbar
+        id="success"
+        open={success}
+        autoHideDuration={12000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="success">
+          {message}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        id="error"
+        open={error}
+        autoHideDuration={12000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="error">
+          {message}
+        </Alert>
+      </Snackbar>
       <nav>
         <NavbarUser />
       </nav>

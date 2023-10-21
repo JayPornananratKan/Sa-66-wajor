@@ -36,8 +36,8 @@ type Checkin struct {
 	gorm.Model
 	Datie time.Time
 
-	TicketNumberID *uint `gorm:"uniqueIndex"`
-	TicketNumber   TicketNumber
+	TicketNumberID *uint 
+	TicketNumber   TicketNumber 
 
 	AdminID *uint
 	Admin   Admin
@@ -99,7 +99,7 @@ type Showtime struct {
 	gorm.Model
 
 	Datie time.Time
-	Time  string
+    Time string
 
 	MovieID *uint
 	Movie   Movie

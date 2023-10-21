@@ -43,6 +43,7 @@ func main() {
     r.GET("/showtime/:id", controller.GetShowtimeByID)
     r.DELETE("/showtimes/:id", controller.DeleteShowtime)
     r.GET("/theatre", controller.GetTheatre)
+	r.PATCH("/showtimes", controller.UpdateShowtime)
 
 	//-------pond-------
 	r.POST("/bookings", controller.CreateBooking)
@@ -52,17 +53,11 @@ func main() {
 
 	//-------guide------
 	r.GET("/admins", controller.ListAdmins)
-	r.GET("/admin:id", controller.GetAdmin)
 	r.GET("/checkins", controller.ListCheckins)
 	r.POST("/checkins", controller.CreateCheckin)
+	r.GET("/ticketnumbers", controller.ListTicketNumbers)	
 
-	r.GET("/ticketnumbers", controller.ListTicketNumbers)
-	r.GET("/ticketnumber:id", controller.GetTicketNumber)
-	r.GET("/ticketid:ticket_num", controller.GetTicketIDByTicketNum)
-	r.DELETE("/ticketnumbers:id", controller.DeleteTicketNumber)
-	
-	
-	//-------jay--------d
+	//-------jay--------
     r.POST("/movies", controller.CreateMovie)
     r.GET("/movies", controller.ListMovies)
     r.GET("/movie/:id", controller.GetMovie)

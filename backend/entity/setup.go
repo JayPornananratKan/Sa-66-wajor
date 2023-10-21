@@ -383,20 +383,6 @@ func SetupDatabase() {
 		Email:     "pimpakan2545@gmail.com",
 	}
 	db.Model(&Member{}).Create(&mem)
-	show1 := Showtime{
-
-		Datie:   time.Date(2012, 8, 24, 0, 0, 0, 0, time.Now().Location()),
-		Model:   gorm.Model{ID: 1},
-		Theatre: C1,
-	}
-	db.Model(&Showtime{}).Create(&show1)
-	show2 := Showtime{
-
-		Datie:   time.Date(2012, 8, 24, 0, 0, 0, 0, time.Now().Location()),
-		Model:   gorm.Model{ID: 2},
-		Theatre: C1,
-	}
-	db.Model(&Showtime{}).Create(&show2)
 // 	show3 := Showtime{
 
 // 		Datie:   time.Date(2012, 8, 24, 0, 0, 0, 0, time.Now().Location()),

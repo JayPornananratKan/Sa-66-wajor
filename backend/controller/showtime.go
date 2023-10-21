@@ -78,3 +78,25 @@ func CreateShowtimes(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": mv})
 
 }
+
+func UpdateShowtime(c *gin.Context) {
+
+	var showtime entity.Showtime
+	var result entity.Showtime
+
+	if err := c.ShouldBindJSON(&showtime); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// ค้นหา user ด้วย id
+	if tx := entity.DB().Where("id = ?", showtime.ID).First(&result); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "movie not found"})
+		return
+	}
+
+	if err := entity.DB().Save(&showtime).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": showtime})
+}

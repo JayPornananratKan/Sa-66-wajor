@@ -6,7 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { movieInterface } from "../interface/Imovie";
 import { DeleteMovie, GetMovie } from "../service/httpClientService";
 import Navbar from "../../Navbar/navbar";
-import background from "../../assets/cin3.jpg";
+import background from "../../assets/cin3.jpg"
+import "./showmovie.css"
 function Showmovie() {
   const navigate = useNavigate();
   const [movie, setMovie] = useState<movieInterface[]>([]);

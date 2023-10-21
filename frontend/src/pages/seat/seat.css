@@ -11,7 +11,7 @@
   z-index: 2;
   width:1000px;
   height: 450px;
-    
+  
 }
 .button{
     top:350px;
@@ -24,9 +24,10 @@
     transition: 0.3s;
     cursor: pointer;
     background-color:#C4AA55 ;
-    border-radius: 30%;
+    border-radius: 10px;
     padding : 10px
 }
+
 .button:hover{
     z-index: 2;
     background-color: black;
@@ -191,6 +192,7 @@ ol {
 }
 .seat input[type=checkbox]:disabled + label:after {
   content: "X";
+  color: #000000;
   text-indent: 0;
   position: absolute;
   top: 4px;
@@ -231,6 +233,80 @@ ol {
 }
 
 .seat label:hover {
+  cursor: pointer;
+  box-shadow: 0 0 0px 2px #5C6AFF;
+}
+
+.seat2 {
+  display: flex;
+  flex: 0 0 14.2857142857%;
+  padding: 5px;
+  position: relative;
+}
+
+.seat2:nth-child(3) {
+  margin-right: 14.2857142857%;
+}
+.seat2 input[type=checkbox] {
+  position: absolute;
+  opacity: 0;
+}
+
+.seat2 input[type=checkbox]:checked + label {
+  background: #bada55;
+  -webkit-animation-name: rubberBand;
+  animation-name: rubberBand;
+  animation-duration: 300ms;
+  animation-fill-mode: both;
+}
+
+.seat2 input[type=checkbox]:disabled + label {
+  background: #dddddd;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+.seat2 input[type=checkbox]:disabled + label:after {
+  content: "X";
+  text-indent: 0;
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.seat2 input[type=checkbox]:disabled + label:hover {
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.seat2 label {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.5rem;
+  padding: 4px 0;
+  background: #082e52;
+  border-radius: 5px;
+  animation-duration: 300ms;
+  animation-fill-mode: both;
+}
+
+.seat2 label:before {
+  content: "";
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  top: 1px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
+}
+
+.seat2 label:hover {
   cursor: pointer;
   box-shadow: 0 0 0px 2px #5C6AFF;
 }

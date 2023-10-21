@@ -140,7 +140,7 @@ section{
     margin-top: 15px;
 }
 
-.confirm-button{
+.confirm-button2{
     font-family: 'Noto Sans Thai';
     font-weight: 500;
     display: flex;
@@ -152,8 +152,9 @@ section{
     border-color: #051F32;
 }
 
-.confirm-button :hover{
+.confirm-button2 :hover{
     color: #fff;
+    border: #000000;
 }
 
 .alert{

@@ -17,7 +17,7 @@ import { Alert, Snackbar } from '@mui/material';
 import { MembersInterface } from '../interface/Imember';
 import { GetMemberByID } from '../service/httpClientService';
 import NavbarUser from '../../Navbar/navbarUser';
-
+import { useLocation } from "react-router-dom";
 interface MainProps{
   Bookdata: BookingInterface | undefined
   setData: React.Dispatch<React.SetStateAction<BookingInterface | undefined>>
@@ -86,6 +86,7 @@ const SeatComp = ({setData,Bookdata}:MainProps) => {
       if(e.currentTarget.checked){
         const data:BookingInterface={
           MemberID:member?.ID!,
+          
           ShowtimeID:Bookdata?.ShowtimeID!,
           SeatID:seatID!
         }
@@ -189,7 +190,7 @@ const SeatComp = ({setData,Bookdata}:MainProps) => {
                     <li className="row row--5">
                         <ol className="seats" type="A">
                         {seat.slice(24,30).map((a)=>(
-                          <li className="seat">
+                          <li className="seat2">
                             <input type="checkbox" id={a.Seatnum} onChange={(e)=> OnSelectSeat(a.ID,e)} disabled={a.Status==="Unavailable"}/>
                             <label htmlFor={a.Seatnum}>{a.Seatnum}</label>
                           </li>

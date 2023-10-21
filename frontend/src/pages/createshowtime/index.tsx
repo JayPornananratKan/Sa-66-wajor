@@ -55,7 +55,6 @@ function CreateShowTime() {
       };
     const [showtime, setShowtime] = React.useState<Partial<ShowtimeInterface>>({
         // MovieID: 0,
-        
     });
     const [Release, setRelease] = useState<Date | null>(null);
 
@@ -118,7 +117,7 @@ function CreateShowTime() {
                 <div className="title-1">
                     {/* <a className='back'href="/manageShow">กลับ</a> */}
                     <a>สร้างรอบฉาย</a>
-                    <li><a className= "confirm-button" onClick={submit} >ยืนยัน</a></li>
+                    <li><a className= "confirm-button" href="/manageShow "onClick={submit} >ยืนยัน</a></li>
                     <li><a className= "cancel-button"href="/manageShow">ยกเลิก</a></li>
                 </div>
 

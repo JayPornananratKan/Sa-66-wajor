@@ -88,7 +88,7 @@ function MainUser () {
         render: (movieID: number) => {
           const movies = movie.find(movies => movies.ID === movieID);
           
-          return movies ? movies.Typemovie?.TypeNamemovie : 'ไม่พบภาพยนตร์';
+          return movies ? movies.Typemovie?.TypeName : 'ไม่พบภาพยนตร์';
           
         }
       },

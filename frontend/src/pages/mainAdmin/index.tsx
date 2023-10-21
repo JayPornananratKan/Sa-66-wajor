@@ -44,7 +44,7 @@ function MainUser () {
         render: (movieID: number) => {
           const movies = movie.find(movies => movies.ID === movieID);
           return (
-            <img  src={movies?.Poster} alt="ไม่พบรูปภาพยนตร์" style={{ maxWidth: "100px" }} />
+            <img  src={movies?.Poster} alt="ไม่พบรูปภาพยนตร์" style={{ maxWidth: "100px", maxHeight: "100px" }} />
           );
         }
       },
@@ -229,7 +229,7 @@ function MainUser () {
               
           <Divider />
           <div style={{ marginTop: 20 }}>
-            <Table rowKey="ID" columns={columns}  dataSource={showtime} />
+            <Table rowKey="ID" columns={columns}  dataSource={showtime} pagination={{ pageSize: 3 }} />
           </div>
           <Modal
             title="ลบข้อมูล ?"

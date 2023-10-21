@@ -98,7 +98,7 @@ type Seat struct {
 type Showtime struct {
 	gorm.Model
 
-	Datie time.Time
+	Datie string
     Time string
 
 	MovieID *uint

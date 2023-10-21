@@ -266,16 +266,13 @@ function Modify() {
             <div className="grid-item grid7">วันที่ฉาย</div>
             <div className="grid-item grid8">
               <DatePicker
+                format="YYYY-MM-DD"
                 id="Release"
                 name="Release"
                 onChange={handleDateChange}
                 value={Release ? dayjs(Release) : null}
               />
-              {/* Render the selected release date */}
-              <div>
-                Selected Release Date:{" "}
-                {Release ? Release.toString() : "No date selected"}
-              </div>
+              {/* Render the selected release date */}  
             </div>
             <div className="grid-item grid9">ผู้กำกับ</div>
             <div className="grid-item grid10">

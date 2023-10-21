@@ -81,17 +81,6 @@ function MainUser () {
           
         }
       },
-      {
-        title: "ประเภท",
-        dataIndex: "MovieID",
-        key: "movie",
-        render: (movieID: number) => {
-          const movies = movie.find(movies => movies.ID === movieID);
-          
-          return movies ? movies.Typemovie?.TypeNamemovie : 'ไม่พบภาพยนตร์';
-          
-        }
-      },
       
       
       {

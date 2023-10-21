@@ -60,18 +60,7 @@
     grid-column: 2/5;
   }
   
-  .inputbar {
-    border: 2px solid #c4aa55;
-    background-color: #032842;
-    color: aliceblue;
-  
-  }
-  .uploabar{
-    border: 2px solid #c4aa55;
-    background-color: #032842;
-    color: aliceblue;
-    
-  }
+
   .comboboxbar {
     background-color: white;
     
